@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Framework">
+      <UniqueIdentifier>{1047a3bb-3e6c-4904-bbf0-fc4bd33552ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Animation">
+      <UniqueIdentifier>{48756188-9848-489d-a489-c35989f80981}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Sprite">
+      <UniqueIdentifier>{f519c40e-e27b-42c0-9ddd-d87a5689458f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Texture">
+      <UniqueIdentifier>{3bf9369f-beda-442d-9a28-ffcbbe23a2b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Source">
+      <UniqueIdentifier>{9c39185b-ef4d-4330-ad18-4a8ca405acce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Source\Game Object">
+      <UniqueIdentifier>{f7b2a0dc-feff-4208-b6b8-7f366f31ef22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Source\Game Object\Player">
+      <UniqueIdentifier>{def4f0bb-0aa9-4c35-89d6-b68da4634d44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Source\Game Object\Enemy">
+      <UniqueIdentifier>{4b02eada-a2e7-443b-8ad3-4e7e7897d3d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Input Handler">
+      <UniqueIdentifier>{b2102b0d-d278-470f-90e0-ca0da0bb9927}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Animations.cpp">
+      <Filter>Framework\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Framework\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationFrame.cpp">
+      <Filter>Framework\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprites.cpp">
+      <Filter>Framework\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures.cpp">
+      <Filter>Framework\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Drap.cpp">
+      <Filter>Game Source\Game Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="InputHandler.cpp">
+      <Filter>Framework\Input Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyEventHandler.cpp">
+      <Filter>Framework\Input Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="Playable.cpp">
+      <Filter>Game Source\Game Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="ServiceLocator.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Animations.h">
+      <Filter>Framework\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Framework\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationFrame.h">
+      <Filter>Framework\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprites.h">
+      <Filter>Framework\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures.h">
+      <Filter>Framework\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Drap.h">
+      <Filter>Game Source\Game Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyEventHandler.h">
+      <Filter>Framework\Input Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHandler.h">
+      <Filter>Framework\Input Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="Playable.h">
+      <Filter>Game Source\Game Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ServiceLocator.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Service.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
