@@ -1,5 +1,5 @@
-#include "Animations.h"
 #include "Drap.h"
+#include "Animations.h"
 #include "Utils.h"
 #include "Transform.h"
 
@@ -23,7 +23,7 @@ void CDrap::Update(DWORD dt)
 	transform.position.x += velocity.x * dt;
 	transform.position.y += velocity.y * dt;
 
-	auto game = CGame::GetInstance();
+	/*auto game = CGame::GetInstance();
 	if (transform.position.x <= 0)
 	{
 		transform.position.x = 0;
@@ -44,13 +44,13 @@ void CDrap::Update(DWORD dt)
 	{
 		transform.position.y = game->GetScreenHeight() - 20;
 		SetState(DRAP_STATE_WALKING_LEFT);
-	}
+	}*/
 }
 
 void CDrap::Render()
 {
 	Vector2 pos = transform.position;
-	animations.at("Clockwise")->Render(pos, 255);
+	animations.at("Clockwise")->Render(pos, nx);
 }
 
 void CDrap::SetState(int state)

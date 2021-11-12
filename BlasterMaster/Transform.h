@@ -10,7 +10,18 @@ class Transform
 public:
 	Vector2 position;
 	Vector2 rotation;
-	float scale;
+	Vector2 scale;
+};
+
+struct RectF
+{
+	float left, top, right, bottom;
+	RectF();
+	RectF(float l, float t, float r, float b) { left = l; top = t; right = r; bottom = b; }
+	bool Overlap(const RectF& other);
+	bool Contain(const RectF& other) const;
+	bool Contain(const Vector2& point) const;
+	RectF RectZero() { return { 0, 0, 0, 0 }; }
 };
 
 Vector2 VectorInfinity();

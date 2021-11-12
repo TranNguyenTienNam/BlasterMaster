@@ -1,4 +1,7 @@
 #pragma once
+#ifndef ANIMATION_FRAME_H
+#define ANIMATION_FRAME_H
+
 #include "Sprites.h"
 
 class CAnimationFrame
@@ -13,3 +16,5 @@ public:
 };
 
 typedef CAnimationFrame* LPANIMATION_FRAME;
+
+#endif

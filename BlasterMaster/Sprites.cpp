@@ -10,9 +10,9 @@ CSprite::CSprite(int left, int top, int width, int height, LPDIRECT3DTEXTURE9 te
 	this->texture = texture;
 }
 
-void CSprite::Draw(Vector2 position, int alpha)
+void CSprite::Draw(Vector2 position, int nx, int alpha)
 {
-	CGame::GetInstance()->Draw(position, texture, left, top, left + width, top + height, alpha);
+	CGame::GetInstance()->Draw(position, nx, texture, left, top, left + width, top + height, alpha);
 }
 
 void CSprites::Add(std::string id, int left, int top, int width, int height, LPDIRECT3DTEXTURE9 texture)

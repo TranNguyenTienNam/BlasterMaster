@@ -38,14 +38,13 @@ class CGame : public CServiceLocator
 
 	int screen_width;
 	int screen_height;
-
 public:
 	static CGame* GetInstance();
 	static DWORD GetDeltaTime() { return deltaTime; }
 
 	void InitDirectX(HWND hWnd);
 
-	void Draw(Vector2 position, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha);
+	void Draw(Vector2 position, int nx, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha);
 	LPDIRECT3DTEXTURE9 LoadTexture(LPCWSTR texturePath, D3DCOLOR transparentColor);
 
 	LPDIRECT3DDEVICE9 GetDirect3DDevice() { return this->d3ddv; }

@@ -40,6 +40,12 @@
     <Filter Include="Framework\Input Handler">
       <UniqueIdentifier>{b2102b0d-d278-470f-90e0-ca0da0bb9927}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Camera">
+      <UniqueIdentifier>{a7a52af2-801a-4e6a-a80b-275f5361954e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Space Partitioning">
+      <UniqueIdentifier>{1c07c8b6-6343-4aca-b542-d821c32e1be0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -87,6 +93,12 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Framework\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Quadtree.cpp">
+      <Filter>Framework\Space Partitioning</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -133,6 +145,12 @@
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Framework\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Quadtree.h">
+      <Filter>Framework\Space Partitioning</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

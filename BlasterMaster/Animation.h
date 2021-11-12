@@ -1,4 +1,7 @@
 #pragma once
+#ifndef ANIMATION_H
+#define ANIMATION_H
+
 #include "AnimationFrame.h"
 
 class CAnimation
@@ -11,7 +14,9 @@ class CAnimation
 
 public:
 	void Add(std::string id, DWORD time);
-	void Render(Vector2 position, int alpha = 255);
+	void Render(Vector2 position, int nx, int alpha = 255);
 };
 
 typedef CAnimation* LPANIMATION;
+
+#endif

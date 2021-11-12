@@ -49,6 +49,9 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 
 	RegisterClassEx(&wc);
 
+	RECT rect = { 0, 0, ScreenWidth, ScreenHeight };
+	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
+
 	HWND hWnd =
 		CreateWindow(
 			WINDOW_CLASS_NAME,
@@ -56,8 +59,8 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 			WS_OVERLAPPEDWINDOW, // WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
 			CW_USEDEFAULT,
 			CW_USEDEFAULT,
-			ScreenWidth,
-			ScreenHeight,
+			rect.right - rect.left,
+			rect.bottom - rect.top,
 			NULL,
 			NULL,
 			hInstance,

@@ -1,4 +1,7 @@
 #pragma once
+#ifndef ANIMATIONS_H
+#define ANIMATIONS_H
+
 #include "Animation.h"
 
 class CAnimations : public CService
@@ -10,3 +13,5 @@ public:
 	LPANIMATION Get(std::string id);
 	void Clear();
 };
+
+#endif

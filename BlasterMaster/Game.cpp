@@ -4,12 +4,19 @@
 #include "InputHandler.h"
 #include "Drap.h"
 #include "Playable.h"
+#include "Camera.h"
+#include "Quadtree.h"
 
 CGame* CGame::instance = NULL;
 DWORD CGame::deltaTime = 0;
 
 CPlayable* playable;
-std::vector<CGameObject*> enemies;
+std::vector<CGameObject*> gameObjects;
+std::vector<CGameObject*> updates;
+
+CCamera* mainCam;
+
+CQuadtree* quadtree;
 
 class CSampleKeyHandler : public CKeyEventHandler
 {
@@ -71,8 +78,8 @@ void CGame::InitDirectX(HWND hWnd)
 	RECT r;
 	GetClientRect(hWnd, &r);
 
-	screen_width = r.right + 1;
-	screen_height = r.bottom + 1;
+	screen_width = r.right;
+	screen_height = r.bottom;
 
 	d3dpp.BackBufferHeight = screen_height;
 	d3dpp.BackBufferWidth = screen_width;
@@ -105,16 +112,36 @@ void CGame::InitDirectX(HWND hWnd)
 	DebugOut(L"[INFO] InitDirectX OK\n");
 }
 
-void CGame::Draw(Vector2 position, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
+void CGame::Draw(Vector2 position, int nx, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
 {
-	Vector3 p(position.x, position.y, 0);
-	Vector3 c(0.5f, 0.5f, 0);
+	Vector2 camPos = mainCam->GetPosition();
+	Vector3 p = Vector3(0, 0, 0);
+
 	RECT r;
 	r.left = left;
 	r.top = top;
 	r.right = right;
 	r.bottom = bottom;
-	spriteHandler->Draw(texture, &r, &c, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+
+	Vector3 center = Vector3((right - left) / 2, (bottom - top) / 2, 0.0f);
+
+	D3DXMATRIX mat;
+	D3DXMatrixIdentity(&mat);
+
+	// FlipX
+	D3DXMATRIX flipX;
+	D3DXMatrixScaling(&flipX, -nx, 1.0f, 1.0f);
+
+	// Translate
+	D3DXMATRIX translate;
+	D3DXMatrixTranslation(&translate, (position.x - camPos.x), (-position.y + camPos.y), 0.0f);
+
+	mat *= flipX;
+	mat *= translate;
+
+	spriteHandler->SetTransform(&mat);
+
+	spriteHandler->Draw(texture, &r, &center, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 }
 
 LPDIRECT3DTEXTURE9 CGame::LoadTexture(LPCWSTR texturePath, D3DCOLOR transparentColor)
@@ -151,7 +178,15 @@ LPDIRECT3DTEXTURE9 CGame::LoadTexture(LPCWSTR texturePath, D3DCOLOR transparentC
 
 void CGame::Update(DWORD dt)
 {
-	for (auto obj : enemies)
+	mainCam->Update();
+
+	updates.clear();
+	quadtree->Reset(screen_width * 10, screen_height * 10);
+	quadtree->Update(gameObjects);
+	quadtree->Retrieve(updates, mainCam->GetBoundingBox());
+	DebugOut(L"updates %d\n", updates.size());
+
+	for (auto obj : updates)
 		obj->Update(dt);
 }
 
@@ -164,7 +199,7 @@ void CGame::Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-		for (auto obj : enemies)
+		for (auto obj : updates)
 			obj->Render();
 
 		spriteHandler->End();
@@ -181,12 +216,17 @@ void CGame::GameInit(HWND hWnd)
 
 	AddService(new CTextures);
 	GetService<CTextures>()->Add("tex-enemies", L"textures\\enemies.png", D3DCOLOR_XRGB(255, 255, 255));
+	GetService<CTextures>()->Add("tex-player", L"textures\\player.png", D3DCOLOR_XRGB(0, 57, 115));
 
 	AddService(new CSprites);
 	GetService<CSprites>()->Add("spr-drap-0", 128, 274, 18, 18, GetService<CTextures>()->Get("tex-enemies"));
 	GetService<CSprites>()->Add("spr-drap-1", 148, 274, 18, 18, GetService<CTextures>()->Get("tex-enemies"));
 	GetService<CSprites>()->Add("spr-drap-3", 168, 274, 18, 18, GetService<CTextures>()->Get("tex-enemies"));
 	GetService<CSprites>()->Add("spr-drap-2", 188, 274, 18, 18, GetService<CTextures>()->Get("tex-enemies"));
+
+	GetService<CSprites>()->Add("spr-jason-walk-jump", 12, 30, 8, 16, GetService<CTextures>()->Get("tex-player"));
+	GetService<CSprites>()->Add("spr-jason-walk-0", 21, 30, 8, 16, GetService<CTextures>()->Get("tex-player"));
+	GetService<CSprites>()->Add("spr-jason-walk-1", 30, 30, 8, 16, GetService<CTextures>()->Get("tex-player"));
 
 	AddService(new CAnimations);
 	auto anim = new CAnimation;
@@ -196,6 +236,12 @@ void CGame::GameInit(HWND hWnd)
 	anim->Add("spr-drap-3", 200);
 	GetService<CAnimations>()->Add("ani-drap", anim);
 
+	anim = new CAnimation;
+	anim->Add("spr-jason-walk-jump", 100);
+	anim->Add("spr-jason-walk-0", 100);
+	anim->Add("spr-jason-walk-1", 100);
+	GetService<CAnimations>()->Add("ani-jason", anim);
+
 	AddService(new CInputHandler);
 	GetService<CInputHandler>()->SetHandleWindow(hWnd);
 
@@ -203,18 +249,31 @@ void CGame::GameInit(HWND hWnd)
 	GetService<CInputHandler>()->SetKeyHandler(key_handler);
 	GetService<CInputHandler>()->Initialize();
 
-
 	// Instantiate game objects
 	auto obj = new CPlayable;
-	obj->SetPosition(Vector2(50, 50));
+	obj->SetPosition(Vector2(100, 100));
 	obj->SetSpeed(Vector2(0, 0));
-	enemies.push_back(obj);
+	gameObjects.push_back(obj);
 	playable = obj;
 
-	auto obj1 = new CDrap;
-	obj1->SetPosition(Vector2(100, 100));
-	obj1->SetSpeed(Vector2(0, 0.15));
-	enemies.push_back(obj1);
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++)
+		{
+			auto obj1 = new CDrap;
+			obj1->SetPosition(Vector2(i * 100, j * 100));
+			obj1->SetSpeed(Vector2(0, 0));
+			gameObjects.push_back(obj1);
+		}
+	}
+	
+	mainCam = new CCamera;
+	mainCam->SetTarget(playable);
+	mainCam->SetBoundingBoxSize(Vector2(screen_width, screen_height));
+	DebugOut(L"scr %d %d\n", screen_width, screen_height);
+
+	quadtree = new CQuadtree(0, RectF(0, 0, screen_width * 10, screen_height * 10));
+	/*quadtree->SetGameObjects(gameObjects);
+	quadtree->SetRect(screen_width, screen_height);*/
 }
 
 void CGame::GameRun()
@@ -261,4 +320,6 @@ void CGame::GameEnd()
 	if (d3ddv != NULL)d3ddv->Release();
 	if (d3d != NULL) d3d->Release();
 	DebugOut(L"[INFO] Cleanup Ok\n");
+
+	quadtree->Reset(screen_width, screen_height);
 }

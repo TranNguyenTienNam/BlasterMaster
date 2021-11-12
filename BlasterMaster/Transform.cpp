@@ -14,3 +14,32 @@ Vector2 NormalizedVector()
 {
 	return Vector2(1.0f, 1.0f);
 }
+
+RectF::RectF()
+{
+}
+
+bool RectF::Overlap(const RectF& other)
+{
+	if (this->right <= other.left || this->left >= other.right)
+		return false;
+	if (this->top <= other.bottom || this->bottom >= other.top)
+		return false;
+	return true;
+}
+
+bool RectF::Contain(const RectF& other) const
+{
+	return this->left <= other.left &&
+		this->top >= other.top &&
+		this->right >= other.right &&
+		this->bottom <= other.bottom;
+}
+
+bool RectF::Contain(const Vector2& point) const
+{
+	return this->left <= point.x &&
+		this->top >= point.y &&
+		this->right >= point.x &&
+		this->bottom <= point.y;
+}

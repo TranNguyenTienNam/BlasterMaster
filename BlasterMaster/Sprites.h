@@ -17,7 +17,7 @@ class CSprite
 public:
 	CSprite(int left, int top, int witdh, int height, LPDIRECT3DTEXTURE9 texture);
 
-	void Draw(Vector2 position, int alpha);
+	void Draw(Vector2 position, int nx, int alpha);
 };
 
 typedef CSprite* LPSPRITE;

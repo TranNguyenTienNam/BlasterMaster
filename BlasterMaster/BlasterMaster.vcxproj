@@ -154,6 +154,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationFrame.cpp" />
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Drap.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="KeyEventHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Playable.cpp" />
+    <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
@@ -171,12 +173,14 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationFrame.h" />
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Drap.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Playable.h" />
+    <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Service.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Sprites.h" />
