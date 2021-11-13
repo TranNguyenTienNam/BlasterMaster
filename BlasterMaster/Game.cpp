@@ -181,10 +181,8 @@ void CGame::Update(DWORD dt)
 	mainCam->Update();
 
 	updates.clear();
-	quadtree->Reset(screen_width * 10, screen_height * 10);
 	quadtree->Update(gameObjects);
 	quadtree->Retrieve(updates, mainCam->GetBoundingBox());
-	DebugOut(L"updates %d\n", updates.size());
 
 	for (auto obj : updates)
 		obj->Update(dt);
@@ -256,11 +254,11 @@ void CGame::GameInit(HWND hWnd)
 	gameObjects.push_back(obj);
 	playable = obj;
 
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 10; j++)
+	for (int i = 0; i < 6; i++) {
+		for (int j = 0; j < 6; j++)
 		{
 			auto obj1 = new CDrap;
-			obj1->SetPosition(Vector2(i * 100, j * 100));
+			obj1->SetPosition(Vector2(i * 50, j * 50));
 			obj1->SetSpeed(Vector2(0, 0));
 			gameObjects.push_back(obj1);
 		}
@@ -271,7 +269,7 @@ void CGame::GameInit(HWND hWnd)
 	mainCam->SetBoundingBoxSize(Vector2(screen_width, screen_height));
 	DebugOut(L"scr %d %d\n", screen_width, screen_height);
 
-	quadtree = new CQuadtree(0, RectF(0, 0, screen_width * 10, screen_height * 10));
+	quadtree = new CQuadtree(0, RectF(0, screen_height * 10, screen_width * 10, 0));
 	/*quadtree->SetGameObjects(gameObjects);
 	quadtree->SetRect(screen_width, screen_height);*/
 }

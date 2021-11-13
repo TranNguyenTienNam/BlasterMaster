@@ -19,7 +19,6 @@ private:
 	void Split();
 	void Insert(CGameObject* gameObject);
 	bool Contain(CGameObject* gameObject);
-	bool ContainRect(const RectF& rect) const;
 public:
 	//static void SetGameObjects(std::vector<CGameObject*> objects) { gameObjects = objects; }
 	//static void SetRect(float scrWidth, float scrHeight) { screen_width = scrWidth; screen_height = scrHeight; }

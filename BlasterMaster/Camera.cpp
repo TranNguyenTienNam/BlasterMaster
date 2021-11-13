@@ -28,7 +28,7 @@ Vector2 CCamera::WorldToScreenPoint(Vector2 pos)
 
 RectF CCamera::GetBoundingBox()
 {
-	RectF boundingBox{ 0,0,0,0 };
+	RectF boundingBox;
 	boundingBox.left = position.x;
 	boundingBox.top = position.y;
 	boundingBox.right = position.x + bbSize.x;
