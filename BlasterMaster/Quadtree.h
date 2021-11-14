@@ -8,9 +8,6 @@
 class CQuadtree
 {
 private:
-	/*static std::vector<CGameObject*> gameObjects;
-	static float screen_width, screen_height;*/
-
 	int m_level;
 	RectF m_rect;
 	std::unique_ptr<CQuadtree> m_subNodes[4];
@@ -20,9 +17,6 @@ private:
 	void Insert(CGameObject* gameObject);
 	bool Contain(CGameObject* gameObject);
 public:
-	//static void SetGameObjects(std::vector<CGameObject*> objects) { gameObjects = objects; }
-	//static void SetRect(float scrWidth, float scrHeight) { screen_width = scrWidth; screen_height = scrHeight; }
-
 	CQuadtree(const int level, const RectF& rect);
 	~CQuadtree();
 	void Update(std::vector<CGameObject*> gameObjects);

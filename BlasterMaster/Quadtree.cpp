@@ -22,7 +22,8 @@ void CQuadtree::Update(std::vector<CGameObject*> gameObjects)
 	m_subNodes[2] = nullptr;
 	m_subNodes[3] = nullptr;
 
-	for (const auto& object : gameObjects) {
+	for (const auto& object : gameObjects)  // TODO: Instead of passing game objects
+	{
 		Insert(object);
 	}
 }

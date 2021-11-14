@@ -32,6 +32,7 @@ public:
 	void SetState(int state) { this->state = state; }
 
 	void AddAnimation(std::string stateName, LPANIMATION animation);
+	std::unordered_map<std::string, LPANIMATION> GetAnimations() { return animations; }
 
 	virtual void Update(DWORD dt) = 0;
 	virtual void Render() = 0;

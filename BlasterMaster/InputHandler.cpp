@@ -109,8 +109,8 @@ void CInputHandler::ProcessKeyboard()
 	for (DWORD i = 0; i < dwElements; i++)
 	{
 		int KeyCode = keyEvents[i].dwOfs;
-		int KeyState = keyEvents[i].dwData;
-		if ((KeyState & 0x80) > 0)
+		int KeyEvent = keyEvents[i].dwData;
+		if ((KeyEvent & 0x80) > 0)
 			keyHandler->OnKeyDown(KeyCode);
 		else
 			keyHandler->OnKeyUp(KeyCode);
@@ -120,4 +120,14 @@ void CInputHandler::ProcessKeyboard()
 int CInputHandler::IsKeyDown(int KeyCode)
 {
 	return (keyStates[KeyCode] & 0x80) > 0;
+}
+
+int CInputHandler::OnKeyDown(int KeyCode)
+{
+	for (auto KeyEvent : keyEvents)
+	{
+		if (KeyCode == KeyEvent.dwOfs)
+			return (KeyEvent.dwData & 0x80) > 0;
+	}
+	return 0;
 }

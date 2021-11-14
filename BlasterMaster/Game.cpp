@@ -6,11 +6,12 @@
 #include "Playable.h"
 #include "Camera.h"
 #include "Quadtree.h"
+#include "Sophia.h"
 
 CGame* CGame::instance = NULL;
 DWORD CGame::deltaTime = 0;
 
-CPlayable* playable;
+CSophia* playable;
 std::vector<CGameObject*> gameObjects;
 std::vector<CGameObject*> updates;
 
@@ -38,7 +39,7 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 
 void CSampleKeyHandler::KeyState(BYTE* states)
 {
-	auto handler = CGame::GetInstance()->GetService<CInputHandler>();
+	/*auto handler = CGame::GetInstance()->GetService<CInputHandler>();
 	if (handler->IsKeyDown(DIK_RIGHT))
 		playable->SetState(PLAYER_STATE_WALKING_RIGHT);
 	else if (handler->IsKeyDown(DIK_LEFT))
@@ -47,7 +48,7 @@ void CSampleKeyHandler::KeyState(BYTE* states)
 		playable->SetState(PLAYER_STATE_WALKING_TOP);
 	else if (handler->IsKeyDown(DIK_DOWN))
 		playable->SetState(PLAYER_STATE_WALKING_DOWN);
-	else playable->SetState(DRAP_STATE_IDLE);
+	else playable->SetState(DRAP_STATE_IDLE);*/
 }
 
 CGame* CGame::GetInstance()
@@ -226,12 +227,26 @@ void CGame::GameInit(HWND hWnd)
 	GetService<CSprites>()->Add("spr-jason-walk-0", 21, 30, 8, 16, GetService<CTextures>()->Get("tex-player"));
 	GetService<CSprites>()->Add("spr-jason-walk-1", 30, 30, 8, 16, GetService<CTextures>()->Get("tex-player"));
 
+	GetService<CSprites>()->Add("spr-sophia-wheel-0", 3, 21, 8, 8, GetService<CTextures>()->Get("tex-player"));
+	GetService<CSprites>()->Add("spr-sophia-wheel-1", 12, 21, 8, 8, GetService<CTextures>()->Get("tex-player"));
+	GetService<CSprites>()->Add("spr-sophia-wheel-2", 21, 21, 8, 8, GetService<CTextures>()->Get("tex-player"));
+	GetService<CSprites>()->Add("spr-sophia-wheel-3", 30, 21, 8, 8, GetService<CTextures>()->Get("tex-player"));
+
+	GetService<CSprites>()->Add("spr-sophia-middle", 3, 12, 8, 8, GetService<CTextures>()->Get("tex-player"));
+
+	GetService<CSprites>()->Add("spr-sophia-gun-00", 12, 3, 8, 8, GetService<CTextures>()->Get("tex-player"));
+	GetService<CSprites>()->Add("spr-sophia-gun-45", 21, 3, 8, 8, GetService<CTextures>()->Get("tex-player"));
+	GetService<CSprites>()->Add("spr-sophia-gun-90", 30, 3, 8, 8, GetService<CTextures>()->Get("tex-player"));
+
+	GetService<CSprites>()->Add("spr-sophia-cabin", 39, 3, 16, 8, GetService<CTextures>()->Get("tex-player"));
+	GetService<CSprites>()->Add("spr-sophia-cabin-turn", 56, 3, 16, 8, GetService<CTextures>()->Get("tex-player"));
+
 	AddService(new CAnimations);
 	auto anim = new CAnimation;
-	anim->Add("spr-drap-0", 200);
-	anim->Add("spr-drap-1", 200);
-	anim->Add("spr-drap-2", 200);
-	anim->Add("spr-drap-3", 200);
+	anim->Add("spr-drap-0", 150);
+	anim->Add("spr-drap-1", 150);
+	anim->Add("spr-drap-2", 150);
+	anim->Add("spr-drap-3", 150);
 	GetService<CAnimations>()->Add("ani-drap", anim);
 
 	anim = new CAnimation;
@@ -239,6 +254,20 @@ void CGame::GameInit(HWND hWnd)
 	anim->Add("spr-jason-walk-0", 100);
 	anim->Add("spr-jason-walk-1", 100);
 	GetService<CAnimations>()->Add("ani-jason", anim);
+
+	anim = new CAnimation;
+	anim->Add("spr-sophia-wheel-0", 100);
+	anim->Add("spr-sophia-wheel-1", 100);
+	anim->Add("spr-sophia-wheel-2", 100);
+	anim->Add("spr-sophia-wheel-3", 100);
+	GetService<CAnimations>()->Add("ani-sophia-left-wheel", anim);
+
+	anim = new CAnimation;
+	anim->Add("spr-sophia-wheel-3", 100);
+	anim->Add("spr-sophia-wheel-0", 100);
+	anim->Add("spr-sophia-wheel-1", 100);
+	anim->Add("spr-sophia-wheel-2", 100);
+	GetService<CAnimations>()->Add("ani-sophia-right-wheel", anim);
 
 	AddService(new CInputHandler);
 	GetService<CInputHandler>()->SetHandleWindow(hWnd);
@@ -248,8 +277,8 @@ void CGame::GameInit(HWND hWnd)
 	GetService<CInputHandler>()->Initialize();
 
 	// Instantiate game objects
-	auto obj = new CPlayable;
-	obj->SetPosition(Vector2(100, 100));
+	auto obj = new CSophia;
+	obj->SetPosition(Vector2(120, 120));
 	obj->SetSpeed(Vector2(0, 0));
 	gameObjects.push_back(obj);
 	playable = obj;

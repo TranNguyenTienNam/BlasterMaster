@@ -18,6 +18,8 @@ public:
 	void ProcessKeyboard();
 	int IsKeyDown(int keyCode);
 
+	int OnKeyDown(int KeyCode);
+
 private:
 	HWND hWnd;
 	LPDIRECTINPUT8 di;										// The DirectInput object 
