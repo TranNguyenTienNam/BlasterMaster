@@ -126,7 +126,13 @@
     <ClCompile Include="WheelIdleState.cpp">
       <Filter>Game Source\Game Object\Player\Sophia\Wheel State</Filter>
     </ClCompile>
-    <ClCompile Include="UpwardSophiaState.cpp">
+    <ClCompile Include="SophiaUpwardState.cpp">
+      <Filter>Game Source\Game Object\Player\Sophia\Direct State</Filter>
+    </ClCompile>
+    <ClCompile Include="SophiaIdleState.cpp">
+      <Filter>Game Source\Game Object\Player\Sophia\Direct State</Filter>
+    </ClCompile>
+    <ClCompile Include="SophiaUpward45State.cpp">
       <Filter>Game Source\Game Object\Player\Sophia\Direct State</Filter>
     </ClCompile>
   </ItemGroup>
@@ -200,10 +206,13 @@
     <ClInclude Include="WheelIdleState.h">
       <Filter>Game Source\Game Object\Player\Sophia\Wheel State</Filter>
     </ClInclude>
-    <ClInclude Include="UpwardSophiaState.h">
+    <ClInclude Include="SophiaUpwardState.h">
       <Filter>Game Source\Game Object\Player\Sophia\Direct State</Filter>
     </ClInclude>
-    <ClInclude Include="HorizontalSophiaState.h">
+    <ClInclude Include="SophiaIdleState.h">
+      <Filter>Game Source\Game Object\Player\Sophia\Direct State</Filter>
+    </ClInclude>
+    <ClInclude Include="SophiaUpward45State.h">
       <Filter>Game Source\Game Object\Player\Sophia\Direct State</Filter>
     </ClInclude>
   </ItemGroup>

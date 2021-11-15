@@ -214,8 +214,8 @@ void CGame::GameInit(HWND hWnd)
 	InitDirectX(hWnd);
 
 	AddService(new CTextures);
-	GetService<CTextures>()->Add("tex-enemies", L"textures\\enemies.png", D3DCOLOR_XRGB(255, 255, 255));
-	GetService<CTextures>()->Add("tex-player", L"textures\\player.png", D3DCOLOR_XRGB(0, 57, 115));
+	GetService<CTextures>()->Add("tex-enemies", L"textures\\enemies.png", D3DCOLOR_XRGB(41, 255, 4));
+	GetService<CTextures>()->Add("tex-player", L"textures\\player.png", D3DCOLOR_XRGB(41, 255, 4));
 
 	AddService(new CSprites);
 	GetService<CSprites>()->Add("spr-drap-0", 128, 274, 18, 18, GetService<CTextures>()->Get("tex-enemies"));
@@ -240,6 +240,7 @@ void CGame::GameInit(HWND hWnd)
 
 	GetService<CSprites>()->Add("spr-sophia-cabin", 39, 3, 16, 8, GetService<CTextures>()->Get("tex-player"));
 	GetService<CSprites>()->Add("spr-sophia-cabin-turn", 56, 3, 16, 8, GetService<CTextures>()->Get("tex-player"));
+	GetService<CSprites>()->Add("spr-sophia-cabin-45", 73, 3, 16, 16, GetService<CTextures>()->Get("tex-player"));
 
 	AddService(new CAnimations);
 	auto anim = new CAnimation;

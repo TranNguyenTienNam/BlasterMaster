@@ -6,10 +6,9 @@ class CSophia;
 class ISophiaState
 {
 public:
-	virtual ISophiaState* HandleInput(CSophia& sophia);
 	virtual void Motion();
 	virtual void Jumping();
 	virtual void Shooting();
-	virtual void Update(DWORD dt);
+	virtual void Update(DWORD dt, CSophia& sophia, int nx);
 	virtual void Render(CSophia& sophia);
 };

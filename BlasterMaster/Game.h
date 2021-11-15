@@ -10,7 +10,7 @@
 #include "Transform.h"
 #include "KeyEventHandler.h"
 
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 200)
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0)
 
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480

@@ -168,11 +168,13 @@
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="Sophia.cpp" />
+    <ClCompile Include="SophiaIdleState.cpp" />
     <ClCompile Include="SophiaState.cpp" />
+    <ClCompile Include="SophiaUpward45State.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="UpwardSophiaState.cpp" />
+    <ClCompile Include="SophiaUpwardState.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WheelIdleState.cpp" />
   </ItemGroup>
@@ -186,7 +188,6 @@
     <ClInclude Include="Drap.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="HorizontalSophiaState.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="Jason.h" />
     <ClInclude Include="KeyEventHandler.h" />
@@ -195,11 +196,13 @@
     <ClInclude Include="Service.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Sophia.h" />
+    <ClInclude Include="SophiaIdleState.h" />
     <ClInclude Include="SophiaState.h" />
+    <ClInclude Include="SophiaUpward45State.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Transform.h" />
-    <ClInclude Include="UpwardSophiaState.h" />
+    <ClInclude Include="SophiaUpwardState.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="WheelIdleState.h" />
   </ItemGroup>

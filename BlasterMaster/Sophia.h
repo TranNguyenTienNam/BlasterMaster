@@ -22,10 +22,23 @@ private:
 	ISophiaState* statePhysical;
 	//ISophiaState* equipment; // Dont need to code this if Ms.Trinh not require
 
+	DWORD lastTime;
+	DWORD lastTime2;
+
 	// Power, Hover in class Player
 public:
 	CSophia();
 	~CSophia();
+
+	Vector2 posLeftWheel;
+	Vector2 posRightWheel;
+	LPSPRITE sprMiddle;
+	Vector2 posMiddle;
+	LPSPRITE sprCabin;
+	Vector2 posCabin;
+	LPSPRITE sprGun;
+	Vector2 posGun;
+
 	void InitAnimation(); // If CSophia inherits from CPlayer, this is virtual function
 	virtual void Update(DWORD dt);
 	virtual void Render();
