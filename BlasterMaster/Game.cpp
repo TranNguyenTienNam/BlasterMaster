@@ -7,11 +7,13 @@
 #include "Camera.h"
 #include "Quadtree.h"
 #include "Sophia.h"
+#include "Jason.h"
 
 CGame* CGame::instance = NULL;
 DWORD CGame::deltaTime = 0;
 
-CSophia* playable;
+CJason* jason;
+CSophia* sophia;
 std::vector<CGameObject*> gameObjects;
 std::vector<CGameObject*> updates;
 
@@ -30,6 +32,24 @@ public:
 void CSampleKeyHandler::OnKeyDown(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	switch (KeyCode)
+	{
+	case DIK_LSHIFT:
+		if (jason->controllable == true) 
+		{
+			jason->controllable = false;
+			sophia->controllable = true;
+			mainCam->SetTarget(sophia);
+		}
+		else
+		{
+			jason->controllable = true;
+			sophia->controllable = false;
+			mainCam->SetTarget(jason);
+		}
+	default:
+		break;
+	}
 }
 
 void CSampleKeyHandler::OnKeyUp(int KeyCode)
@@ -39,16 +59,7 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 
 void CSampleKeyHandler::KeyState(BYTE* states)
 {
-	/*auto handler = CGame::GetInstance()->GetService<CInputHandler>();
-	if (handler->IsKeyDown(DIK_RIGHT))
-		playable->SetState(PLAYER_STATE_WALKING_RIGHT);
-	else if (handler->IsKeyDown(DIK_LEFT))
-		playable->SetState(PLAYER_STATE_WALKING_LEFT);
-	else if (handler->IsKeyDown(DIK_UP))
-		playable->SetState(PLAYER_STATE_WALKING_TOP);
-	else if (handler->IsKeyDown(DIK_DOWN))
-		playable->SetState(PLAYER_STATE_WALKING_DOWN);
-	else playable->SetState(DRAP_STATE_IDLE);*/
+	
 }
 
 CGame* CGame::GetInstance()
@@ -223,10 +234,14 @@ void CGame::GameInit(HWND hWnd)
 	GetService<CSprites>()->Add("spr-drap-3", 168, 274, 18, 18, GetService<CTextures>()->Get("tex-enemies"));
 	GetService<CSprites>()->Add("spr-drap-2", 188, 274, 18, 18, GetService<CTextures>()->Get("tex-enemies"));
 
+	// JASON
+	GetService<CSprites>()->Add("spr-jason-idle", 3, 30, 8, 16, GetService<CTextures>()->Get("tex-player"));
+
 	GetService<CSprites>()->Add("spr-jason-walk-jump", 12, 30, 8, 16, GetService<CTextures>()->Get("tex-player"));
 	GetService<CSprites>()->Add("spr-jason-walk-0", 21, 30, 8, 16, GetService<CTextures>()->Get("tex-player"));
 	GetService<CSprites>()->Add("spr-jason-walk-1", 30, 30, 8, 16, GetService<CTextures>()->Get("tex-player"));
 
+	// SOPHIA
 	GetService<CSprites>()->Add("spr-sophia-wheel-0", 3, 21, 8, 8, GetService<CTextures>()->Get("tex-player"));
 	GetService<CSprites>()->Add("spr-sophia-wheel-1", 12, 21, 8, 8, GetService<CTextures>()->Get("tex-player"));
 	GetService<CSprites>()->Add("spr-sophia-wheel-2", 21, 21, 8, 8, GetService<CTextures>()->Get("tex-player"));
@@ -251,10 +266,18 @@ void CGame::GameInit(HWND hWnd)
 	GetService<CAnimations>()->Add("ani-drap", anim);
 
 	anim = new CAnimation;
+	anim->Add("spr-jason-idle", 100);
+	GetService<CAnimations>()->Add("ani-jason-idle", anim);
+
+	anim = new CAnimation;
 	anim->Add("spr-jason-walk-jump", 100);
 	anim->Add("spr-jason-walk-0", 100);
 	anim->Add("spr-jason-walk-1", 100);
-	GetService<CAnimations>()->Add("ani-jason", anim);
+	GetService<CAnimations>()->Add("ani-jason-walk", anim);
+
+	anim = new CAnimation;
+	anim->Add("spr-jason-walk-jump", 100);
+	GetService<CAnimations>()->Add("ani-jason-jump", anim);
 
 	anim = new CAnimation;
 	anim->Add("spr-sophia-wheel-0", 100);
@@ -278,26 +301,29 @@ void CGame::GameInit(HWND hWnd)
 	GetService<CInputHandler>()->Initialize();
 
 	// Instantiate game objects
-	auto obj = new CSophia;
-	obj->SetPosition(Vector2(120, 120));
-	obj->SetSpeed(Vector2(0, 0));
-	gameObjects.push_back(obj);
-	playable = obj;
+	sophia = new CSophia;
+	sophia->SetPosition(Vector2(120, 120));
+	sophia->SetControllable(false);
+	gameObjects.push_back(sophia);
+
+	jason = new CJason;
+	jason->SetPosition(Vector2(120, 120));
+	jason->SetControllable(true);
+	gameObjects.push_back(jason);
 
 	for (int i = 0; i < 6; i++) {
 		for (int j = 0; j < 6; j++)
 		{
-			auto obj1 = new CDrap;
-			obj1->SetPosition(Vector2(i * 50, j * 50));
-			obj1->SetSpeed(Vector2(0, 0));
-			gameObjects.push_back(obj1);
+			auto obj = new CDrap;
+			obj->SetPosition(Vector2(i * 50, j * 50));
+			obj->SetSpeed(Vector2(0, 0));
+			gameObjects.push_back(obj);
 		}
 	}
 	
 	mainCam = new CCamera;
-	mainCam->SetTarget(playable);
+	mainCam->SetTarget(sophia);
 	mainCam->SetBoundingBoxSize(Vector2(screen_width, screen_height));
-	DebugOut(L"scr %d %d\n", screen_width, screen_height);
 
 	quadtree = new CQuadtree(0, RectF(0, screen_height * 10, screen_width * 10, 0));
 	/*quadtree->SetGameObjects(gameObjects);

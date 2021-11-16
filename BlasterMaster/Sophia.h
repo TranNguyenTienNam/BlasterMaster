@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "SophiaState.h"
+#include "Playable.h"
 
 class ISophiaState;
 
@@ -14,7 +15,7 @@ enum SophiaKeySet
 	OPEN_CABIN = DIK_LSHIFT
 };
 
-class CSophia : public CGameObject
+class CSophia : public CGameObject, public CPlayable
 {
 private:
 	ISophiaState* stateWheel;
@@ -26,6 +27,7 @@ private:
 	DWORD lastTime2;
 
 	// Power, Hover in class Player
+	void InitAnimation(); // If CSophia inherits from CPlayer, this is virtual function
 public:
 	CSophia();
 	~CSophia();
@@ -39,7 +41,6 @@ public:
 	LPSPRITE sprGun;
 	Vector2 posGun;
 
-	void InitAnimation(); // If CSophia inherits from CPlayer, this is virtual function
 	virtual void Update(DWORD dt);
 	virtual void Render();
 };

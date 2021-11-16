@@ -55,6 +55,15 @@
     <Filter Include="Game Source\Game Object\Player\Sophia\Direct State">
       <UniqueIdentifier>{b836765d-4bee-41ba-b4e1-2d61e1386143}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Source\Game Object\Player\Jason">
+      <UniqueIdentifier>{ca188f76-461c-43e4-bae3-589af9e18a41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Source\Game Object\Enemy\Scrolling">
+      <UniqueIdentifier>{29b14fda-aaeb-4a75-90c6-23ebb934e28d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Source\Game Object\Enemy\Top Down">
+      <UniqueIdentifier>{38eaed9a-be69-45b5-8749-aeec8b0e8d40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -74,9 +83,6 @@
     </ClCompile>
     <ClCompile Include="Utils.cpp">
       <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Drap.cpp">
-      <Filter>Game Source\Game Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Framework</Filter>
@@ -108,9 +114,6 @@
     <ClCompile Include="Quadtree.cpp">
       <Filter>Framework\Space Partitioning</Filter>
     </ClCompile>
-    <ClCompile Include="Jason.cpp">
-      <Filter>Game Source\Game Object\Player</Filter>
-    </ClCompile>
     <ClCompile Include="SophiaState.cpp">
       <Filter>Game Source\Game Object\Player\Sophia</Filter>
     </ClCompile>
@@ -135,6 +138,12 @@
     <ClCompile Include="SophiaUpward45State.cpp">
       <Filter>Game Source\Game Object\Player\Sophia\Direct State</Filter>
     </ClCompile>
+    <ClCompile Include="Jason.cpp">
+      <Filter>Game Source\Game Object\Player\Jason</Filter>
+    </ClCompile>
+    <ClCompile Include="Drap.cpp">
+      <Filter>Game Source\Game Object\Enemy\Top Down</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -154,9 +163,6 @@
     </ClInclude>
     <ClInclude Include="Utils.h">
       <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Drap.h">
-      <Filter>Game Source\Game Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Framework</Filter>
@@ -188,9 +194,6 @@
     <ClInclude Include="Quadtree.h">
       <Filter>Framework\Space Partitioning</Filter>
     </ClInclude>
-    <ClInclude Include="Jason.h">
-      <Filter>Game Source\Game Object\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Sophia.h">
       <Filter>Game Source\Game Object\Player\Sophia</Filter>
     </ClInclude>
@@ -214,6 +217,12 @@
     </ClInclude>
     <ClInclude Include="SophiaUpward45State.h">
       <Filter>Game Source\Game Object\Player\Sophia\Direct State</Filter>
+    </ClInclude>
+    <ClInclude Include="Jason.h">
+      <Filter>Game Source\Game Object\Player\Jason</Filter>
+    </ClInclude>
+    <ClInclude Include="Drap.h">
+      <Filter>Game Source\Game Object\Enemy\Top Down</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

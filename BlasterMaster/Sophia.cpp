@@ -31,6 +31,12 @@ void CSophia::InitAnimation()
 
 void CSophia::Update(DWORD dt)
 {
+	if (controllable == false)
+	{
+		stateDirection->Update(dt, *this, nx);
+		return;
+	}
+
 	transform.position.x += velocity.x * dt;
 	transform.position.y += velocity.y * dt;
 	if (transform.position.y < 50) transform.position.y = 50;
@@ -58,10 +64,11 @@ void CSophia::Update(DWORD dt)
 		stateWheel = new CWheelIdleState;
 	}
 
+	if (dynamic_cast<CSophiaUpwardState*>(stateDirection)) lastTime2 = GetTickCount();
+
 	if (inputHandler->IsKeyDown(DIK_UP))
 	{
 		DWORD now = GetTickCount();
-		lastTime2 = now;
 		if (dynamic_cast<CSophiaIdleState*>(stateDirection))
 		{
 			stateDirection = new CSophiaUpward45State;
@@ -79,7 +86,7 @@ void CSophia::Update(DWORD dt)
 		{
 			stateDirection = new CSophiaUpward45State;
 		}
-		else if (now - lastTime2 > 100 && dynamic_cast<CSophiaUpward45State*>(stateDirection))
+		else if (now - lastTime2 > 200 && dynamic_cast<CSophiaUpward45State*>(stateDirection))
 		{
 			stateDirection = new CSophiaIdleState;
 		}
