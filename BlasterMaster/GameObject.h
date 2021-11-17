@@ -7,6 +7,9 @@
 
 #include "Animation.h"
 #include "Transform.h"
+#include "Quadtree.h"
+
+class CQuadtree;
 
 class CGameObject
 {
@@ -17,6 +20,9 @@ protected:
 	int nx;
 
 	int state;
+
+	CQuadtree* ownerQuadtree;		// Quadtree
+	int inNodesIndex = -1;			//
 
 	std::unordered_map<std::string, LPANIMATION> animations;
 
@@ -30,6 +36,11 @@ public:
 	Vector2 GetSpeed() { return this->velocity; }
 	int GetState() { return this->state; }
 	void SetState(int state) { this->state = state; }
+
+	CQuadtree* GetQuadtree() { return this->ownerQuadtree; }
+	void SetQuadtree(CQuadtree* quadtree) { this->ownerQuadtree = quadtree; }
+	int GetInNodesIndex() { return this->inNodesIndex; }
+	void SetInNodesIndex(int index) { this->inNodesIndex = index; }
 
 	void AddAnimation(std::string stateName, LPANIMATION animation);
 	std::unordered_map<std::string, LPANIMATION> GetAnimations() { return animations; }

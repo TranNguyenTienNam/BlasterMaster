@@ -14,16 +14,13 @@ CQuadtree::~CQuadtree()
 
 void CQuadtree::Update(std::vector<CGameObject*> gameObjects)
 {
-	m_inNodes.clear();
-	m_inNodes.shrink_to_fit();
-
-	m_subNodes[0] = nullptr;
-	m_subNodes[1] = nullptr;
-	m_subNodes[2] = nullptr;
-	m_subNodes[3] = nullptr;
-
-	for (const auto& object : gameObjects)  // TODO: Instead of passing game objects
+	for (const auto& object : gameObjects)
 	{
+		// Step 1: Find the leaf which this game object belongs to
+		// Step 2: Remove game object from this leaf
+		RemoveGameObjectFromLeaf(object);
+
+		// Step 3: Find the new leaf
 		Insert(object);
 	}
 }
@@ -52,6 +49,35 @@ void CQuadtree::Split()
 	m_subNodes[3] = std::make_unique<CQuadtree>(m_level + 1, right_top);
 }
 
+void CQuadtree::RemoveGameObjectFromLeaf(CGameObject* gameObject)
+{
+	RectF rect = gameObject->GetQuadtree()->m_rect;
+	if (m_subNodes[0] != nullptr)
+	{
+		if (m_subNodes[0]->m_rect.Contain(rect)) m_subNodes[0]->RemoveGameObjectFromLeaf(gameObject);
+		else if (m_subNodes[1]->m_rect.Contain(rect)) m_subNodes[1]->RemoveGameObjectFromLeaf(gameObject);
+		else if (m_subNodes[2]->m_rect.Contain(rect)) m_subNodes[2]->RemoveGameObjectFromLeaf(gameObject);
+		else if (m_subNodes[3]->m_rect.Contain(rect)) m_subNodes[3]->RemoveGameObjectFromLeaf(gameObject);
+
+		return;
+	}
+
+	if (m_rect.Equal(rect))
+	{
+		// Normal vector swap
+		m_inNodes[gameObject->GetInNodesIndex()] = m_inNodes.back();
+		m_inNodes.pop_back();
+		// Update vector index
+		if (gameObject->GetInNodesIndex() < m_inNodes.size())
+		{
+			m_inNodes[gameObject->GetInNodesIndex()]->SetInNodesIndex(gameObject->GetInNodesIndex());
+		}
+		// Set the index of game object to -1
+		gameObject->SetInNodesIndex(-1);
+		gameObject->SetQuadtree(nullptr);
+	}
+}
+
 void CQuadtree::Insert(CGameObject* gameObject)
 {
 	// If this node has split
@@ -67,6 +93,8 @@ void CQuadtree::Insert(CGameObject* gameObject)
 
 	// Add object to this node
 	m_inNodes.emplace_back(gameObject);
+	gameObject->SetQuadtree(this);
+	gameObject->SetInNodesIndex(m_inNodes.size() - 1);
 
 	// If it has NOT split and NODE_CAPACITY is reached and we are not at MAX LEVEL
 	if (m_inNodes.size() > NODE_CAPACITY && m_level < NODE_MAX_DEPTH) {

@@ -19,6 +19,8 @@ class CJason : public CGameObject, public CPlayable
 protected:
 	void InitAnimations();
 
+	bool onGround;
+
 	JasonState state;
 	LPANIMATION animation;
 

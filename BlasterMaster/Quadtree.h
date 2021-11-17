@@ -14,11 +14,12 @@ private:
 	std::vector<CGameObject*> m_inNodes;
 
 	void Split();
-	void Insert(CGameObject* gameObject);
+	void RemoveGameObjectFromLeaf(CGameObject* gameObject);
 	bool Contain(CGameObject* gameObject);
 public:
 	CQuadtree(const int level, const RectF& rect);
 	~CQuadtree();
+	void Insert(CGameObject* gameObject);
 	void Update(std::vector<CGameObject*> gameObjects);
 	void Retrieve(std::vector<CGameObject*>& container, const RectF& rect);
 	void Reset(float screen_width, float screen_height);

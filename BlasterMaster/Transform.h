@@ -18,6 +18,7 @@ struct RectF
 	float left, top, right, bottom;
 	RectF();
 	RectF(float l, float t, float r, float b) { left = l; top = t; right = r; bottom = b; }
+	bool Equal(const RectF& other);
 	bool Overlap(const RectF& other);
 	bool Contain(const RectF& other) const;
 	bool Contain(const Vector2& point) const;

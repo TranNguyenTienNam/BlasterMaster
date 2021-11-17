@@ -105,13 +105,18 @@ void CInputHandler::ProcessKeyboard()
 		return;
 	}
 
+	presses.clear();
+
 	// Scan through all buffered events, check if the key is pressed or released
 	for (DWORD i = 0; i < dwElements; i++)
 	{
 		int KeyCode = keyEvents[i].dwOfs;
 		int KeyEvent = keyEvents[i].dwData;
 		if ((KeyEvent & 0x80) > 0)
+		{
+			presses.push_back(KeyCode);
 			keyHandler->OnKeyDown(KeyCode);
+		}
 		else
 			keyHandler->OnKeyUp(KeyCode);
 	}
@@ -124,10 +129,9 @@ int CInputHandler::IsKeyDown(int KeyCode)
 
 int CInputHandler::OnKeyDown(int KeyCode)
 {
-	for (auto KeyEvent : keyEvents)
+	for (auto press : presses)
 	{
-		if (KeyCode == KeyEvent.dwOfs)
-			return (KeyEvent.dwData & 0x80) > 0;
+		if (press == KeyCode) return true;
 	}
-	return 0;
+	return false;
 }

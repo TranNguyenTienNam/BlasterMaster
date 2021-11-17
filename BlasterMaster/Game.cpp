@@ -195,6 +195,7 @@ void CGame::Update(DWORD dt)
 	updates.clear();
 	quadtree->Update(gameObjects);
 	quadtree->Retrieve(updates, mainCam->GetBoundingBox());
+	DebugOut(L"updates %d\n", updates.size());
 
 	for (auto obj : updates)
 		obj->Update(dt);
@@ -326,8 +327,11 @@ void CGame::GameInit(HWND hWnd)
 	mainCam->SetBoundingBoxSize(Vector2(screen_width, screen_height));
 
 	quadtree = new CQuadtree(0, RectF(0, screen_height * 10, screen_width * 10, 0));
-	/*quadtree->SetGameObjects(gameObjects);
-	quadtree->SetRect(screen_width, screen_height);*/
+	quadtree->Reset(screen_width * 10, screen_height * 10);
+	for (auto obj : gameObjects)
+	{
+		quadtree->Insert(obj);
+	}
 }
 
 void CGame::GameRun()

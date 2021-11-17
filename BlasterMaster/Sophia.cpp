@@ -33,6 +33,8 @@ void CSophia::Update(DWORD dt)
 {
 	if (controllable == false)
 	{
+		stateWheel = new CWheelIdleState;
+		stateDirection = new CSophiaIdleState;
 		stateDirection->Update(dt, *this, nx);
 		return;
 	}

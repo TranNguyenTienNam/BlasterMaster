@@ -14,6 +14,7 @@ CJason::CJason()
 {
 	InitAnimations();
 	SetState(JasonState::IDLE);
+	onGround = true;
 }
 
 CJason::~CJason()
@@ -26,19 +27,20 @@ void CJason::SetState(JasonState state)
 	{
 	case IDLE:
 		velocity.x = 0.0f;
-		animation = animations.at("Idle");
+		if (onGround == true) animation = animations.at("Idle");
 		break;
 	case WALKING_LEFT:
 		velocity.x = -JASON_WALKING_SPEED;
 		nx = -1;
-		animation = animations.at("Walk");
+		if (onGround == true) animation = animations.at("Walk");
 		break;
 	case WALKING_RIGHT:
 		velocity.x = JASON_WALKING_SPEED;
 		nx = 1;
-		animation = animations.at("Walk");
+		if (onGround == true) animation = animations.at("Walk");
 		break;
 	case JASON_JUMPING:
+		onGround = false;
 		velocity.y = JASON_JUMP_SPEED_Y;
 		animation = animations.at("Jump");
 		break;
@@ -49,11 +51,19 @@ void CJason::SetState(JasonState state)
 
 void CJason::Update(DWORD dt)
 {
-	if (controllable == false) return;
+	if (controllable == false)
+	{
+		SetState(JasonState::IDLE);
+		return;
+	}
 
 	transform.position.x += velocity.x * dt;
 	transform.position.y += velocity.y * dt;
-	if (transform.position.y < 50) transform.position.y = 50;
+	if (transform.position.y <= 50)
+	{
+		onGround = true;
+		transform.position.y = 50;
+	}
 
 	velocity.y -= JASON_GRAVITY * dt;
 
@@ -71,7 +81,7 @@ void CJason::Update(DWORD dt)
 		SetState(JasonState::IDLE);
 	}
 
-	if (inputHandler->OnKeyDown(DIK_X) && transform.position.y == 50)
+	if (inputHandler->OnKeyDown(DIK_X) && onGround == true)
 	{
 		SetState(JasonState::JASON_JUMPING);
 	}
