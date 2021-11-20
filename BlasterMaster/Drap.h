@@ -9,6 +9,9 @@
 #define DRAP_STATE_WALKING_DOWN		400
 #define DRAP_STATE_IDLE				500
 
+#define DRAP_WIDTH 16.0f
+#define DRAP_HEIGHT 16.0f
+
 class CDrap : public CGameObject
 {
 protected:

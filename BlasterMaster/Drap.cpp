@@ -12,6 +12,13 @@ void CDrap::InitAnimations()
 CDrap::CDrap() :CGameObject()
 {
 	InitAnimations();
+
+	// Init collider
+	auto collider = new CCollider2D;
+	collider->SetGameObject(this);
+	collider->SetOffset(VectorZero());
+	collider->SetBoxSize(Vector2(DRAP_WIDTH, DRAP_HEIGHT));
+	colliders.push_back(collider);
 }
 
 CDrap::~CDrap()
@@ -20,9 +27,6 @@ CDrap::~CDrap()
 
 void CDrap::Update(DWORD dt)
 {
-	transform.position.x += velocity.x * dt;
-	transform.position.y += velocity.y * dt;
-
 	/*auto game = CGame::GetInstance();
 	if (transform.position.x <= 0)
 	{

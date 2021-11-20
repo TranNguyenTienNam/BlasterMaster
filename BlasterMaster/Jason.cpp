@@ -13,7 +13,16 @@ void CJason::InitAnimations()
 CJason::CJason()
 {
 	InitAnimations();
-	SetState(JasonState::IDLE);
+
+	// Init collider
+	auto collider = new CCollider2D;
+	collider->SetGameObject(this);
+	collider->SetOffset(VectorZero());
+	collider->SetBoxSize(Vector2(JASON_WIDTH, JASON_HEIGHT));
+	collider->SetDynamic(true);
+	colliders.push_back(collider);
+
+	SetState(JasonState::JASON_IDLE);
 	onGround = true;
 }
 
@@ -25,16 +34,16 @@ void CJason::SetState(JasonState state)
 {
 	switch (state)
 	{
-	case IDLE:
+	case JASON_IDLE:
 		velocity.x = 0.0f;
 		if (onGround == true) animation = animations.at("Idle");
 		break;
-	case WALKING_LEFT:
+	case JASON_WALKING_LEFT:
 		velocity.x = -JASON_WALKING_SPEED;
 		nx = -1;
 		if (onGround == true) animation = animations.at("Walk");
 		break;
-	case WALKING_RIGHT:
+	case JASON_WALKING_RIGHT:
 		velocity.x = JASON_WALKING_SPEED;
 		nx = 1;
 		if (onGround == true) animation = animations.at("Walk");
@@ -51,14 +60,6 @@ void CJason::SetState(JasonState state)
 
 void CJason::Update(DWORD dt)
 {
-	if (controllable == false)
-	{
-		SetState(JasonState::IDLE);
-		return;
-	}
-
-	transform.position.x += velocity.x * dt;
-	transform.position.y += velocity.y * dt;
 	if (transform.position.y <= 50)
 	{
 		onGround = true;
@@ -67,18 +68,24 @@ void CJason::Update(DWORD dt)
 
 	velocity.y -= JASON_GRAVITY * dt;
 
+	if (controllable == false)
+	{
+		SetState(JasonState::JASON_IDLE);
+		return;
+	}
+
 	auto inputHandler = CGame::GetInstance()->GetService<CInputHandler>();
 	if (inputHandler->IsKeyDown(DIK_RIGHT))
 	{
-		SetState(JasonState::WALKING_RIGHT);
+		SetState(JasonState::JASON_WALKING_RIGHT);
 	}
 	else if (inputHandler->IsKeyDown(DIK_LEFT))
 	{
-		SetState(JasonState::WALKING_LEFT);
+		SetState(JasonState::JASON_WALKING_LEFT);
 	}
 	else
 	{
-		SetState(JasonState::IDLE);
+		SetState(JasonState::JASON_IDLE);
 	}
 
 	if (inputHandler->OnKeyDown(DIK_X) && onGround == true)

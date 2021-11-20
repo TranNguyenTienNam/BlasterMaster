@@ -14,6 +14,9 @@ CSophia::CSophia()
 	InitAnimation();
 	stateWheel = new CWheelIdleState;
 	stateDirection = new CSophiaIdleState;
+
+	// Init collider
+	stateDirection->UpdateColliders(*this, nx);
 }
 
 CSophia::~CSophia()
@@ -31,6 +34,8 @@ void CSophia::InitAnimation()
 
 void CSophia::Update(DWORD dt)
 {
+	if (transform.position.y < 50) transform.position.y = 50;
+
 	if (controllable == false)
 	{
 		stateWheel = new CWheelIdleState;
@@ -38,12 +43,6 @@ void CSophia::Update(DWORD dt)
 		stateDirection->Update(dt, *this, nx);
 		return;
 	}
-
-	transform.position.x += velocity.x * dt;
-	transform.position.y += velocity.y * dt;
-	if (transform.position.y < 50) transform.position.y = 50;
-
-	velocity.y -= 0.0026f * dt;
 
 	// TODO: Move all changes of states into UpdateState() and the others into Update() of class State
 	// TODO: Maybe combine Wheel State with Physical State 
@@ -95,17 +94,11 @@ void CSophia::Update(DWORD dt)
 	}
 
 	stateDirection->Update(dt, *this, nx);
+	stateDirection->UpdateColliders(*this, nx);
 
 	if (inputHandler->OnKeyDown(DIK_X))
 	{
 		if (transform.position.y == 50) velocity.y = 0.7f;
-
-		DWORD now = GetTickCount();
-
-		if (inputHandler->IsKeyDown(DIK_X))
-		{
-
-		}
 	}
 }
 

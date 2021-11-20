@@ -1,6 +1,7 @@
 #include "Quadtree.h"
 #include "Utils.h"
 #include "Playable.h"
+#include "Jason.h"
 
 CQuadtree::CQuadtree(const int level, const RectF& rect)
 	: m_level(level), m_rect(rect), m_subNodes{ nullptr, nullptr, nullptr, nullptr }
@@ -16,12 +17,21 @@ void CQuadtree::Update(std::vector<CGameObject*> gameObjects)
 {
 	for (const auto& object : gameObjects)
 	{
-		// Step 1: Find the leaf which this game object belongs to
-		// Step 2: Remove game object from this leaf
-		RemoveGameObjectFromLeaf(object);
+		for (auto co : object->GetColliders())
+		{
+			if (co->IsDynamic() == true)
+			{
+				if (object->GetQuadtree()->m_rect.Contain(object->GetPosition()) == false)
+				{
+					// Step 1: Find the leaf which this game object belongs to
+					// Step 2: Remove game object from this leaf
+					RemoveGameObjectFromLeaf(object);
 
-		// Step 3: Find the new leaf
-		Insert(object);
+					// Step 3: Find the new leaf
+					Insert(object);
+				}
+			}
+		}
 	}
 }
 

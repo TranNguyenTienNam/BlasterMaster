@@ -4,6 +4,22 @@ void CSophiaUpwardState::Shooting()
 {
 }
 
+void CSophiaUpwardState::UpdateColliders(CSophia& sophia, int nx)
+{
+	auto colliders = sophia.GetColliders();
+
+	colliders.clear();
+
+	auto collider = new CCollider2D;
+	collider->SetGameObject(&sophia);
+	collider->SetOffset(Vector2(-3.0f * nx, 12.0f));
+	collider->SetBoxSize(BOX_SOPHIA_UPWARD);
+	collider->SetDynamic(true);
+	colliders.push_back(collider);
+
+	sophia.SetColliders(colliders);
+}
+
 void CSophiaUpwardState::Update(DWORD dt, CSophia& sophia, int nx)
 {
 	sophia.posLeftWheel = Vector2(-5.0f, 0.0f);

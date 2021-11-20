@@ -1,14 +1,10 @@
 #include "SophiaState.h"
 
-void ISophiaState::Motion()
-{
-}
-
-void ISophiaState::Jumping()
-{
-}
-
 void ISophiaState::Shooting()
+{
+}
+
+void ISophiaState::UpdateColliders(CSophia& sophia, int nx)
 {
 }
 

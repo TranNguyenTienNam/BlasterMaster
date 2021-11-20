@@ -156,6 +156,7 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ClockwiseState.cpp" />
+    <ClCompile Include="Collider2D.cpp" />
     <ClCompile Include="CounterclockwiseState.cpp" />
     <ClCompile Include="Drap.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ClockwiseState.h" />
+    <ClInclude Include="Collider2D.h" />
     <ClInclude Include="CounterclockwiseState.h" />
     <ClInclude Include="Drap.h" />
     <ClInclude Include="Game.h" />

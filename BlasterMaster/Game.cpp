@@ -198,6 +198,9 @@ void CGame::Update(DWORD dt)
 	DebugOut(L"updates %d\n", updates.size());
 
 	for (auto obj : updates)
+		obj->PhysicsUpdate(&updates);
+
+	for (auto obj : updates)
 		obj->Update(dt);
 }
 
@@ -213,6 +216,10 @@ void CGame::Render()
 		for (auto obj : updates)
 			obj->Render();
 
+		for (auto obj : updates)
+			for (auto co : obj->GetColliders())
+				co->RenderBoundingBox();
+
 		spriteHandler->End();
 		d3ddv->EndScene();
 	}
@@ -226,6 +233,7 @@ void CGame::GameInit(HWND hWnd)
 	InitDirectX(hWnd);
 
 	AddService(new CTextures);
+	GetService<CTextures>()->Add("tex-bbox", L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 	GetService<CTextures>()->Add("tex-enemies", L"textures\\enemies.png", D3DCOLOR_XRGB(41, 255, 4));
 	GetService<CTextures>()->Add("tex-player", L"textures\\player.png", D3DCOLOR_XRGB(41, 255, 4));
 
@@ -303,7 +311,7 @@ void CGame::GameInit(HWND hWnd)
 
 	// Instantiate game objects
 	sophia = new CSophia;
-	sophia->SetPosition(Vector2(120, 120));
+	sophia->SetPosition(Vector2(220, 120));
 	sophia->SetControllable(false);
 	gameObjects.push_back(sophia);
 
@@ -317,13 +325,12 @@ void CGame::GameInit(HWND hWnd)
 		{
 			auto obj = new CDrap;
 			obj->SetPosition(Vector2(i * 50, j * 50));
-			obj->SetSpeed(Vector2(0, 0));
 			gameObjects.push_back(obj);
 		}
 	}
 	
 	mainCam = new CCamera;
-	mainCam->SetTarget(sophia);
+	mainCam->SetTarget(jason);
 	mainCam->SetBoundingBoxSize(Vector2(screen_width, screen_height));
 
 	quadtree = new CQuadtree(0, RectF(0, screen_height * 10, screen_width * 10, 0));

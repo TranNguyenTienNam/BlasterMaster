@@ -8,14 +8,18 @@
 #include "Animation.h"
 #include "Transform.h"
 #include "Quadtree.h"
+#include "Collider2D.h"
 
 class CQuadtree;
+class CCollider2D;
+struct CCollisionEvent;
 
 class CGameObject
 {
 protected:
 	Transform transform;
 	Vector2 velocity;
+	std::vector<CCollider2D*>  colliders;
 	
 	int nx;
 
@@ -32,10 +36,12 @@ public:
 
 	void SetPosition(Vector2 pos) { this->transform.position = pos; }
 	Vector2 GetPosition() { return this->transform.position; }
-	void SetSpeed(Vector2 v) { this->velocity = v; }
-	Vector2 GetSpeed() { return this->velocity; }
+	void SetVelocity(Vector2 v) { this->velocity = v; }
+	Vector2 GetVelocity() { return this->velocity; }
 	int GetState() { return this->state; }
 	void SetState(int state) { this->state = state; }
+	std::vector<CCollider2D*> GetColliders() { return this->colliders; }
+	void SetColliders(std::vector<CCollider2D*> colliders) { this->colliders = colliders; }
 
 	CQuadtree* GetQuadtree() { return this->ownerQuadtree; }
 	void SetQuadtree(CQuadtree* quadtree) { this->ownerQuadtree = quadtree; }
@@ -45,8 +51,11 @@ public:
 	void AddAnimation(std::string stateName, LPANIMATION animation);
 	std::unordered_map<std::string, LPANIMATION> GetAnimations() { return animations; }
 
+	virtual void PhysicsUpdate(std::vector<CGameObject*>* coObjects);
 	virtual void Update(DWORD dt) = 0;
 	virtual void Render() = 0;
+	virtual void OnCollisionEnter(CCollider2D* selfCollider, std::vector<CCollisionEvent*> collisions);
+	virtual void OnTriggerEnter(CCollider2D* selfCollider, std::vector<CCollisionEvent*> collisions);
 };
 
 #endif
