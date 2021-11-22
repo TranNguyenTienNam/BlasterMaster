@@ -54,8 +54,8 @@ public:
 	virtual void PhysicsUpdate(std::vector<CGameObject*>* coObjects);
 	virtual void Update(DWORD dt) = 0;
 	virtual void Render() = 0;
-	virtual void OnCollisionEnter(CCollider2D* selfCollider, std::vector<CCollisionEvent*> collisions);
-	virtual void OnTriggerEnter(CCollider2D* selfCollider, std::vector<CCollisionEvent*> collisions);
+	virtual void OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
+	virtual void OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 };
 
 #endif

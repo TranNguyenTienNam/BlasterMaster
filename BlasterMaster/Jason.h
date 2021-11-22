@@ -34,4 +34,7 @@ public:
 
 	void Update(DWORD dt);
 	void Render();
+
+	void OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
+	void OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 };

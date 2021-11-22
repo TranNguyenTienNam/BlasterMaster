@@ -34,6 +34,7 @@ void CSophia::InitAnimation()
 
 void CSophia::Update(DWORD dt)
 {
+	velocity.y += -0.0026f * dt;
 	if (transform.position.y < 50) transform.position.y = 50;
 
 	if (controllable == false)
@@ -110,4 +111,12 @@ void CSophia::Render()
 	sprMiddle->Draw(transform.position + posMiddle, nx, 255);
 	sprCabin->Draw(transform.position + posCabin, nx, 255);
 	sprGun->Draw(transform.position + posGun, nx, 255);
+}
+
+void CSophia::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
+{
+}
+
+void CSophia::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
+{
 }

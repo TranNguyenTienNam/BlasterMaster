@@ -12,7 +12,7 @@ struct CCollisionEvent
 	CGameObject* obj;
 	CCollider2D* co;
 	float nx, ny, t;
-	CCollisionEvent(float t, float nx, float ny, CGameObject* obj = NULL, CCollider2D* co = NULL) 
+	CCollisionEvent(float t, float nx, float ny, CGameObject* obj = NULL, CCollider2D* co = NULL)
 	{
 		this->t = t; this->nx = nx; this->ny = ny; this->obj = obj; this->co = co;
 	}
@@ -27,7 +27,8 @@ class CCollider2D
 {
 private:
 	std::vector<LPCOLLISIONEVENT> coEvents;
-	std::vector<LPCOLLISIONEVENT> coEventsResult;
+	LPCOLLISIONEVENT coEventX;
+	LPCOLLISIONEVENT coEventY;
 protected:
 	float dx;
 	float dy;
@@ -41,15 +42,14 @@ protected:
 public:
 	static void SweptAABB(
 		RectF movingRect, RectF staticRect,
-		float dx, float dy, 
+		float dx, float dy,
 		float& nx, float& ny, float& deltaTime);
 	LPCOLLISIONEVENT SweptAABBEx(CCollider2D* coOther);
 	void CalcPotentialCollisions(std::vector<CGameObject*>* coObjects, std::vector<LPCOLLISIONEVENT>& coEvents);
 	void FilterCollision(
 		std::vector<LPCOLLISIONEVENT>& coEvents,
-		std::vector<LPCOLLISIONEVENT>& coEventsResult,
-		float& min_tx, float& min_ty,
-		float& nx, float& ny);
+		LPCOLLISIONEVENT& colX, LPCOLLISIONEVENT& colY,
+		bool filterX, bool filterY);
 	void PhysicsUpdate(std::vector<CGameObject*>* coObjects);
 
 	bool IsDynamic() { return this->isDynamic; }

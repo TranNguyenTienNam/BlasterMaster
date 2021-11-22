@@ -60,10 +60,11 @@ void CJason::SetState(JasonState state)
 
 void CJason::Update(DWORD dt)
 {
-	if (transform.position.y <= 50)
+	if (transform.position.y <= 40)
 	{
 		onGround = true;
-		transform.position.y = 50;
+		transform.position.y = 40;
+		velocity.y = 0;
 	}
 
 	velocity.y -= JASON_GRAVITY * dt;
@@ -97,4 +98,12 @@ void CJason::Update(DWORD dt)
 void CJason::Render()
 {
 	animation->Render(transform.position, nx);
+}
+
+void CJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
+{
+}
+
+void CJason::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
+{
 }

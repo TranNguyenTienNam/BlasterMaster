@@ -41,6 +41,9 @@ public:
 	LPSPRITE sprGun;
 	Vector2 posGun;
 
-	virtual void Update(DWORD dt);
-	virtual void Render();
+	void Update(DWORD dt);
+	void Render();
+
+	void OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
+	void OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 };

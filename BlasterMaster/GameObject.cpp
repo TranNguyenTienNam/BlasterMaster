@@ -23,10 +23,10 @@ void CGameObject::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 		co->PhysicsUpdate(coObjects);
 }
 
-void CGameObject::OnCollisionEnter(CCollider2D* selfCollider, std::vector<CCollisionEvent*> collisions)
+void CGameObject::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
 {
 }
 
-void CGameObject::OnTriggerEnter(CCollider2D* selfCollider, std::vector<CCollisionEvent*> collisions)
+void CGameObject::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
 {
 }
