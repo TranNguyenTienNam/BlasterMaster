@@ -12,24 +12,24 @@
 enum JasonState
 {
 	JASON_IDLE,
-	JASON_WALKING_LEFT,
-	JASON_WALKING_RIGHT,
+	JASON_MOVING_LEFT,
+	JASON_MOVING_RIGHT,
 	JASON_JUMPING
 };
 
+class CPlayable;
+
 class CJason : public CGameObject, public CPlayable
 {
-protected:
-	void InitAnimations();
-
-	bool onGround;
-
+private:
 	JasonState state;
 	LPANIMATION animation;
-
+protected:
+	void InitAnimations();
 public:
 	CJason();
 	~CJason();
+
 	void SetState(JasonState state);
 
 	void Update(DWORD dt);

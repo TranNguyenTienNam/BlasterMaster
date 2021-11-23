@@ -15,6 +15,7 @@
 #define MAX_FRAME_RATE 120
 
 class CGameObject;
+class CTile;
 
 class CGame : public CServiceLocator
 {
@@ -33,6 +34,11 @@ class CGame : public CServiceLocator
 
 	int screen_width;
 	int screen_height;
+
+	float m_mapWidth;
+	float m_mapHeight;
+
+	std::vector<CTile*> tilemap;
 public:
 	static CGame* GetInstance();
 	static DWORD GetDeltaTime() { return deltaTime; }
@@ -41,6 +47,7 @@ public:
 
 	void Draw(Vector2 position, int nx, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha);
 	LPDIRECT3DTEXTURE9 LoadTexture(LPCWSTR texturePath, D3DCOLOR transparentColor);
+	void LoadTileMap(std::string filePath);
 
 	LPDIRECT3DDEVICE9 GetDirect3DDevice() { return this->d3ddv; }
 	LPDIRECT3DSURFACE9 GetBackBuffer() { return backBuffer; }

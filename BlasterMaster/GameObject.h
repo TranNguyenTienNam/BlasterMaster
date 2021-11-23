@@ -19,6 +19,7 @@ class CGameObject
 protected:
 	Transform transform;
 	Vector2 velocity;
+	Vector2 acceleration;
 	std::vector<CCollider2D*>  colliders;
 	
 	int nx;
@@ -38,6 +39,8 @@ public:
 	Vector2 GetPosition() { return this->transform.position; }
 	void SetVelocity(Vector2 v) { this->velocity = v; }
 	Vector2 GetVelocity() { return this->velocity; }
+	void SetAcceleration(Vector2 a) { this->acceleration = a; }
+	Vector2 GetAcceleration() { return this->acceleration; }
 	int GetState() { return this->state; }
 	void SetState(int state) { this->state = state; }
 	std::vector<CCollider2D*> GetColliders() { return this->colliders; }

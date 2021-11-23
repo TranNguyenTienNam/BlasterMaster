@@ -1,6 +1,9 @@
 #include "Jason.h"
 #include "Animations.h"
 #include "InputHandler.h"
+#include "Brick.h"
+#include "Utils.h"
+#include "Sophia.h"
 
 void CJason::InitAnimations()
 {
@@ -10,7 +13,7 @@ void CJason::InitAnimations()
 	AddAnimation("Jump", animations->Get("ani-jason-jump"));
 }
 
-CJason::CJason()
+CJason::CJason() :CGameObject()
 {
 	InitAnimations();
 
@@ -22,12 +25,16 @@ CJason::CJason()
 	collider->SetDynamic(true);
 	colliders.push_back(collider);
 
-	SetState(JasonState::JASON_IDLE);
+	// Player's settings
 	onGround = true;
+	controllable = false;
+	jason = this;
+	SetState(JasonState::JASON_IDLE);
 }
 
 CJason::~CJason()
 {
+
 }
 
 void CJason::SetState(JasonState state)
@@ -36,15 +43,18 @@ void CJason::SetState(JasonState state)
 	{
 	case JASON_IDLE:
 		velocity.x = 0.0f;
+		/*acceleration.x = 0.0f;*/
 		if (onGround == true) animation = animations.at("Idle");
 		break;
-	case JASON_WALKING_LEFT:
-		velocity.x = -JASON_WALKING_SPEED;
+	case JASON_MOVING_LEFT:
+		/*velocity.x = -JASON_WALKING_SPEED;*/
+		acceleration.x = -0.0002f;
 		nx = -1;
 		if (onGround == true) animation = animations.at("Walk");
 		break;
-	case JASON_WALKING_RIGHT:
-		velocity.x = JASON_WALKING_SPEED;
+	case JASON_MOVING_RIGHT:
+		/*velocity.x = JASON_WALKING_SPEED;*/
+		acceleration.x = 0.0002f;
 		nx = 1;
 		if (onGround == true) animation = animations.at("Walk");
 		break;
@@ -60,36 +70,35 @@ void CJason::SetState(JasonState state)
 
 void CJason::Update(DWORD dt)
 {
-	if (transform.position.y <= 40)
-	{
-		onGround = true;
-		transform.position.y = 40;
-		velocity.y = 0;
-	}
+	velocity.y += -0.0026f * dt;
+	velocity.x += acceleration.x * dt;
 
-	velocity.y -= JASON_GRAVITY * dt;
 
+	// TODO: Limit velocity
+	/*if (velocity.x > JASON_WALKING_SPEED) velocity.x = JASON_WALKING_SPEED;
+	else if (velocity.x < -JASON_WALKING_SPEED) velocity.x = -JASON_WALKING_SPEED;*/
+
+	auto inputHandler = CGame::GetInstance()->GetService<CInputHandler>();
 	if (controllable == false)
 	{
 		SetState(JasonState::JASON_IDLE);
 		return;
 	}
 
-	auto inputHandler = CGame::GetInstance()->GetService<CInputHandler>();
-	if (inputHandler->IsKeyDown(DIK_RIGHT))
+	if (inputHandler->IsKeyDown(PlayerKeySet::MOVE_RIGHT_KEY))
 	{
-		SetState(JasonState::JASON_WALKING_RIGHT);
+		SetState(JasonState::JASON_MOVING_RIGHT);
 	}
-	else if (inputHandler->IsKeyDown(DIK_LEFT))
+	else if (inputHandler->IsKeyDown(PlayerKeySet::MOVE_LEFT_KEY))
 	{
-		SetState(JasonState::JASON_WALKING_LEFT);
+		SetState(JasonState::JASON_MOVING_LEFT);
 	}
 	else
 	{
 		SetState(JasonState::JASON_IDLE);
 	}
 
-	if (inputHandler->OnKeyDown(DIK_X) && onGround == true)
+	if (inputHandler->OnKeyDown(PlayerKeySet::JUMPING_KEY) && onGround == true)
 	{
 		SetState(JasonState::JASON_JUMPING);
 	}
@@ -97,13 +106,18 @@ void CJason::Update(DWORD dt)
 
 void CJason::Render()
 {
-	animation->Render(transform.position, nx);
+	animation->Render(transform.position, -nx);
 }
 
 void CJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
 {
+	if (dynamic_cast<CBrick*>(collision->obj))
+	{
+		if (onGround == false && collision->ny == 1) onGround = true;
+		// TODO: Collise with wall, then hold idle state
+	}
 }
 
-void CJason::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
+void CJason::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collisions)
 {
 }

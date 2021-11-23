@@ -150,6 +150,9 @@
     <ClCompile Include="Collider2D.cpp">
       <Filter>Framework\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>Game Source\Game Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -232,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="Collider2D.h">
       <Filter>Framework\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>Game Source\Game Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

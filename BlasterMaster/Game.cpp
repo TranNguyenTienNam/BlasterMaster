@@ -8,6 +8,12 @@
 #include "Quadtree.h"
 #include "Sophia.h"
 #include "Jason.h"
+#include "Brick.h"
+
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/filereadstream.h"
 
 CGame* CGame::instance = NULL;
 DWORD CGame::deltaTime = 0;
@@ -142,7 +148,7 @@ void CGame::Draw(Vector2 position, int nx, LPDIRECT3DTEXTURE9 texture, int left,
 
 	// FlipX
 	D3DXMATRIX flipX;
-	D3DXMatrixScaling(&flipX, -nx, 1.0f, 1.0f);
+	D3DXMatrixScaling(&flipX, nx, 1.0f, 1.0f);
 
 	// Translate
 	D3DXMATRIX translate;
@@ -188,6 +194,104 @@ LPDIRECT3DTEXTURE9 CGame::LoadTexture(LPCWSTR texturePath, D3DCOLOR transparentC
 	return texture;
 }
 
+void CGame::LoadTileMap(std::string filePath)
+{
+	FILE* fp;
+	errno_t err = fopen_s(&fp, filePath.c_str(), "r");
+
+	char readBuffer[65536];
+	rapidjson::FileReadStream is(fp, readBuffer, sizeof(readBuffer));
+
+	rapidjson::Document d;
+	d.ParseStream(is);
+
+	int tileWidth = d["tilewidth"].GetInt();
+	int tileHeight = d["tileheight"].GetInt();
+
+	int mapWidth = d["width"].GetInt();			// Calculate by tile
+	int mapHeight = d["height"].GetInt();
+
+	// Set boundary of camera
+	RectF boundary;
+	boundary.left = -tileWidth / 2;
+	boundary.top = mapHeight * tileHeight + tileHeight / 2;
+	boundary.right = mapWidth * tileWidth - tileWidth / 2;
+	boundary.bottom = tileHeight / 2;
+	mainCam->GetBoundary(boundary);
+
+	// Init Grid
+	m_mapWidth = mapWidth * tileWidth;
+	m_mapHeight = mapHeight * tileHeight;
+	quadtree = new CQuadtree(0, RectF(0, m_mapHeight, m_mapWidth, 0));
+	quadtree->Reset(m_mapWidth, m_mapHeight);
+
+	// Tileset texture settings
+	int columns = d["tilesets"].GetArray()[0]["columns"].GetInt();
+	int spacing = d["tilesets"].GetArray()[0]["spacing"].GetInt();
+	/*auto image_path = ToWSTR(d["tilesets"].GetArray()[0]["image"].GetString());*/
+
+	/*CGame::GetInstance()->GetService<CTextures>()->Add("tex-tileset", image_path.c_str(), D3DCOLOR_XRGB(0, 0, 0));*/
+
+	auto layers = d["layers"].GetArray();
+
+	for (auto& layer : layers)
+	{
+		auto layer_type = layer["type"].GetString();
+		auto visible = layer["visible"].GetBool();
+
+		// Tile Layer
+		if (strcmp(layer_type, "tilelayer") == 0 && visible == true)
+		{
+			auto data = layer["data"].GetArray();
+
+			for (int x = 0; x < mapWidth; x++)
+			{
+				for (int y = 0; y < mapHeight; y++)
+				{
+					int tilesetID = data[y * mapWidth + x].GetInt() - 1;
+
+					// Get tile coordinate in tileset by id
+					int tileX = tilesetID % columns;
+					int tileY = tilesetID / columns;
+
+					int left = tileX * (tileWidth + spacing);
+					int top = tileY * (tileHeight + spacing);
+
+					auto texTileset = CGame::GetInstance()->GetService<CTextures>()->Get("tex-tileset");
+
+					int posX = x * tileWidth;
+					int posY = (mapHeight - y) * tileHeight;
+
+					Vector2 position = Vector2(posX, posY);
+
+					auto newTile = new CTile(position, left, top, tileWidth, tileHeight, texTileset);
+
+					tilemap.push_back(newTile);
+				}
+			}
+		}
+		// Object Layer
+		else if (strcmp(layer_type, "objectgroup") == 0 && visible == true)
+		{
+			auto objects = layer["objects"].GetArray();
+
+			for (int i = 0; i < objects.Size(); i++)
+			{
+				CGameObject* obj = new CBrick;
+				int x = objects[i]["x"].GetInt();
+				int y = objects[i]["y"].GetInt();
+
+				obj->SetPosition(Vector2(x, m_mapHeight - y + 16));	// TODO: CONST
+
+				gameObjects.push_back(obj);
+				quadtree->Insert(obj);
+			}
+		}
+	}
+
+	fclose(fp);
+}
+
 void CGame::Update(DWORD dt)
 {
 	mainCam->Update();
@@ -213,12 +317,15 @@ void CGame::Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
+		for (auto tile : tilemap)
+			tile->Draw(255);
+
 		for (auto obj : updates)
 			obj->Render();
 
-		for (auto obj : updates)
+		/*for (auto obj : updates)
 			for (auto co : obj->GetColliders())
-				co->RenderBoundingBox();
+				co->RenderBoundingBox();*/
 
 		spriteHandler->End();
 		d3ddv->EndScene();
@@ -236,6 +343,7 @@ void CGame::GameInit(HWND hWnd)
 	GetService<CTextures>()->Add("tex-bbox", L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 	GetService<CTextures>()->Add("tex-enemies", L"textures\\enemies.png", D3DCOLOR_XRGB(41, 255, 4));
 	GetService<CTextures>()->Add("tex-player", L"textures\\player.png", D3DCOLOR_XRGB(41, 255, 4));
+	GetService<CTextures>()->Add("tex-tileset", L"textures\\tileset.png", D3DCOLOR_XRGB(0, 0, 0));
 
 	AddService(new CSprites);
 	GetService<CSprites>()->Add("spr-drap-0", 128, 274, 18, 18, GetService<CTextures>()->Get("tex-enemies"));
@@ -309,36 +417,33 @@ void CGame::GameInit(HWND hWnd)
 	GetService<CInputHandler>()->SetKeyHandler(key_handler);
 	GetService<CInputHandler>()->Initialize();
 
+	mainCam = new CCamera;
+	mainCam->SetBoundingBoxSize(Vector2(screen_width, screen_height));
+
+	LoadTileMap("maps/sectionA.json");
+
 	// Instantiate game objects
 	sophia = new CSophia;
-	sophia->SetPosition(Vector2(220, 120));
+	sophia->SetPosition(Vector2(88, 350));
 	sophia->SetControllable(false);
 	gameObjects.push_back(sophia);
+	quadtree->Insert(sophia);
 
 	jason = new CJason;
-	jason->SetPosition(Vector2(120, 120));
+	jason->SetPosition(Vector2(68, 400));
 	jason->SetControllable(true);
 	gameObjects.push_back(jason);
+	quadtree->Insert(jason);
+	mainCam->SetTarget(jason);
 
-	for (int i = 0; i < 6; i++) {
+	/*for (int i = 0; i < 6; i++) {
 		for (int j = 0; j < 6; j++)
 		{
 			auto obj = new CDrap;
 			obj->SetPosition(Vector2(i * 50, j * 50));
 			gameObjects.push_back(obj);
 		}
-	}
-	
-	mainCam = new CCamera;
-	mainCam->SetTarget(jason);
-	mainCam->SetBoundingBoxSize(Vector2(screen_width, screen_height));
-
-	quadtree = new CQuadtree(0, RectF(0, screen_height * 10, screen_width * 10, 0));
-	quadtree->Reset(screen_width * 10, screen_height * 10);
-	for (auto obj : gameObjects)
-	{
-		quadtree->Insert(obj);
-	}
+	}*/
 }
 
 void CGame::GameRun()
