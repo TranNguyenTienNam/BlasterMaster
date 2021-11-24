@@ -153,6 +153,33 @@
     <ClCompile Include="Brick.cpp">
       <Filter>Game Source\Game Object</Filter>
     </ClCompile>
+    <ClCompile Include="Ballbot.cpp">
+      <Filter>Game Source\Game Object\Enemy\Scrolling</Filter>
+    </ClCompile>
+    <ClCompile Include="BallCarry.cpp">
+      <Filter>Game Source\Game Object\Enemy\Scrolling</Filter>
+    </ClCompile>
+    <ClCompile Include="Eyelet.cpp">
+      <Filter>Game Source\Game Object\Enemy\Scrolling</Filter>
+    </ClCompile>
+    <ClCompile Include="GX680S.cpp">
+      <Filter>Game Source\Game Object\Enemy\Top Down</Filter>
+    </ClCompile>
+    <ClCompile Include="GX680.cpp">
+      <Filter>Game Source\Game Object\Enemy\Top Down</Filter>
+    </ClCompile>
+    <ClCompile Include="Stuka.cpp">
+      <Filter>Game Source\Game Object\Enemy\Scrolling</Filter>
+    </ClCompile>
+    <ClCompile Include="Interrupt.cpp">
+      <Filter>Game Source\Game Object\Enemy\Scrolling</Filter>
+    </ClCompile>
+    <ClCompile Include="LaserGuard.cpp">
+      <Filter>Game Source\Game Object\Enemy\Top Down</Filter>
+    </ClCompile>
+    <ClCompile Include="Neoworm.cpp">
+      <Filter>Game Source\Game Object\Enemy\Scrolling</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -238,6 +265,33 @@
     </ClInclude>
     <ClInclude Include="Brick.h">
       <Filter>Game Source\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="BallCarry.h">
+      <Filter>Game Source\Game Object\Enemy\Scrolling</Filter>
+    </ClInclude>
+    <ClInclude Include="Ballbot.h">
+      <Filter>Game Source\Game Object\Enemy\Scrolling</Filter>
+    </ClInclude>
+    <ClInclude Include="Eyelet.h">
+      <Filter>Game Source\Game Object\Enemy\Scrolling</Filter>
+    </ClInclude>
+    <ClInclude Include="GX680S.h">
+      <Filter>Game Source\Game Object\Enemy\Top Down</Filter>
+    </ClInclude>
+    <ClInclude Include="GX680.h">
+      <Filter>Game Source\Game Object\Enemy\Top Down</Filter>
+    </ClInclude>
+    <ClInclude Include="Interrupt.h">
+      <Filter>Game Source\Game Object\Enemy\Scrolling</Filter>
+    </ClInclude>
+    <ClInclude Include="Stuka.h">
+      <Filter>Game Source\Game Object\Enemy\Scrolling</Filter>
+    </ClInclude>
+    <ClInclude Include="LaserGuard.h">
+      <Filter>Game Source\Game Object\Enemy\Top Down</Filter>
+    </ClInclude>
+    <ClInclude Include="Neoworm.h">
+      <Filter>Game Source\Game Object\Enemy\Scrolling</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

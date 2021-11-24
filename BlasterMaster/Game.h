@@ -47,7 +47,13 @@ public:
 
 	void Draw(Vector2 position, int nx, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha);
 	LPDIRECT3DTEXTURE9 LoadTexture(LPCWSTR texturePath, D3DCOLOR transparentColor);
-	void LoadTileMap(std::string filePath);
+
+	void Load();
+	void _ParseSection_TEXTURES(std::string line);
+	void _ParseSection_SPRITES(std::string line);
+	void _ParseSection_ANIMATIONS(std::string line);
+	void _ParseSection_TILEMAP(std::string line);
+	void _ParseSection_OBJECTS(std::string line);
 
 	LPDIRECT3DDEVICE9 GetDirect3DDevice() { return this->d3ddv; }
 	LPDIRECT3DSURFACE9 GetBackBuffer() { return backBuffer; }
