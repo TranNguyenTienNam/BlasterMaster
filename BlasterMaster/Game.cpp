@@ -211,7 +211,6 @@ LPDIRECT3DTEXTURE9 CGame::LoadTexture(LPCWSTR texturePath, D3DCOLOR transparentC
 #define SCENE_SECTION_SPRITES			2
 #define SCENE_SECTION_ANIMATIONS		3
 #define SCENE_SECTION_MAP				4
-#define SCENE_SECTION_OBJECTS			5
 
 #define MAX_SCENE_LINE 1024
 
@@ -242,7 +241,6 @@ void CGame::Load()
 		if (line == "[SPRITES]") { section = SCENE_SECTION_SPRITES; continue; }
 		if (line == "[ANIMATIONS]") { section = SCENE_SECTION_ANIMATIONS; continue; }
 		if (line == "[TILEMAP]") { section = SCENE_SECTION_MAP; continue; }
-		if (line == "[OBJECTS]") { section = SCENE_SECTION_OBJECTS; continue; }
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -254,7 +252,6 @@ void CGame::Load()
 		case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
 		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
 		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
-		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		}
 	}
 
@@ -398,11 +395,45 @@ void CGame::_ParseSection_MAP(std::string line)
 
 			for (auto& object : objects)
 			{
-				CGameObject* obj = new CBrick;
+				CGameObject* obj = NULL;
+
+				auto object_type = object["name"].GetString();
+
+				if (strcmp(object_type, "jason") == 0)
+				{
+					obj = new CJason;
+					jason = (CJason*)obj;
+				}
+				else if (strcmp(object_type, "sophia") == 0)
+				{
+					obj = new CSophia;
+					sophia = (CSophia*)obj;
+					mainCam->SetTarget(sophia);
+				}
+				else if (strcmp(object_type, "interrupt") == 0) obj = new CInterrupt;
+				else if (strcmp(object_type, "neoworm") == 0) obj = new CNeoworm;
+				else if (strcmp(object_type, "ballbot") == 0) obj = new CBallbot;
+				else if (strcmp(object_type, "stuka") == 0) obj = new CStuka;
+				else if (strcmp(object_type, "eyelet") == 0) obj = new CEyelet;
+				else if (strcmp(object_type, "ballcarry") == 0) obj = new CBallCarry;
+				else if (strcmp(object_type, "drap") == 0) obj = new CDrap;
+				else if (strcmp(object_type, "gx680") == 0) obj = new CGX680;
+				else if (strcmp(object_type, "gx680s") == 0) obj = new CGX680S;
+				else if (strcmp(object_type, "laserguard") == 0) obj = new CLaserGuard;
+				else if (strcmp(object_type, "brick") == 0) obj = new CBrick;
+				else
+				{
+					DebugOut(L"[ERR] Invalid object type: %s\n", ToWSTR(object_type).c_str());
+					continue;
+				}
+
 				int x = object["x"].GetInt();
 				int y = object["y"].GetInt();
 
-				obj->SetPosition(Vector2(x + 8, m_mapHeight - y + 8));	// TODO: CONST
+				int width = object["width"].GetInt();
+				int height = object["height"].GetInt();
+
+				obj->SetPosition(Vector2(x + width / 2, m_mapHeight - y + height / 2));
 
 				gameObjects.push_back(obj);
 				quadtree->Insert(obj);
@@ -411,55 +442,6 @@ void CGame::_ParseSection_MAP(std::string line)
 	}
 
 	fclose(fp);
-}
-
-void CGame::_ParseSection_OBJECTS(std::string line)
-{
-	vector<string> tokens = split(line);
-
-	//DebugOut(L"--> %s\n",ToWSTR(line).c_str());
-
-	if (tokens.size() < 3) return; // skip invalid lines - an object set must have at least id, x, y
-
-	string object_type = tokens[0].c_str();
-	float x = atof(tokens[1].c_str());
-	float y = atof(tokens[2].c_str());
-	Vector2 pos = Vector2(x, y);
-
-	CGameObject* obj = NULL;
-
-	if (object_type == "obj-jason")
-	{
-		obj = new CJason;
-		jason = (CJason*)obj;
-	}
-	else if (object_type == "obj-sophia")
-	{
-		obj = new CSophia;
-		sophia = (CSophia*)obj;
-		mainCam->SetTarget(sophia);
-	}
-	else if (object_type == "obj-interrupt") obj = new CInterrupt;
-	else if (object_type == "obj-neoworm") obj = new CNeoworm;
-	else if (object_type == "obj-ballbot") obj = new CBallbot;
-	else if (object_type == "obj-stuka") obj = new CStuka;
-	else if (object_type == "obj-eyelet") obj = new CEyelet;
-	else if (object_type == "obj-ballcarry") obj = new CBallCarry;
-	else if (object_type == "obj-drap") obj = new CDrap;
-	else if (object_type == "obj-gx680") obj = new CGX680;
-	else if (object_type == "obj-gx680s") obj = new CGX680S;
-	else if (object_type == "obj-laserguard") obj = new CLaserGuard;
-	else
-	{
-		DebugOut(L"[ERR] Invalid object type: %s\n", ToWSTR(object_type).c_str());
-		return;
-	}
-
-	// General object setup
-	obj->SetPosition(pos);
-	gameObjects.push_back(obj);
-
-	quadtree->Insert(obj);
 }
 
 void CGame::Update(DWORD dt)
