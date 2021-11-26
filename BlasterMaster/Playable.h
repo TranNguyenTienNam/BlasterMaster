@@ -27,4 +27,5 @@ protected:
 public:
 	bool controllable;
 	void SetControllable(bool value) { this->controllable = value; }
+	// Take damage
 };

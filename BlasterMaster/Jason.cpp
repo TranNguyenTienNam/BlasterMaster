@@ -50,13 +50,13 @@ void CJason::SetState(JasonState state)
 		/*velocity.x = -JASON_WALKING_SPEED;*/
 		acceleration.x = -0.0002f;
 		nx = -1;
-		if (onGround == true) animation = animations.at("Walk");
+		if (onGround == true && velocity.x != 0) animation = animations.at("Walk");
 		break;
 	case JASON_MOVING_RIGHT:
 		/*velocity.x = JASON_WALKING_SPEED;*/
 		acceleration.x = 0.0002f;
 		nx = 1;
-		if (onGround == true) animation = animations.at("Walk");
+		if (onGround == true && velocity.x != 0) animation = animations.at("Walk");
 		break;
 	case JASON_JUMPING:
 		onGround = false;

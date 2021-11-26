@@ -1,3 +1,6 @@
+[BACKGROUND_COLOR]
+190	237	243
+
 # id	file_path	transparent_color_r	g	b
 [TEXTURES]
 tex-player	textures\player.png	41	255	4
@@ -145,46 +148,46 @@ ani-gx680s	spr-gx680s-0	100	spr-gx680s-1	100
 ani-laserguard	spr-laserguard-0	100	spr-laserguard-1	100
 
 [TILEMAP]
-maps\sectionA.json
+maps\sectionB.json
 
 [OBJECTS]
 # type		x	y
 # JASON
-obj-jason	68	350
+obj-jason	1226	432
 
 # SOPHIA
-obj-sophia	88	350
+obj-sophia	1196	432
 
 # INTERRUPT
-obj-interrupt	135	344
+obj-interrupt	1196	440
 
 # NEOWORM
-obj-neoworm	140	264
+obj-neoworm	1146	440
 
 # BALLBOT
-obj-ballbot	80	144
+obj-ballbot	1106	440
 
 # STUKA
-obj-stuka	100	144
+obj-stuka	1076	440
 
 # EYELET
-obj-eyelet	120	144
+obj-eyelet	1046	440
 
 # BALL CARRY
-obj-ballcarry	140	144
+obj-ballcarry	1046	470
 
 # DRAP
-obj-drap	160	144
+obj-drap	1076	470
 
 # GX680
-obj-gx680	180	144
+obj-gx680	1106	470
 
 # GX680S
-obj-gx680s	200	144
+obj-gx680s	1146	470
 
 # LASER GUARD
-obj-laserguard	220	144
+obj-laserguard	1176	470
 
 # --- SCENE PORTAL ----
 # type		x	y	w	h	scene_id
-#obj-portal	48	80	20	40	2
+obj-portal	1260	432	20	40	3

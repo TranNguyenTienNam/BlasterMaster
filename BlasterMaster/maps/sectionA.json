@@ -949,6 +949,13 @@
   "nextlayerid": 3,
   "nextobjectid": 88,
   "orientation": "orthogonal",
+  "properties": [
+    {
+      "name": "Image Path",
+      "type": "string",
+      "value": "maps/sectionA.png"
+    }
+  ],
   "renderorder": "right-down",
   "tiledversion": "1.7.2",
   "tileheight": 16,

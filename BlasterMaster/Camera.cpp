@@ -44,8 +44,8 @@ void CCamera::Update()
 	/*DebugOut(L"wp %f %f\n", posTarget.x, posTarget.y);*/
 	/*DebugOut(L"vp %f %f\n", vpPlayer.x, vpPlayer.y);*/	
 	
-	position.x = posTarget.x - bbSize.x / 2;
-	position.y = posTarget.y + bbSize.y / 2;
+	position.x = (int)(posTarget.x - bbSize.x / 2);
+	position.y = (int)(posTarget.y + bbSize.y / 2);
 
 	// static camera
 	/*if (vpPlayer.x >= 48 && vpPlayer.x <= 208)

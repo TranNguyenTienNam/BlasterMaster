@@ -210,14 +210,14 @@ LPDIRECT3DTEXTURE9 CGame::LoadTexture(LPCWSTR texturePath, D3DCOLOR transparentC
 #define SCENE_SECTION_TEXTURES			1
 #define SCENE_SECTION_SPRITES			2
 #define SCENE_SECTION_ANIMATIONS		3
-#define SCENE_SECTION_TILEMAP			4
+#define SCENE_SECTION_MAP				4
 #define SCENE_SECTION_OBJECTS			5
 
 #define MAX_SCENE_LINE 1024
 
 void CGame::Load()
 {
-	LPCWSTR sceneFilePath = L"database\\scene1.txt";
+	LPCWSTR sceneFilePath = L"database\\scene2.txt";
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
 
 	auto game = CGame::GetInstance();
@@ -241,7 +241,7 @@ void CGame::Load()
 		if (line == "[TEXTURES]") { section = SCENE_SECTION_TEXTURES; continue; }
 		if (line == "[SPRITES]") { section = SCENE_SECTION_SPRITES; continue; }
 		if (line == "[ANIMATIONS]") { section = SCENE_SECTION_ANIMATIONS; continue; }
-		if (line == "[TILEMAP]") { section = SCENE_SECTION_TILEMAP; continue; }
+		if (line == "[TILEMAP]") { section = SCENE_SECTION_MAP; continue; }
 		if (line == "[OBJECTS]") { section = SCENE_SECTION_OBJECTS; continue; }
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
@@ -253,7 +253,7 @@ void CGame::Load()
 		case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
 		case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
 		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
-		case SCENE_SECTION_TILEMAP: _ParseSection_TILEMAP(line); break;
+		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		}
 	}
@@ -326,7 +326,7 @@ void CGame::_ParseSection_ANIMATIONS(std::string line)
 	GetService<CAnimations>()->Add(ani_id, ani);
 }
 
-void CGame::_ParseSection_TILEMAP(std::string line)
+void CGame::_ParseSection_MAP(std::string line)
 {
 	vector<string> tokens = split(line);
 
@@ -351,25 +351,39 @@ void CGame::_ParseSection_TILEMAP(std::string line)
 
 	// Set boundary of camera
 	RectF boundary;
-	boundary.left = -tileWidth / 2;
-	boundary.top = mapHeight * tileHeight + tileHeight / 2;
-	boundary.right = mapWidth * tileWidth - tileWidth / 2;
-	boundary.bottom = tileHeight / 2;
+	boundary.left = 0;
+	boundary.top = mapHeight * tileHeight;
+	boundary.right = mapWidth * tileWidth;
+	boundary.bottom = 0;
 	mainCam->GetBoundary(boundary);
 
-	// Init Grid
+	// Init Quadtree
 	m_mapWidth = mapWidth * tileWidth;
 	m_mapHeight = mapHeight * tileHeight;
 	quadtree = new CQuadtree(0, RectF(0, m_mapHeight, m_mapWidth, 0));
 	quadtree->Reset(m_mapWidth, m_mapHeight);
 
-	// Tileset texture settings
-	int columns = d["tilesets"].GetArray()[0]["columns"].GetInt();
-	int spacing = d["tilesets"].GetArray()[0]["spacing"].GetInt();
-	/*auto image_path = ToWSTR(d["tilesets"].GetArray()[0]["image"].GetString());*/
+	// Set map texture
+	auto properties = d["properties"].GetArray();
 
-	/*CGame::GetInstance()->GetService<CTextures>()->Add("tex-tileset", image_path.c_str(), D3DCOLOR_XRGB(0, 0, 0));*/
+	for (auto& prop : properties)
+	{
+		if (strcmp(prop["name"].GetString(), "Image Path") == 0)
+		{
+			std::string image_path = prop["value"].GetString();
+			std::string texID = "tex-" + image_path;
+			texID.erase(texID.end() - 4, texID.end());
+			GetService<CTextures>()->Add(texID, ToWSTR(image_path).c_str(), D3DCOLOR_XRGB(0, 0, 0));
+			auto texmap = GetService<CTextures>()->Get(texID);
 
+			std::string sprID = "spr-" + image_path;
+			sprID.erase(sprID.end() - 4, sprID.end());
+			GetService<CSprites>()->Add(sprID, 0, 0, m_mapWidth, m_mapHeight, texmap);
+			map = GetService<CSprites>()->Get(sprID);
+		}
+	}
+
+	// Insert platform objects
 	auto layers = d["layers"].GetArray();
 
 	for (auto& layer : layers)
@@ -377,49 +391,18 @@ void CGame::_ParseSection_TILEMAP(std::string line)
 		auto layer_type = layer["type"].GetString();
 		auto visible = layer["visible"].GetBool();
 
-		// Tile Layer
-		if (strcmp(layer_type, "tilelayer") == 0 && visible == true)
-		{
-			auto data = layer["data"].GetArray();
-
-			for (int x = 0; x < mapWidth; x++)
-			{
-				for (int y = 0; y < mapHeight; y++)
-				{
-					int tilesetID = data[y * mapWidth + x].GetInt() - 1;
-
-					// Get tile coordinate in tileset by id
-					int tileX = tilesetID % columns;
-					int tileY = tilesetID / columns;
-
-					int left = tileX * (tileWidth + spacing);
-					int top = tileY * (tileHeight + spacing);
-
-					auto texTileset = GetService<CTextures>()->Get("tex-tileset");
-
-					int posX = x * tileWidth;
-					int posY = (mapHeight - y) * tileHeight;
-
-					Vector2 position = Vector2(posX, posY);
-
-					auto newTile = new CTile(position, left, top, tileWidth, tileHeight, texTileset);
-
-					tilemap.push_back(newTile);
-				}
-			}
-		}
 		// Object Layer
-		else if (strcmp(layer_type, "objectgroup") == 0 && visible == true)
+		if (strcmp(layer_type, "objectgroup") == 0 && visible == true)
 		{
 			auto objects = layer["objects"].GetArray();
 
-			for (int i = 0; i < objects.Size(); i++)
+			for (auto& object : objects)
 			{
 				CGameObject* obj = new CBrick;
-				int x = objects[i]["x"].GetInt();
-				int y = objects[i]["y"].GetInt();
+				int x = object["x"].GetInt();
+				int y = object["y"].GetInt();
 
-				obj->SetPosition(Vector2(x, m_mapHeight - y + 16));	// TODO: CONST
+				obj->SetPosition(Vector2(x + 8, m_mapHeight - y + 8));	// TODO: CONST
 
 				gameObjects.push_back(obj);
 				quadtree->Insert(obj);
@@ -504,8 +487,7 @@ void CGame::Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-		for (auto tile : tilemap)
-			tile->Draw(255);
+		map->Draw(Vector2(m_mapWidth / 2, m_mapHeight / 2), 1, 255);
 
 		for (auto obj : updates)
 			obj->Render();
@@ -536,112 +518,6 @@ void CGame::GameInit(HWND hWnd)
 	GetService<CInputHandler>()->Initialize();
 
 	Load();
-
-	//AddService(new CTextures);
-	//GetService<CTextures>()->Add("tex-bbox", L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-	//GetService<CTextures>()->Add("tex-enemies", L"textures\\enemies.png", D3DCOLOR_XRGB(41, 255, 4));
-	//GetService<CTextures>()->Add("tex-player", L"textures\\player.png", D3DCOLOR_XRGB(41, 255, 4));
-	//GetService<CTextures>()->Add("tex-tileset", L"textures\\tileset.png", D3DCOLOR_XRGB(0, 0, 0));
-
-	//AddService(new CSprites);
-	//GetService<CSprites>()->Add("spr-drap-0", 128, 274, 18, 18, GetService<CTextures>()->Get("tex-enemies"));
-	//GetService<CSprites>()->Add("spr-drap-1", 148, 274, 18, 18, GetService<CTextures>()->Get("tex-enemies"));
-	//GetService<CSprites>()->Add("spr-drap-3", 168, 274, 18, 18, GetService<CTextures>()->Get("tex-enemies"));
-	//GetService<CSprites>()->Add("spr-drap-2", 188, 274, 18, 18, GetService<CTextures>()->Get("tex-enemies"));
-
-	//// JASON
-	//GetService<CSprites>()->Add("spr-jason-idle", 3, 30, 8, 16, GetService<CTextures>()->Get("tex-player"));
-
-	//GetService<CSprites>()->Add("spr-jason-walk-jump", 12, 30, 8, 16, GetService<CTextures>()->Get("tex-player"));
-	//GetService<CSprites>()->Add("spr-jason-walk-0", 21, 30, 8, 16, GetService<CTextures>()->Get("tex-player"));
-	//GetService<CSprites>()->Add("spr-jason-walk-1", 30, 30, 8, 16, GetService<CTextures>()->Get("tex-player"));
-
-	//// SOPHIA
-	//GetService<CSprites>()->Add("spr-sophia-wheel-0", 3, 21, 8, 8, GetService<CTextures>()->Get("tex-player"));
-	//GetService<CSprites>()->Add("spr-sophia-wheel-1", 12, 21, 8, 8, GetService<CTextures>()->Get("tex-player"));
-	//GetService<CSprites>()->Add("spr-sophia-wheel-2", 21, 21, 8, 8, GetService<CTextures>()->Get("tex-player"));
-	//GetService<CSprites>()->Add("spr-sophia-wheel-3", 30, 21, 8, 8, GetService<CTextures>()->Get("tex-player"));
-
-	//GetService<CSprites>()->Add("spr-sophia-middle", 3, 12, 8, 8, GetService<CTextures>()->Get("tex-player"));
-
-	//GetService<CSprites>()->Add("spr-sophia-gun-00", 12, 3, 8, 8, GetService<CTextures>()->Get("tex-player"));
-	//GetService<CSprites>()->Add("spr-sophia-gun-45", 21, 3, 8, 8, GetService<CTextures>()->Get("tex-player"));
-	//GetService<CSprites>()->Add("spr-sophia-gun-90", 30, 3, 8, 8, GetService<CTextures>()->Get("tex-player"));
-
-	//GetService<CSprites>()->Add("spr-sophia-cabin", 39, 3, 16, 8, GetService<CTextures>()->Get("tex-player"));
-	//GetService<CSprites>()->Add("spr-sophia-cabin-turn", 56, 3, 16, 8, GetService<CTextures>()->Get("tex-player"));
-	//GetService<CSprites>()->Add("spr-sophia-cabin-45", 73, 3, 16, 16, GetService<CTextures>()->Get("tex-player"));
-
-	//AddService(new CAnimations);
-	//auto anim = new CAnimation;
-	//anim->Add("spr-drap-0", 150);
-	//anim->Add("spr-drap-1", 150);
-	//anim->Add("spr-drap-2", 150);
-	//anim->Add("spr-drap-3", 150);
-	//GetService<CAnimations>()->Add("ani-drap", anim);
-
-	//anim = new CAnimation;
-	//anim->Add("spr-jason-idle", 100);
-	//GetService<CAnimations>()->Add("ani-jason-idle", anim);
-
-	//anim = new CAnimation;
-	//anim->Add("spr-jason-walk-jump", 100);
-	//anim->Add("spr-jason-walk-0", 100);
-	//anim->Add("spr-jason-walk-1", 100);
-	//GetService<CAnimations>()->Add("ani-jason-walk", anim);
-
-	//anim = new CAnimation;
-	//anim->Add("spr-jason-walk-jump", 100);
-	//GetService<CAnimations>()->Add("ani-jason-jump", anim);
-
-	//anim = new CAnimation;
-	//anim->Add("spr-sophia-wheel-0", 100);
-	//anim->Add("spr-sophia-wheel-1", 100);
-	//anim->Add("spr-sophia-wheel-2", 100);
-	//anim->Add("spr-sophia-wheel-3", 100);
-	//GetService<CAnimations>()->Add("ani-sophia-left-wheel", anim);
-
-	//anim = new CAnimation;
-	//anim->Add("spr-sophia-wheel-3", 100);
-	//anim->Add("spr-sophia-wheel-0", 100);
-	//anim->Add("spr-sophia-wheel-1", 100);
-	//anim->Add("spr-sophia-wheel-2", 100);
-	//GetService<CAnimations>()->Add("ani-sophia-right-wheel", anim);
-
-	//AddService(new CInputHandler);
-	//GetService<CInputHandler>()->SetHandleWindow(hWnd);
-
-	//key_handler = new CSampleKeyHandler;
-	//GetService<CInputHandler>()->SetKeyHandler(key_handler);
-	//GetService<CInputHandler>()->Initialize();
-
-	//mainCam = new CCamera;
-	//mainCam->SetBoundingBoxSize(Vector2(screen_width, screen_height));
-
-	//LoadTileMap("maps/sectionA.json");
-
-	//// Instantiate game objects
-	//sophia = new CSophia;
-	//sophia->SetPosition(Vector2(88, 350));
-	//sophia->SetControllable(false);
-	//gameObjects.push_back(sophia);
-	//quadtree->Insert(sophia);
-
-	//jason = new CJason;
-	//jason->SetPosition(Vector2(68, 400));
-	//jason->SetControllable(true);
-	//gameObjects.push_back(jason);
-	//quadtree->Insert(jason);
-	//mainCam->SetTarget(jason);
-
-	/*for (int i = 0; i < 6; i++) {
-		for (int j = 0; j < 6; j++)
-		{
-			auto obj = new CDrap;
-			obj->SetPosition(Vector2(i * 50, j * 50));
-			gameObjects.push_back(obj);
-		}
-	}*/
 }
 
 void CGame::GameRun()

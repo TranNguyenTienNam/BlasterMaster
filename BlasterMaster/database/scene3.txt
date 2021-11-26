@@ -1,0 +1,81 @@
+[BACKGROUND_COLOR]
+190	237	243
+
+# id	file_path	transparent_color_r	g	b
+[TEXTURES]
+tex-player	textures\player.png	41	255	4
+tex-tileset	textures\tileset.png	0	0	0
+
+# id			left	top	width	height	texture_id
+[SPRITES]
+# ==== JASON =========
+# idle					
+spr-jason-idle	3	30	8	16	tex-player
+# walk					
+spr-jason-walk-jump	12	30	8	16	tex-player
+spr-jason-walk-0	21	30	8	16	tex-player
+spr-jason-walk-1	30	30	8	16	tex-player
+# jump					
+spr-jason-walk-jump	12	30	8	16	tex-player
+# die					
+spr-jason-die-0	3	64	16	16	tex-player
+spr-jason-die-1	20	64	16	16	tex-player
+spr-jason-die-2	37	64	16	16	tex-player
+spr-jason-die-3	54	64	16	16	tex-player
+spr-jason-die-4	3	81	16	16	tex-player
+# crouch					
+spr-jason-crouch-0	3	47	16	8	tex-player
+spr-jason-crouch-1	20	47	16	8	tex-player
+# lie					
+spr-jason-lie	20	89	16	8	tex-player
+
+# ==== SOPHIA =========
+# wheel part
+spr-sophia-wheel-0	3	21	8	8	tex-player
+spr-sophia-wheel-1	12	21	8	8	tex-player
+spr-sophia-wheel-2	21	21	8	8	tex-player
+spr-sophia-wheel-3	30	21	8	8	tex-player
+# middle part
+spr-sophia-middle	3	12	8	8	tex-player
+# gun part
+spr-sophia-gun-00	12	3	8	8	tex-player
+spr-sophia-gun-45	21	3	8	8	tex-player
+spr-sophia-gun-90	30	3	8	8	tex-player
+# cabin part
+spr-sophia-cabin	39	3	16	8	tex-player
+spr-sophia-cabin-turn	56	3	16	8	tex-player
+spr-sophia-cabin-45	73	3	16	16	tex-player
+
+# ani_id		sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+
+# ==== JASON =========
+# idle
+ani-jason-idle	spr-jason-idle	100
+# walk
+ani-jason-walk	spr-jason-walk-jump	100	spr-jason-walk-0	100	spr-jason-walk-jump	100	spr-jason-walk-1	100
+# jump
+ani-jason-jump	spr-jason-walk-jump	100
+# die
+ani-jason-die	spr-jason-die-0	100	spr-jason-die-1	100	spr-jason-die-2	100	spr-jason-die-3	100
+# crouch
+ani-jason-crouch	spr-jason-crouch-0	100	spr-jason-crouch-1	100
+# lie
+ani-jason-lie	spr-jason-lie	100
+
+# ==== SOPHIA ========
+# wheel
+ani-sophia-left-wheel	spr-sophia-wheel-0	100	spr-sophia-wheel-1	100	spr-sophia-wheel-2	100	spr-sophia-wheel-3	100
+ani-sophia-right-wheel	spr-sophia-wheel-3	100	spr-sophia-wheel-0	100	spr-sophia-wheel-1	100	spr-sophia-wheel-2	100
+
+[TILEMAP]
+maps\sectionC.json
+
+[OBJECTS]
+# type		x	y
+# JASON
+obj-sophia	48	124
+
+# --- SCENE PORTAL ----
+# type		x	y	w	h	scene_id
+obj-portal	160	78	20	40	1

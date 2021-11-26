@@ -16,6 +16,8 @@
 
 class CGameObject;
 class CTile;
+class CSprite;
+typedef CSprite* LPSPRITE;
 
 class CGame : public CServiceLocator
 {
@@ -38,7 +40,7 @@ class CGame : public CServiceLocator
 	float m_mapWidth;
 	float m_mapHeight;
 
-	std::vector<CTile*> tilemap;
+	LPSPRITE map;
 public:
 	static CGame* GetInstance();
 	static DWORD GetDeltaTime() { return deltaTime; }
@@ -52,7 +54,7 @@ public:
 	void _ParseSection_TEXTURES(std::string line);
 	void _ParseSection_SPRITES(std::string line);
 	void _ParseSection_ANIMATIONS(std::string line);
-	void _ParseSection_TILEMAP(std::string line);
+	void _ParseSection_MAP(std::string line);
 	void _ParseSection_OBJECTS(std::string line);
 
 	LPDIRECT3DDEVICE9 GetDirect3DDevice() { return this->d3ddv; }
