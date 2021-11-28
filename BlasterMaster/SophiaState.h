@@ -5,9 +5,12 @@ class CSophia;
 
 class ISophiaState
 {
+protected:
+	static CSophia* owner;
 public:
+	void SetOwner(CSophia* sophia) { owner = sophia; }
 	virtual void Shooting();
-	virtual void UpdateColliders(CSophia& sophia, int nx);
-	virtual void Update(DWORD dt, CSophia& sophia, int nx);
-	virtual void Render(CSophia& sophia);
+	virtual void UpdateColliders();
+	virtual void Update(DWORD dt);
+	virtual void Render();
 };

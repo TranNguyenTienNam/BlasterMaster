@@ -1,17 +1,19 @@
 #include "SophiaState.h"
 
+CSophia* ISophiaState::owner = nullptr;
+
 void ISophiaState::Shooting()
 {
 }
 
-void ISophiaState::UpdateColliders(CSophia& sophia, int nx)
+void ISophiaState::UpdateColliders()
 {
 }
 
-void ISophiaState::Update(DWORD dt, CSophia& sophia, int nx)
+void ISophiaState::Update(DWORD dt)
 {
 }
 
-void ISophiaState::Render(CSophia& sophia)
+void ISophiaState::Render()
 {
 }

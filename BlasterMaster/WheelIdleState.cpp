@@ -1,11 +1,9 @@
 #include "WheelIdleState.h"
 #include "Utils.h"
 
-void CWheelIdleState::Render(CSophia& sophia)
+void CWheelIdleState::Render()
 {
-	auto anim = sophia.GetAnimations().at("Left-Wheel");
-	anim->SetIsPaused(true);
-
-	auto anim1 = sophia.GetAnimations().at("Right-Wheel");
-	anim1->SetIsPaused(true);
+	auto animations = owner->GetAnimations();
+	animations.at("Left-Wheel")->SetIsPaused(true);
+	animations.at("Right-Wheel")->SetIsPaused(true);
 }

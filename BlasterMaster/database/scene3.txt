@@ -1,6 +1,3 @@
-[BACKGROUND_COLOR]
-190	237	243
-
 # id	file_path	transparent_color_r	g	b
 [TEXTURES]
 tex-player	textures\player.png	41	255	4
@@ -72,9 +69,6 @@ ani-sophia-right-wheel	spr-sophia-wheel-3	100	spr-sophia-wheel-0	100	spr-sophia-
 maps\sectionC.json
 
 [OBJECTS]
-# type		x	y
-# JASON
-obj-sophia	48	124
 
 # --- SCENE PORTAL ----
 # type		x	y	w	h	scene_id

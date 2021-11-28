@@ -1,6 +1,3 @@
-[BACKGROUND_COLOR]
-190	237	243
-
 # id	file_path	transparent_color_r	g	b
 [TEXTURES]
 tex-player	textures\player.png	41	255	4
@@ -151,43 +148,6 @@ ani-laserguard	spr-laserguard-0	100	spr-laserguard-1	100
 maps\sectionB.json
 
 [OBJECTS]
-# type		x	y
-# JASON
-obj-jason	1226	432
-
-# SOPHIA
-obj-sophia	1196	432
-
-# INTERRUPT
-obj-interrupt	1196	440
-
-# NEOWORM
-obj-neoworm	1146	440
-
-# BALLBOT
-obj-ballbot	1106	440
-
-# STUKA
-obj-stuka	1076	440
-
-# EYELET
-obj-eyelet	1046	440
-
-# BALL CARRY
-obj-ballcarry	1046	470
-
-# DRAP
-obj-drap	1076	470
-
-# GX680
-obj-gx680	1106	470
-
-# GX680S
-obj-gx680s	1146	470
-
-# LASER GUARD
-obj-laserguard	1176	470
-
 # --- SCENE PORTAL ----
 # type		x	y	w	h	scene_id
 obj-portal	1260	432	20	40	3

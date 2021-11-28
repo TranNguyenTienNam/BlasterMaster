@@ -2,9 +2,19 @@
 #include "GameObject.h"
 #include "SophiaState.h"
 #include "Playable.h"
+#include "SophiaLeftWheel.h"
+#include "SophiaRightWheel.h"
+#include "SophiaMiddle.h"
+#include "SophiaCabin.h"
+#include "SophiaGun.h"
 
 class ISophiaState;
 class CPlayer;
+class CSophiaLeftWheel;
+class CSophiaRightWheel;
+class CSophiaMiddle;
+class CSophiaCabin;
+class CSophiaGun;
 
 class CSophia : public CGameObject, public CPlayable
 {
@@ -18,19 +28,18 @@ private:
 	DWORD lastTimeToLowerGun;
 
 	// Power, Hover in class Player
-	void InitAnimation(); // If CSophia inherits from CPlayer, this is virtual function
 public:
 	CSophia();
 	~CSophia();
 
-	Vector2 posLeftWheel;
-	Vector2 posRightWheel;
-	LPSPRITE sprMiddle;
-	Vector2 posMiddle;
-	LPSPRITE sprCabin;
-	Vector2 posCabin;
-	LPSPRITE sprGun;
-	Vector2 posGun;
+	CSophiaLeftWheel* leftWheel;
+	CSophiaRightWheel* rightWheel;
+	CSophiaMiddle* middle;
+	CSophiaCabin* cabin;
+	CSophiaGun* gun;
+
+	ISophiaState* GetWheelState() { return this->stateWheel; }
+	ISophiaState* GetDirectionState() { return this->stateDirection; }
 
 	virtual void Update(DWORD dt);
 	virtual void Render();

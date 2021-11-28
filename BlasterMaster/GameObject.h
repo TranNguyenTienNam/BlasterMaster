@@ -24,13 +24,13 @@ protected:
 	
 	int nx;
 
-	int state;
-
 	CQuadtree* ownerQuadtree;		// Quadtree
 	int inNodesIndex = -1;			//
 
+	std::unordered_map<std::string, LPSPRITE> sprites;
 	std::unordered_map<std::string, LPANIMATION> animations;
-
+	virtual void InitSprites();
+	virtual void InitAnimations();
 public:
 	CGameObject();
 	~CGameObject();
@@ -41,8 +41,8 @@ public:
 	Vector2 GetVelocity() { return this->velocity; }
 	void SetAcceleration(Vector2 a) { this->acceleration = a; }
 	Vector2 GetAcceleration() { return this->acceleration; }
-	int GetState() { return this->state; }
-	void SetState(int state) { this->state = state; }
+	int GetDirection() { return this->nx; }
+
 	std::vector<CCollider2D*> GetColliders() { return this->colliders; }
 	void SetColliders(std::vector<CCollider2D*> colliders) { this->colliders = colliders; }
 
@@ -51,6 +51,7 @@ public:
 	int GetInNodesIndex() { return this->inNodesIndex; }
 	void SetInNodesIndex(int index) { this->inNodesIndex = index; }
 
+	void AddSprite(std::string stateName, LPSPRITE sprite);
 	void AddAnimation(std::string stateName, LPANIMATION animation);
 	std::unordered_map<std::string, LPANIMATION> GetAnimations() { return animations; }
 

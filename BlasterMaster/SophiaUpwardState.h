@@ -8,7 +8,7 @@ class CSophiaUpwardState : public ISophiaState
 {
 public:
 	virtual void Shooting();
-	virtual void UpdateColliders(CSophia& sophia, int nx);
-	virtual void Update(DWORD dt, CSophia& sophia, int nx);
+	virtual void UpdateColliders();
+	virtual void Update(DWORD dt);
 	virtual void Render();
 };

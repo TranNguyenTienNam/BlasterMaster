@@ -1,13 +1,13 @@
 #include "CounterclockwiseState.h"
 #include "Utils.h"
 
-void CCounterclockwiseState::Render(CSophia& sophia)
+void CCounterclockwiseState::Render()
 {
-	auto anim = sophia.GetAnimations().at("Left-Wheel");
+	auto anim = owner->GetAnimations().at("Left-Wheel");
 	anim->SetIsReversed(false);
 	anim->SetIsPaused(false);
 
-	auto anim1 = sophia.GetAnimations().at("Right-Wheel");
-	anim1->SetIsReversed(false);
-	anim1->SetIsPaused(false);
+	anim = owner->GetAnimations().at("Right-Wheel");
+	anim->SetIsReversed(false);
+	anim->SetIsPaused(false);
 }

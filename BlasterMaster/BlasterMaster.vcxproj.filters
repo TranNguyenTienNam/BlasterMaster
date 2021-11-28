@@ -67,6 +67,9 @@
     <Filter Include="Framework\Physics">
       <UniqueIdentifier>{5f349657-9117-461a-b81d-9b90874ab101}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Source\Game Object\Player\Sophia\Sophia Child">
+      <UniqueIdentifier>{03ac4de7-2943-4529-8d37-75a149eab6db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -135,7 +138,7 @@
     <ClCompile Include="SophiaUpwardState.cpp">
       <Filter>Game Source\Game Object\Player\Sophia\Direct State</Filter>
     </ClCompile>
-    <ClCompile Include="SophiaIdleState.cpp">
+    <ClCompile Include="SophiaHorizontalState.cpp">
       <Filter>Game Source\Game Object\Player\Sophia\Direct State</Filter>
     </ClCompile>
     <ClCompile Include="SophiaUpward45State.cpp">
@@ -179,6 +182,21 @@
     </ClCompile>
     <ClCompile Include="Neoworm.cpp">
       <Filter>Game Source\Game Object\Enemy\Scrolling</Filter>
+    </ClCompile>
+    <ClCompile Include="SophiaCabin.cpp">
+      <Filter>Game Source\Game Object\Player\Sophia\Sophia Child</Filter>
+    </ClCompile>
+    <ClCompile Include="SophiaGun.cpp">
+      <Filter>Game Source\Game Object\Player\Sophia\Sophia Child</Filter>
+    </ClCompile>
+    <ClCompile Include="SophiaLeftWheel.cpp">
+      <Filter>Game Source\Game Object\Player\Sophia\Sophia Child</Filter>
+    </ClCompile>
+    <ClCompile Include="SophiaMiddle.cpp">
+      <Filter>Game Source\Game Object\Player\Sophia\Sophia Child</Filter>
+    </ClCompile>
+    <ClCompile Include="SophiaRightWheel.cpp">
+      <Filter>Game Source\Game Object\Player\Sophia\Sophia Child</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -248,7 +266,7 @@
     <ClInclude Include="SophiaUpwardState.h">
       <Filter>Game Source\Game Object\Player\Sophia\Direct State</Filter>
     </ClInclude>
-    <ClInclude Include="SophiaIdleState.h">
+    <ClInclude Include="SophiaHorizontalState.h">
       <Filter>Game Source\Game Object\Player\Sophia\Direct State</Filter>
     </ClInclude>
     <ClInclude Include="SophiaUpward45State.h">
@@ -292,6 +310,21 @@
     </ClInclude>
     <ClInclude Include="Neoworm.h">
       <Filter>Game Source\Game Object\Enemy\Scrolling</Filter>
+    </ClInclude>
+    <ClInclude Include="SophiaCabin.h">
+      <Filter>Game Source\Game Object\Player\Sophia\Sophia Child</Filter>
+    </ClInclude>
+    <ClInclude Include="SophiaGun.h">
+      <Filter>Game Source\Game Object\Player\Sophia\Sophia Child</Filter>
+    </ClInclude>
+    <ClInclude Include="SophiaLeftWheel.h">
+      <Filter>Game Source\Game Object\Player\Sophia\Sophia Child</Filter>
+    </ClInclude>
+    <ClInclude Include="SophiaMiddle.h">
+      <Filter>Game Source\Game Object\Player\Sophia\Sophia Child</Filter>
+    </ClInclude>
+    <ClInclude Include="SophiaRightWheel.h">
+      <Filter>Game Source\Game Object\Player\Sophia\Sophia Child</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

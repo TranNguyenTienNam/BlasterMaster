@@ -1,5 +1,13 @@
 #include "GameObject.h"
 
+void CGameObject::InitSprites()
+{
+}
+
+void CGameObject::InitAnimations()
+{
+}
+
 CGameObject::CGameObject()
 {
 	nx = 1;
@@ -10,6 +18,11 @@ CGameObject::CGameObject()
 CGameObject::~CGameObject()
 {
 	
+}
+
+void CGameObject::AddSprite(std::string stateName, LPSPRITE sprite)
+{
+	sprites.insert(std::make_pair(stateName, sprite));
 }
 
 void CGameObject::AddAnimation(std::string stateName, LPANIMATION animation)

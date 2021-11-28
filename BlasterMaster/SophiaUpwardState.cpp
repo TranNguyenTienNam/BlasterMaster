@@ -4,33 +4,31 @@ void CSophiaUpwardState::Shooting()
 {
 }
 
-void CSophiaUpwardState::UpdateColliders(CSophia& sophia, int nx)
+void CSophiaUpwardState::UpdateColliders()
 {
-	auto colliders = sophia.GetColliders();
+	int nx = owner->GetDirection();
+	auto colliders = owner->GetColliders();
 
 	colliders.clear();
 
 	auto collider = new CCollider2D;
-	collider->SetGameObject(&sophia);
+	collider->SetGameObject(owner);
 	collider->SetOffset(Vector2(-3.0f * nx, 12.0f));
 	collider->SetBoxSize(BOX_SOPHIA_UPWARD);
 	collider->SetDynamic(true);
 	colliders.push_back(collider);
 
-	sophia.SetColliders(colliders);
+	owner->SetColliders(colliders);
 }
 
-void CSophiaUpwardState::Update(DWORD dt, CSophia& sophia, int nx)
+void CSophiaUpwardState::Update(DWORD dt)
 {
-	sophia.posLeftWheel = Vector2(-5.0f, 0.0f);
-	sophia.posRightWheel = Vector2(5.0f, 0.0f);
-	sophia.posMiddle = Vector2(0.0f, 7.0f);
-	sophia.posCabin = Vector2(-7.0f * nx, 13.0f);
-	sophia.posGun = Vector2(-3.0f * nx, 24.0f);
-
-	auto sprites = CGame::GetInstance()->GetService<CSprites>();
-	sophia.sprCabin = sprites->Get("spr-sophia-cabin-45");
-	sophia.sprGun = sprites->Get("spr-sophia-gun-90");
+	int nx = owner->GetDirection();
+	owner->leftWheel->SetPosition(Vector2(-5.0f, 0.0f));
+	owner->rightWheel->SetPosition(Vector2(5.0f, 0.0f));
+	owner->middle->SetPosition(Vector2(0.0f, 7.0f));
+	owner->cabin->SetPosition(Vector2(-7.0f * nx, 13.0f));
+	owner->gun->SetPosition(Vector2(-3.0f * nx, 24.0f));
 }
 
 void CSophiaUpwardState::Render()

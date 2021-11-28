@@ -4,5 +4,5 @@
 class CWheelIdleState : public ISophiaState
 {
 public:
-	void Render(CSophia& sophia);
+	void Render();
 };

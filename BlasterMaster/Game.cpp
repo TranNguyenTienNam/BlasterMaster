@@ -433,6 +433,8 @@ void CGame::_ParseSection_MAP(std::string line)
 				int width = object["width"].GetInt();
 				int height = object["height"].GetInt();
 
+				// TODO: Set direct
+
 				obj->SetPosition(Vector2(x + width / 2, m_mapHeight - y + height / 2));
 
 				gameObjects.push_back(obj);

@@ -148,42 +148,6 @@ ani-laserguard	spr-laserguard-0	100	spr-laserguard-1	100
 maps\sectionA.json
 
 [OBJECTS]
-# type		x	y
-# JASON
-obj-jason	68	350
-
-# SOPHIA
-obj-sophia	88	350
-
-# INTERRUPT
-obj-interrupt	135	344
-
-# NEOWORM
-obj-neoworm	140	264
-
-# BALLBOT
-obj-ballbot	80	144
-
-# STUKA
-obj-stuka	100	144
-
-# EYELET
-obj-eyelet	120	144
-
-# BALL CARRY
-obj-ballcarry	140	144
-
-# DRAP
-obj-drap	160	144
-
-# GX680
-obj-gx680	180	144
-
-# GX680S
-obj-gx680s	200	144
-
-# LASER GUARD
-obj-laserguard	220	144
 
 # --- SCENE PORTAL ----
 # type		x	y	w	h	scene_id

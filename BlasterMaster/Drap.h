@@ -3,14 +3,7 @@
 
 #define DRAP_WALKING_SPEED		0.15f
 
-#define DRAP_STATE_WALKING_RIGHT	100
-#define DRAP_STATE_WALKING_LEFT		200
-#define DRAP_STATE_WALKING_TOP		300
-#define DRAP_STATE_WALKING_DOWN		400
-#define DRAP_STATE_IDLE				500
-
-#define DRAP_WIDTH 16.0f
-#define DRAP_HEIGHT 16.0f
+#define DRAP_SIZE Vector2(16.0f, 16.0f)
 
 class CDrap : public CGameObject
 {
