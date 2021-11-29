@@ -8,8 +8,13 @@
 #include "SophiaCabin.h"
 #include "SophiaGun.h"
 
-class ISophiaState;
+#define MOVE_SPEED 0.15f
+#define MOVE_ACCELERATION 0.02f
+#define JUMP_SPEED 0.3f
+
 class CPlayer;
+
+class ISophiaState;
 class CSophiaLeftWheel;
 class CSophiaRightWheel;
 class CSophiaMiddle;
@@ -19,9 +24,8 @@ class CSophiaGun;
 class CSophia : public CGameObject, public CPlayable
 {
 private:
-	ISophiaState* stateWheel;
+	ISophiaState* stateAction;
 	ISophiaState* stateDirection;
-	ISophiaState* statePhysical;
 	//ISophiaState* equipment; // Dont need to code this if Ms.Trinh not require
 
 	DWORD lastTimeToLiftGun;
@@ -38,7 +42,7 @@ public:
 	CSophiaCabin* cabin;
 	CSophiaGun* gun;
 
-	ISophiaState* GetWheelState() { return this->stateWheel; }
+	ISophiaState* GetActionState() { return this->stateAction; }
 	ISophiaState* GetDirectionState() { return this->stateDirection; }
 
 	virtual void Update(DWORD dt);

@@ -151,7 +151,7 @@ void CQuadtree::Retrieve(std::vector<CGameObject*>& container, const RectF& rect
 
 void CQuadtree::Reset(float screen_width, float screen_height)
 {
-	m_rect = RectF(0, screen_height, screen_width, 0); // TODO: Instead of using static variable 
+	m_rect = RectF(0, screen_height, screen_width, 0);
 	m_inNodes.clear();
 	m_inNodes.shrink_to_fit();
 

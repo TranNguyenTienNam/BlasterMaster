@@ -2,9 +2,9 @@
 
 void CInterrupt::InitAnimations()
 {
-	auto sprite_manager = CGame::GetInstance()->GetService<CSprites>();
-	sprites.insert(std::make_pair("Close", sprite_manager->Get("spr-interrupt-close")));
-	sprites.insert(std::make_pair("Open", sprite_manager->Get("spr-interrupt-open")));
+	auto sprites = CGame::GetInstance()->GetService<CSprites>();
+	AddSprite("Close", sprites->Get("spr-interrupt-close"));
+	AddSprite("Open", sprites->Get("spr-interrupt-open"));
 }
 
 CInterrupt::CInterrupt()

@@ -49,9 +49,6 @@
     <Filter Include="Game Source\Game Object\Player\Sophia">
       <UniqueIdentifier>{d67444e6-a1a2-43d3-b364-2bff9f7d198c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Source\Game Object\Player\Sophia\Wheel State">
-      <UniqueIdentifier>{477a9c8d-6a00-4a24-ac93-e41a70032279}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game Source\Game Object\Player\Sophia\Direct State">
       <UniqueIdentifier>{b836765d-4bee-41ba-b4e1-2d61e1386143}</UniqueIdentifier>
     </Filter>
@@ -69,6 +66,9 @@
     </Filter>
     <Filter Include="Game Source\Game Object\Player\Sophia\Sophia Child">
       <UniqueIdentifier>{03ac4de7-2943-4529-8d37-75a149eab6db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Source\Game Object\Player\Sophia\Action State">
+      <UniqueIdentifier>{477a9c8d-6a00-4a24-ac93-e41a70032279}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -126,14 +126,14 @@
     <ClCompile Include="Sophia.cpp">
       <Filter>Game Source\Game Object\Player\Sophia</Filter>
     </ClCompile>
-    <ClCompile Include="ClockwiseState.cpp">
-      <Filter>Game Source\Game Object\Player\Sophia\Wheel State</Filter>
+    <ClCompile Include="SophiaMoveRightState.cpp">
+      <Filter>Game Source\Game Object\Player\Sophia\Action State</Filter>
     </ClCompile>
-    <ClCompile Include="CounterclockwiseState.cpp">
-      <Filter>Game Source\Game Object\Player\Sophia\Wheel State</Filter>
+    <ClCompile Include="SophiaMoveLeftState.cpp">
+      <Filter>Game Source\Game Object\Player\Sophia\Action State</Filter>
     </ClCompile>
-    <ClCompile Include="WheelIdleState.cpp">
-      <Filter>Game Source\Game Object\Player\Sophia\Wheel State</Filter>
+    <ClCompile Include="SophiaIdleState.cpp">
+      <Filter>Game Source\Game Object\Player\Sophia\Action State</Filter>
     </ClCompile>
     <ClCompile Include="SophiaUpwardState.cpp">
       <Filter>Game Source\Game Object\Player\Sophia\Direct State</Filter>
@@ -254,14 +254,14 @@
     <ClInclude Include="SophiaState.h">
       <Filter>Game Source\Game Object\Player\Sophia</Filter>
     </ClInclude>
-    <ClInclude Include="ClockwiseState.h">
-      <Filter>Game Source\Game Object\Player\Sophia\Wheel State</Filter>
+    <ClInclude Include="SophiaMoveRightState.h">
+      <Filter>Game Source\Game Object\Player\Sophia\Action State</Filter>
     </ClInclude>
-    <ClInclude Include="CounterclockwiseState.h">
-      <Filter>Game Source\Game Object\Player\Sophia\Wheel State</Filter>
+    <ClInclude Include="SophiaMoveLeftState.h">
+      <Filter>Game Source\Game Object\Player\Sophia\Action State</Filter>
     </ClInclude>
-    <ClInclude Include="WheelIdleState.h">
-      <Filter>Game Source\Game Object\Player\Sophia\Wheel State</Filter>
+    <ClInclude Include="SophiaIdleState.h">
+      <Filter>Game Source\Game Object\Player\Sophia\Action State</Filter>
     </ClInclude>
     <ClInclude Include="SophiaUpwardState.h">
       <Filter>Game Source\Game Object\Player\Sophia\Direct State</Filter>

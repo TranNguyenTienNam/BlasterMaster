@@ -9,14 +9,8 @@ void CSophiaHorizontalState::UpdateColliders()
 	int nx = owner->GetDirection();
 	auto colliders = owner->GetColliders();
 
-	colliders.clear();
-
-	auto collider = new CCollider2D;
-	collider->SetGameObject(owner);
-	collider->SetOffset(OFFSET_SOPHIA_IDLE);
-	collider->SetBoxSize(BOX_SOPHIA_IDLE);
-	collider->SetDynamic(true);
-	colliders.push_back(collider);
+	colliders.at(0)->SetOffset(OFFSET_SOPHIA_IDLE);
+	colliders.at(0)->SetBoxSize(BOX_SOPHIA_IDLE);
 
 	owner->SetColliders(colliders);
 }

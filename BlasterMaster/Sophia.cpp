@@ -1,8 +1,8 @@
 #include "Sophia.h"
 #include "Animations.h"
-#include "WheelIdleState.h"
-#include "ClockwiseState.h"
-#include "CounterclockwiseState.h"
+#include "SophiaIdleState.h"
+#include "SophiaMoveLeftState.h"
+#include "SophiaMoveRightState.h"
 #include "SophiaHorizontalState.h"
 #include "SophiaUpward45State.h"
 #include "SophiaUpwardState.h"
@@ -10,6 +10,7 @@
 #include "Utils.h"
 #include "Brick.h"
 #include "Jason.h"
+#include "Camera.h"
 
 CSophia::CSophia()
 {
@@ -20,13 +21,18 @@ CSophia::CSophia()
 	cabin = new CSophiaCabin(this);
 	gun = new CSophiaGun(this);
 
-	stateWheel = new CWheelIdleState();
+	stateAction = new CSophiaIdleState;
 	stateDirection = new CSophiaHorizontalState;
-	stateWheel->SetOwner(this);
+	stateAction->SetOwner(this);
 	stateDirection->SetOwner(this);
 
 	// Init collider
-	stateDirection->UpdateColliders();
+	auto collider = new CCollider2D;
+	collider->SetGameObject(this);
+	collider->SetOffset(OFFSET_SOPHIA_IDLE);
+	collider->SetBoxSize(BOX_SOPHIA_IDLE);
+	collider->SetDynamic(true);
+	colliders.push_back(collider);
 
 	// Player's settings
 	controllable = true;
@@ -39,17 +45,15 @@ CSophia::~CSophia()
 
 void CSophia::Update(DWORD dt)
 {
-#pragma region Physics Update
 	/*velocity.x += acceleration.x * dt;*/
 	velocity.y += -0.0026f * dt; // TODO: Need to adjust gravity
 	/*if (abs(velocity.y) > 0.02) velocity.y = -0.02;*/
-#pragma endregion
 
-#pragma region Input Handling
+#pragma region State Transition
 	if (controllable == false)
 	{
-		if (dynamic_cast<CWheelIdleState*>(stateWheel) == nullptr) 
-			stateWheel = new CWheelIdleState;
+		if (dynamic_cast<CSophiaIdleState*>(stateAction) == nullptr)
+			stateAction = new CSophiaIdleState;
 		if (dynamic_cast<CSophiaHorizontalState*>(stateDirection) == nullptr) 
 			stateDirection = new CSophiaHorizontalState;
 	}
@@ -64,20 +68,20 @@ void CSophia::Update(DWORD dt)
 			velocity.x = 0.15f;
 			/*acceleration.x = 0.0002f;*/
 			nx = 1;
-			stateWheel = new CClockwiseState;
+			stateAction = new CSophiaMoveLeftState;
 		}
 		else if (inputHandler->IsKeyDown(PlayerKeySet::MOVE_LEFT_KEY))
 		{
 			velocity.x = -0.15f;
 			/*acceleration.x = -0.0002f;*/
 			nx = -1;
-			stateWheel = new CCounterclockwiseState;
+			stateAction = new CSophiaMoveRightState;
 		}
 		else
 		{
 			velocity.x = 0.0f;
 			/*acceleration.x = 0.0f;*/
-			stateWheel = new CWheelIdleState;
+			stateAction = new CSophiaIdleState;
 		}
 
 		// Update gun's direction
@@ -121,6 +125,27 @@ void CSophia::Update(DWORD dt)
 
 			}
 		}
+
+		if (inputHandler->OnKeyDown(PlayerKeySet::SWITCH_CHARACTER_KEY) &&
+			GetTickCount() - lastTimeSwitch > switchDelay)
+		{
+			lastTimeSwitch = GetTickCount();
+			// Sophia is not controllable, collider is trigger, animation is idle
+			controllable = false;
+			for (auto co : colliders)
+				co->SetTrigger(true);
+
+			// Enable Jason, set jason's position, state is jumping
+			auto game = CGame::GetInstance();
+			game->SetPlayer(jason);
+			game->GetService<CCamera>()->SetTarget(jason);
+
+			jason->SetEnable(true);
+			jason->SetPosition(transform.position);
+			jason->SetControllable(true);
+			jason->SetDirection(nx);
+			jason->SetState(JasonState::JASON_JUMPING);
+		}
 	}
 #pragma endregion
 
@@ -138,6 +163,7 @@ void CSophia::Update(DWORD dt)
 
 void CSophia::Render()
 {
+	stateAction->Render();
 	leftWheel->Render();
 	rightWheel->Render();
 	middle->Render();

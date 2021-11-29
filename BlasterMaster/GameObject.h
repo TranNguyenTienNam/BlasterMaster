@@ -9,6 +9,7 @@
 #include "Transform.h"
 #include "Quadtree.h"
 #include "Collider2D.h"
+#include "Utils.h"
 
 class CQuadtree;
 class CCollider2D;
@@ -17,6 +18,8 @@ struct CCollisionEvent;
 class CGameObject
 {
 protected:
+	bool isEnabled = true;
+
 	Transform transform;
 	Vector2 velocity;
 	Vector2 acceleration;
@@ -35,13 +38,17 @@ public:
 	CGameObject();
 	~CGameObject();
 
+	bool IsEnabled() { return this->isEnabled; }
+	void SetEnable(bool value) { this->isEnabled = value; }
+
+	int GetDirection() { return this->nx; }
+	void SetDirection(int value) { this->nx = value; }
 	void SetPosition(Vector2 pos) { this->transform.position = pos; }
 	Vector2 GetPosition() { return this->transform.position; }
 	void SetVelocity(Vector2 v) { this->velocity = v; }
 	Vector2 GetVelocity() { return this->velocity; }
 	void SetAcceleration(Vector2 a) { this->acceleration = a; }
 	Vector2 GetAcceleration() { return this->acceleration; }
-	int GetDirection() { return this->nx; }
 
 	std::vector<CCollider2D*> GetColliders() { return this->colliders; }
 	void SetColliders(std::vector<CCollider2D*> colliders) { this->colliders = colliders; }
@@ -61,5 +68,15 @@ public:
 	virtual void OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 	virtual void OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 };
+
+//template <typename T> void Instantiate(Vector2 position);
+
+template<typename T>
+inline  void Instantiate(Vector2 position)
+{
+	CGameObject* newObject = new T;
+	newObject->SetPosition(position);
+	CGame::GetInstance()->AddGameObject(newObject);
+}
 
 #endif

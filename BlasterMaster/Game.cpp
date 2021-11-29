@@ -30,15 +30,6 @@
 CGame* CGame::instance = NULL;
 DWORD CGame::deltaTime = 0;
 
-CJason* jason;
-CSophia* sophia;
-std::vector<CGameObject*> gameObjects;
-std::vector<CGameObject*> updates;
-
-CCamera* mainCam;
-
-CQuadtree* quadtree;
-
 class CSampleKeyHandler : public CKeyEventHandler
 {
 public:
@@ -50,24 +41,6 @@ public:
 void CSampleKeyHandler::OnKeyDown(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-	switch (KeyCode)
-	{
-	case DIK_LSHIFT:
-		if (jason->controllable == true) 
-		{
-			jason->controllable = false;
-			sophia->controllable = true;
-			mainCam->SetTarget(sophia);
-		}
-		else
-		{
-			jason->controllable = true;
-			sophia->controllable = false;
-			mainCam->SetTarget(jason);
-		}
-	default:
-		break;
-	}
 }
 
 void CSampleKeyHandler::OnKeyUp(int KeyCode)
@@ -144,7 +117,7 @@ void CGame::InitDirectX(HWND hWnd)
 
 void CGame::Draw(Vector2 position, int nx, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
 {
-	Vector2 camPos = mainCam->GetPosition();
+	Vector2 camPos = GetService<CCamera>()->GetPosition();
 	Vector3 p = Vector3(0, 0, 0);
 
 	RECT r;
@@ -216,13 +189,13 @@ LPDIRECT3DTEXTURE9 CGame::LoadTexture(LPCWSTR texturePath, D3DCOLOR transparentC
 
 void CGame::Load()
 {
-	LPCWSTR sceneFilePath = L"database\\scene2.txt";
+	LPCWSTR sceneFilePath = L"database\\scene1.txt";
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
 
 	auto game = CGame::GetInstance();
 
 	// Init Camera
-	mainCam = new CCamera();
+	auto mainCam = GetService<CCamera>();
 	mainCam->SetBoundingBoxSize(Vector2(game->GetScreenWidth(), game->GetScreenHeight()));
 
 	ifstream f;
@@ -347,6 +320,8 @@ void CGame::_ParseSection_MAP(std::string line)
 	int mapHeight = d["height"].GetInt();
 
 	// Set boundary of camera
+	auto mainCam = GetService<CCamera>();
+
 	RectF boundary;
 	boundary.left = 0;
 	boundary.top = mapHeight * tileHeight;
@@ -399,16 +374,12 @@ void CGame::_ParseSection_MAP(std::string line)
 
 				auto object_type = object["name"].GetString();
 
-				if (strcmp(object_type, "jason") == 0)
-				{
-					obj = new CJason;
-					jason = (CJason*)obj;
-				}
+				if (strcmp(object_type, "jason") == 0) obj = new CJason;
 				else if (strcmp(object_type, "sophia") == 0)
 				{
 					obj = new CSophia;
-					sophia = (CSophia*)obj;
-					mainCam->SetTarget(sophia);
+					player = (CSophia*)obj;
+					mainCam->SetTarget(player);
 				}
 				else if (strcmp(object_type, "interrupt") == 0) obj = new CInterrupt;
 				else if (strcmp(object_type, "neoworm") == 0) obj = new CNeoworm;
@@ -446,8 +417,15 @@ void CGame::_ParseSection_MAP(std::string line)
 	fclose(fp);
 }
 
+void CGame::AddGameObject(CGameObject* object)
+{
+	gameObjects.push_back(object);
+	quadtree->Insert(object);
+}
+
 void CGame::Update(DWORD dt)
 {
+	auto mainCam = GetService<CCamera>();
 	mainCam->Update();
 
 	updates.clear();
@@ -456,10 +434,10 @@ void CGame::Update(DWORD dt)
 	DebugOut(L"updates %d\n", updates.size());
 
 	for (auto obj : updates)
-		obj->PhysicsUpdate(&updates);
+		if (obj->IsEnabled() == true) obj->PhysicsUpdate(&updates);
 
 	for (auto obj : updates)
-		obj->Update(dt);
+		if (obj->IsEnabled() == true) obj->Update(dt);
 }
 
 void CGame::Render()
@@ -474,11 +452,12 @@ void CGame::Render()
 		map->Draw(Vector2(m_mapWidth / 2, m_mapHeight / 2), 1, 255);
 
 		for (auto obj : updates)
-			obj->Render();
+			if (obj->IsEnabled() == true) obj->Render();
 
-		for (auto obj : updates)
-			for (auto co : obj->GetColliders())
-				co->RenderBoundingBox();
+		/*for (auto obj : updates)
+			if (obj->IsEnabled() == true)
+				for (auto co : obj->GetColliders())
+					co->RenderBoundingBox();*/
 
 		spriteHandler->End();
 		d3ddv->EndScene();
@@ -500,6 +479,7 @@ void CGame::GameInit(HWND hWnd)
 	GetService<CInputHandler>()->SetKeyHandler(key_handler);
 	GetService<CInputHandler>()->SetHandleWindow(hWnd);
 	GetService<CInputHandler>()->Initialize();
+	AddService(new CCamera);
 
 	Load();
 }

@@ -158,9 +158,9 @@
     <ClCompile Include="BallCarry.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="ClockwiseState.cpp" />
+    <ClCompile Include="SophiaMoveRightState.cpp" />
     <ClCompile Include="Collider2D.cpp" />
-    <ClCompile Include="CounterclockwiseState.cpp" />
+    <ClCompile Include="SophiaMoveLeftState.cpp" />
     <ClCompile Include="Drap.cpp" />
     <ClCompile Include="Eyelet.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -192,7 +192,7 @@
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="SophiaUpwardState.cpp" />
     <ClCompile Include="Utils.cpp" />
-    <ClCompile Include="WheelIdleState.cpp" />
+    <ClCompile Include="SophiaIdleState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -202,9 +202,9 @@
     <ClInclude Include="BallCarry.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="ClockwiseState.h" />
+    <ClInclude Include="SophiaMoveRightState.h" />
     <ClInclude Include="Collider2D.h" />
-    <ClInclude Include="CounterclockwiseState.h" />
+    <ClInclude Include="SophiaMoveLeftState.h" />
     <ClInclude Include="Drap.h" />
     <ClInclude Include="Eyelet.h" />
     <ClInclude Include="Game.h" />
@@ -236,7 +236,7 @@
     <ClInclude Include="Transform.h" />
     <ClInclude Include="SophiaUpwardState.h" />
     <ClInclude Include="Utils.h" />
-    <ClInclude Include="WheelIdleState.h" />
+    <ClInclude Include="SophiaIdleState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

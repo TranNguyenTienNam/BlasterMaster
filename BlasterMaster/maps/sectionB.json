@@ -5323,7 +5323,7 @@
          "name":"Object Layer 2",
          "objects":[
                 {
-                 "gid":462,
+                 "gid":352,
                  "height":18,
                  "id":474,
                  "name":"ballbot",
@@ -5341,7 +5341,7 @@
                  "y":33
                 }, 
                 {
-                 "gid":369,
+                 "gid":258,
                  "height":18,
                  "id":475,
                  "name":"stuka",
@@ -5359,7 +5359,7 @@
                  "y":128
                 }, 
                 {
-                 "gid":265,
+                 "gid":154,
                  "height":15,
                  "id":476,
                  "name":"eyelet",
@@ -5377,7 +5377,7 @@
                  "y":160
                 }, 
                 {
-                 "gid":369,
+                 "gid":258,
                  "height":18,
                  "id":477,
                  "name":"stuka",
@@ -5395,7 +5395,7 @@
                  "y":192
                 }, 
                 {
-                 "gid":462,
+                 "gid":352,
                  "height":18,
                  "id":478,
                  "name":"ballbot",
@@ -5413,7 +5413,7 @@
                  "y":97
                 }, 
                 {
-                 "gid":369,
+                 "gid":258,
                  "height":18,
                  "id":479,
                  "name":"stuka",
@@ -5431,7 +5431,7 @@
                  "y":256
                 }, 
                 {
-                 "gid":270,
+                 "gid":159,
                  "height":15,
                  "id":480,
                  "name":"eyelet",
@@ -5449,7 +5449,7 @@
                  "y":272
                 }, 
                 {
-                 "gid":270,
+                 "gid":159,
                  "height":15,
                  "id":481,
                  "name":"eyelet",
@@ -5467,7 +5467,7 @@
                  "y":256
                 }, 
                 {
-                 "gid":369,
+                 "gid":258,
                  "height":18,
                  "id":482,
                  "name":"stuka",
@@ -5485,7 +5485,7 @@
                  "y":320
                 }, 
                 {
-                 "gid":467,
+                 "gid":356,
                  "height":18,
                  "id":483,
                  "name":"ballbot",
@@ -5503,7 +5503,7 @@
                  "y":417
                 }, 
                 {
-                 "gid":439,
+                 "gid":328,
                  "height":17,
                  "id":484,
                  "name":"ballcarry",
@@ -5521,7 +5521,7 @@
                  "y":464
                 }, 
                 {
-                 "gid":369,
+                 "gid":254,
                  "height":18,
                  "id":485,
                  "name":"stuka",
@@ -5539,7 +5539,7 @@
                  "y":416
                 }, 
                 {
-                 "gid":467,
+                 "gid":356,
                  "height":18,
                  "id":486,
                  "name":"ballbot",
@@ -5557,7 +5557,7 @@
                  "y":353
                 }, 
                 {
-                 "gid":439,
+                 "gid":328,
                  "height":17,
                  "id":487,
                  "name":"ballcarry",
@@ -5575,7 +5575,7 @@
                  "y":464
                 }, 
                 {
-                 "gid":369,
+                 "gid":254,
                  "height":18,
                  "id":488,
                  "name":"stuka",
@@ -5593,7 +5593,7 @@
                  "y":373
                 }, 
                 {
-                 "gid":369,
+                 "gid":254,
                  "height":18,
                  "id":489,
                  "name":"stuka",
@@ -5611,7 +5611,7 @@
                  "y":369
                 }, 
                 {
-                 "gid":369,
+                 "gid":254,
                  "height":18,
                  "id":490,
                  "name":"stuka",
@@ -5629,7 +5629,7 @@
                  "y":369
                 }, 
                 {
-                 "gid":270,
+                 "gid":159,
                  "height":15,
                  "id":491,
                  "name":"eyelet",
@@ -5647,7 +5647,7 @@
                  "y":400
                 }, 
                 {
-                 "gid":270,
+                 "gid":159,
                  "height":15,
                  "id":492,
                  "name":"eyelet",
@@ -5665,7 +5665,7 @@
                  "y":400
                 }, 
                 {
-                 "gid":582,
+                 "gid":468,
                  "height":17,
                  "id":493,
                  "name":"gx680s",
@@ -5677,7 +5677,7 @@
                  "y":96
                 }, 
                 {
-                 "gid":348,
+                 "gid":234,
                  "height":17,
                  "id":494,
                  "name":"gx680",
@@ -5689,7 +5689,7 @@
                  "y":96
                 }, 
                 {
-                 "gid":338,
+                 "gid":229,
                  "height":18,
                  "id":495,
                  "name":"drap",
@@ -5701,7 +5701,7 @@
                  "y":96
                 }, 
                 {
-                 "gid":460,
+                 "gid":350,
                  "height":18,
                  "id":496,
                  "name":"laserguard",
@@ -5744,11 +5744,11 @@
  "nextobjectid":503,
  "orientation":"orthogonal",
  "properties":[
-  {
-    "name": "Image Path",
-    "type": "string",
-    "value": "maps/sectionB.png"
-  }],
+        {
+         "name":"Image Path",
+         "type":"string",
+         "value":"maps\/sectionB.png"
+        }],
  "renderorder":"right-down",
  "tiledversion":"1.7.2",
  "tileheight":16,

@@ -4,8 +4,6 @@
 class CInterrupt : public CGameObject
 {
 private:
-	std::unordered_map<std::string, LPSPRITE> sprites;
-
 	void InitAnimations();
 public:
 	CInterrupt();

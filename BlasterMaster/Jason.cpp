@@ -4,6 +4,8 @@
 #include "Brick.h"
 #include "Utils.h"
 #include "Sophia.h"
+#include "Camera.h"
+#include "Neoworm.h"
 
 void CJason::InitAnimations()
 {
@@ -26,6 +28,7 @@ CJason::CJason() :CGameObject()
 	colliders.push_back(collider);
 
 	// Player's settings
+	isEnabled = false;
 	onGround = true;
 	controllable = false;
 	jason = this;
@@ -101,6 +104,33 @@ void CJason::Update(DWORD dt)
 	if (inputHandler->OnKeyDown(PlayerKeySet::JUMPING_KEY) && onGround == true)
 	{
 		SetState(JasonState::JASON_JUMPING);
+	}
+
+	if (inputHandler->OnKeyDown(PlayerKeySet::SWITCH_CHARACTER_KEY) &&
+		GetTickCount() - lastTimeSwitch > switchDelay &&
+		sophia->GetColliders().at(0)->GetBoundingBox().Contain(colliders.at(0)->GetBoundingBox())) // TODO: Fix if size of colliders is greater than one
+	{
+		lastTimeSwitch = GetTickCount();
+		controllable = false;
+
+		transform.position = sophia->GetPosition();
+		SetState(JasonState::JASON_JUMPING);
+
+		// TODO: How jason can jump one more time before entering sophia?
+		isEnabled = false;
+
+		auto game = CGame::GetInstance();
+		game->SetPlayer(sophia);
+		game->GetService<CCamera>()->SetTarget(sophia);
+
+		sophia->SetControllable(true);
+		for (auto co : sophia->GetColliders())
+			co->SetTrigger(false);
+	}
+
+	if (inputHandler->OnKeyDown(PlayerKeySet::SHOOTING_KEY))
+	{
+		Instantiate<CNeoworm>(transform.position); // TODO: Replace neoworm by jason's bullet
 	}
 }
 

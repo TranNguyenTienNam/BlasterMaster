@@ -1,8 +1,9 @@
 #pragma once
+#include "Service.h"
 #include "Transform.h"
 #include "GameObject.h"
 
-class CCamera
+class CCamera : public CService
 {
 protected:
 	Vector2 position;
@@ -10,9 +11,9 @@ protected:
 	Vector2 bbSize;
 	CGameObject* target;
 public:
-	Vector2 WorldToScreenPoint(Vector2 pos);
 	CCamera();
 	~CCamera();
+	Vector2 WorldToScreenPoint(Vector2 pos);
 	Vector2 GetPosition() { return this->position; }
 	void SetPosition(Vector2 pos) { this->position = pos; }
 	void SetBoundingBoxSize(Vector2 boxSize) { this->bbSize = boxSize; }

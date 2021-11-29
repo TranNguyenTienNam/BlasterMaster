@@ -18,6 +18,7 @@ class CGameObject;
 class CTile;
 class CSprite;
 typedef CSprite* LPSPRITE;
+class CQuadtree;
 
 class CGame : public CServiceLocator
 {
@@ -41,6 +42,12 @@ class CGame : public CServiceLocator
 	float m_mapHeight;
 
 	LPSPRITE map;
+
+	CGameObject* player;
+	std::vector<CGameObject*> gameObjects;
+	std::vector<CGameObject*> updates;
+
+	CQuadtree* quadtree;
 public:
 	static CGame* GetInstance();
 	static DWORD GetDeltaTime() { return deltaTime; }
@@ -55,7 +62,10 @@ public:
 	void _ParseSection_SPRITES(std::string line);
 	void _ParseSection_ANIMATIONS(std::string line);
 	void _ParseSection_MAP(std::string line);
-	void _ParseSection_OBJECTS(std::string line);
+
+	CGameObject* GetPlayer() { return player; }
+	void SetPlayer(CGameObject* object) { this->player = object; }
+	void AddGameObject(CGameObject* object);
 
 	LPDIRECT3DDEVICE9 GetDirect3DDevice() { return this->d3ddv; }
 	LPDIRECT3DSURFACE9 GetBackBuffer() { return backBuffer; }

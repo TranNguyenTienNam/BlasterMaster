@@ -1,8 +1,8 @@
 #include "SophiaLeftWheel.h"
 #include "Animations.h"
-#include "WheelIdleState.h"
-#include "ClockwiseState.h"
-#include "CounterclockwiseState.h"
+#include "SophiaIdleState.h"
+#include "SophiaMoveLeftState.h"
+#include "SophiaMoveRightState.h"
 
 void CSophiaLeftWheel::InitAnimations()
 {
@@ -28,20 +28,5 @@ void CSophiaLeftWheel::Update(DWORD dt)
 
 void CSophiaLeftWheel::Render()
 {
-	auto stateWheel = parent->GetWheelState();
-	auto anim = animations.at(ANIM_LEFT_WHEEL);
-	if (dynamic_cast<CWheelIdleState*>(stateWheel))
-	{
-		anim->SetIsPaused(true);
-	}
-	else 
-	{
-		anim->SetIsPaused(false);
-		if (dynamic_cast<CClockwiseState*>(stateWheel))
-			anim->SetIsReversed(true);
-		else if (dynamic_cast<CCounterclockwiseState*>(stateWheel))
-			anim->SetIsReversed(false);
-	}
-
-	anim->Render(transform.position + parent->GetPosition(), -1);
+	animations.at(ANIM_LEFT_WHEEL)->Render(transform.position + parent->GetPosition(), -1);
 }

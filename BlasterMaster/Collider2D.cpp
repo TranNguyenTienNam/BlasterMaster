@@ -2,6 +2,7 @@
 #include "Collider2D.h"
 #include "Utils.h"
 #include "Jason.h"
+#include "Sophia.h"
 
 void CCollider2D::SweptAABB(
 	RectF movingRect, RectF staticRect,
@@ -138,7 +139,7 @@ void CCollider2D::CalcPotentialCollisions(
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
 		// If object is disable?
-		if (object != coObjects->at(i)) {
+		if (object != coObjects->at(i) && coObjects->at(i)->IsEnabled() == true) {
 			for (auto co : coObjects->at(i)->GetColliders())
 			{
 				LPCOLLISIONEVENT e = SweptAABBEx(co);
@@ -248,7 +249,8 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 
 				if (colX_other != NULL)
 				{
-					pos.x += colX_other->t * dx + colX_other->nx * 0.4f;
+					if (isTrigger == false)
+						pos.x += colX_other->t * dx + colX_other->nx * 0.4f;
 					/*object->SetPosition(pos);*/
 
 					if (isTrigger == false) object->OnCollisionEnter(this, colX_other);
@@ -293,7 +295,8 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 
 				if (colY_other != NULL)
 				{
-					pos.y += colY_other->t * dy + colY_other->ny * 0.4f;
+					if (isTrigger == false)
+						pos.y += colY_other->t * dy + colY_other->ny * 0.4f;
 					/*object->SetPosition(pos);*/
 
 					if (isTrigger == false) object->OnCollisionEnter(this, colY_other);

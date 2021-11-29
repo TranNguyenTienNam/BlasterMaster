@@ -9,14 +9,8 @@ void CSophiaUpward45State::UpdateColliders()
 	int nx = owner->GetDirection();
 	auto colliders = owner->GetColliders();
 
-	colliders.clear();
-
-	auto collider = new CCollider2D;
-	collider->SetGameObject(owner);
-	collider->SetOffset(Vector2(-0.5f * nx, 10.5f));
-	collider->SetBoxSize(BOX_SOPHIA_UPWARD_45);
-	collider->SetDynamic(true);
-	colliders.push_back(collider);
+	colliders.at(0)->SetOffset(Vector2(-0.5f * nx, 10.5f));
+	colliders.at(0)->SetBoxSize(BOX_SOPHIA_UPWARD_45);
 
 	owner->SetColliders(colliders);
 }
