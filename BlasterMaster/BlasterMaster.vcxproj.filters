@@ -70,6 +70,15 @@
     <Filter Include="Game Source\Game Object\Player\Sophia\Action State">
       <UniqueIdentifier>{477a9c8d-6a00-4a24-ac93-e41a70032279}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Source\Game Object\Bullet">
+      <UniqueIdentifier>{672d73e8-d527-4868-90b9-3208696075b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Source\Game Object\Bullet\Enemy Bullet">
+      <UniqueIdentifier>{034fcebb-def6-413b-af6f-3410beffadbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Source\Game Object\Bullet\Player Bullet">
+      <UniqueIdentifier>{16c3fb4d-c401-4cb1-8db6-6284ba28e0d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -198,6 +207,12 @@
     <ClCompile Include="SophiaRightWheel.cpp">
       <Filter>Game Source\Game Object\Player\Sophia\Sophia Child</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Game Source\Game Object\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="HyperBeam.cpp">
+      <Filter>Game Source\Game Object\Bullet\Player Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -325,6 +340,12 @@
     </ClInclude>
     <ClInclude Include="SophiaRightWheel.h">
       <Filter>Game Source\Game Object\Player\Sophia\Sophia Child</Filter>
+    </ClInclude>
+    <ClInclude Include="HyperBeam.h">
+      <Filter>Game Source\Game Object\Bullet\Player Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Game Source\Game Object\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

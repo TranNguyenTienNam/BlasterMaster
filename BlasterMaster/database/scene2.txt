@@ -95,6 +95,13 @@ spr-gx680s-1	148	1149	18	17	tex-enemies
 spr-laserguard-0	128	717	17	18	tex-enemies
 spr-laserguard-1	146	717	17	18	tex-enemies
 
+# === PLAYER BULLET ===
+spr-hyperbeam-axisy	117	20	6	24	tex-player
+spr-hyperbeam-axisx	91	21	24	6	tex-player
+
+# === ENEMY BULLET ===
+spr-player-bullet	117	20	6	24	tex-player
+
 # ani_id		sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 

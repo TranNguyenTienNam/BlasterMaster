@@ -127,6 +127,11 @@ void CSophia::Update(DWORD dt)
 			}
 		}
 
+		if (inputHandler->OnKeyDown(PlayerKeySet::SHOOTING_KEY))
+		{
+			stateDirection->Shooting();
+		}
+
 		if (inputHandler->OnKeyDown(PlayerKeySet::SWITCH_CHARACTER_KEY) &&
 			GetTickCount() - lastTimeSwitch > switchDelay)
 		{

@@ -69,14 +69,21 @@ public:
 	virtual void OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 };
 
-//template <typename T> void Instantiate(Vector2 position);
+//template<typename T>
+//inline void Instantiate(Vector2 position)
+//{
+//	CGameObject* newObject = new T;
+//	newObject->SetPosition(position);
+//	CGame::GetInstance()->AddGameObject(newObject);
+//}
 
 template<typename T>
-inline  void Instantiate(Vector2 position)
+inline CGameObject* Instantiate(Vector2 position)
 {
 	CGameObject* newObject = new T;
 	newObject->SetPosition(position);
 	CGame::GetInstance()->AddGameObject(newObject);
+	return newObject;
 }
 
 #endif

@@ -1,7 +1,12 @@
 #include "SophiaHorizontalState.h"
+#include "HyperBeam.h"
 
 void CSophiaHorizontalState::Shooting()
 {
+	auto newBullet = Instantiate<CHyperBeam>(owner->GetPosition() + owner->gun->GetPosition());
+	int nx = owner->GetDirection();
+	newBullet->SetDirection(nx);
+	newBullet->SetVelocity(Vector2(nx * 0.2f, 0.0f)); // TODO: Set velocity in bullet's constructor function
 }
 
 void CSophiaHorizontalState::UpdateColliders()

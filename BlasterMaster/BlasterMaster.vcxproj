@@ -157,7 +157,9 @@
     <ClCompile Include="Ballbot.cpp" />
     <ClCompile Include="BallCarry.cpp" />
     <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="HyperBeam.cpp" />
     <ClCompile Include="SophiaMoveRightState.cpp" />
     <ClCompile Include="Collider2D.cpp" />
     <ClCompile Include="SophiaMoveLeftState.cpp" />
@@ -201,7 +203,9 @@
     <ClInclude Include="Ballbot.h" />
     <ClInclude Include="BallCarry.h" />
     <ClInclude Include="Brick.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="HyperBeam.h" />
     <ClInclude Include="SophiaMoveRightState.h" />
     <ClInclude Include="Collider2D.h" />
     <ClInclude Include="SophiaMoveLeftState.h" />
