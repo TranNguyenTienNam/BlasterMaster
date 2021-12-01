@@ -27,7 +27,6 @@ CDrap::~CDrap()
 
 void CDrap::Update(DWORD dt)
 {
-	
 }
 
 void CDrap::Render()

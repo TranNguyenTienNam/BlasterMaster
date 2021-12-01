@@ -139,16 +139,17 @@ void CCollider2D::CalcPotentialCollisions(
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
 		// If object is disable?
-		if (object != coObjects->at(i) && coObjects->at(i)->IsEnabled() == true) {
-			for (auto co : coObjects->at(i)->GetColliders())
-			{
-				LPCOLLISIONEVENT e = SweptAABBEx(co);
+		if (object == coObjects->at(i)) continue;
+		if (coObjects->at(i)->IsEnabled() == false) continue;
 
-				if (e->t > 0 && e->t <= 1.0f)
-					coEvents.push_back(e);
-				else
-					delete e;
-			}
+		for (auto co : coObjects->at(i)->GetColliders())
+		{
+			LPCOLLISIONEVENT e = SweptAABBEx(co);
+
+			if (e->t > 0 && e->t <= 1.0f)
+				coEvents.push_back(e);
+			else
+				delete e;
 		}
 	}
 
@@ -172,6 +173,9 @@ void CCollider2D::FilterCollision(
 	for (UINT i = 0; i < coEvents.size(); i++)
 	{
 		LPCOLLISIONEVENT c = coEvents[i];
+
+		if (c->isDeleted == true) continue;
+		if (c->co->IsTrigger() == true) continue;
 
 		if (c->t < min_tx && c->nx != 0 && filterX == true) {
 			min_tx = c->t; min_ix = i;
@@ -241,6 +245,9 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 				// check again if there is true collision on X 
 				//
 
+				// remove current collision event on X
+				coEventX->isDeleted = true;
+
 				// replace with a new collision event using corrected location 
 				coEvents.push_back(SweptAABBEx(coEventX->co));
 
@@ -286,6 +293,9 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 				//
 				// check again if there is true collision on X 
 				//
+
+				// remove current collision event on Y
+				coEventY->isDeleted = true;
 
 				// replace with a new collision event using corrected location 
 				coEvents.push_back(SweptAABBEx(coEventY->co));
@@ -354,6 +364,17 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 		}
 
 		object->SetPosition(pos);
+	}
+
+	for (UINT i = 0; i < coEvents.size(); i++)
+	{
+		if (coEvents[i]->co->IsTrigger() == true)
+		{
+			if (dynamic_cast<CSophia*>(coEvents[i]->obj) && dynamic_cast<CJason*>(object)) 
+				DebugOut(L"Sophia here\n");
+			if (isTrigger == false) object->OnCollisionEnter(this, coEvents[i]);
+			else object->OnTriggerEnter(this, coEvents[i]);
+		}
 	}
 
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];

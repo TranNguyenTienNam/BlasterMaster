@@ -50,14 +50,14 @@ void CJason::SetState(JasonState state)
 		if (onGround == true) animation = animations.at("Idle");
 		break;
 	case JASON_MOVING_LEFT:
-		/*velocity.x = -JASON_WALKING_SPEED;*/
-		acceleration.x = -0.0002f;
+		velocity.x = -JASON_WALKING_SPEED;
+		/*acceleration.x = -0.0002f;*/
 		nx = -1;
 		if (onGround == true && velocity.x != 0) animation = animations.at("Walk");
 		break;
 	case JASON_MOVING_RIGHT:
-		/*velocity.x = JASON_WALKING_SPEED;*/
-		acceleration.x = 0.0002f;
+		velocity.x = JASON_WALKING_SPEED;
+		/*acceleration.x = 0.0002f;*/
 		nx = 1;
 		if (onGround == true && velocity.x != 0) animation = animations.at("Walk");
 		break;
@@ -76,7 +76,6 @@ void CJason::Update(DWORD dt)
 	velocity.y += -0.0026f * dt;
 	velocity.x += acceleration.x * dt;
 
-
 	// TODO: Limit velocity
 	/*if (velocity.x > JASON_WALKING_SPEED) velocity.x = JASON_WALKING_SPEED;
 	else if (velocity.x < -JASON_WALKING_SPEED) velocity.x = -JASON_WALKING_SPEED;*/
@@ -84,7 +83,7 @@ void CJason::Update(DWORD dt)
 	auto inputHandler = CGame::GetInstance()->GetService<CInputHandler>();
 	if (controllable == false)
 	{
-		SetState(JasonState::JASON_IDLE);
+		/*SetState(JasonState::JASON_IDLE);*/
 		return;
 	}
 
@@ -114,18 +113,8 @@ void CJason::Update(DWORD dt)
 		controllable = false;
 
 		transform.position = sophia->GetPosition();
+		velocity.x = 0;
 		SetState(JasonState::JASON_JUMPING);
-
-		// TODO: How jason can jump one more time before entering sophia?
-		isEnabled = false;
-
-		auto game = CGame::GetInstance();
-		game->SetPlayer(sophia);
-		game->GetService<CCamera>()->SetTarget(sophia);
-
-		sophia->SetControllable(true);
-		for (auto co : sophia->GetColliders())
-			co->SetTrigger(false);
 	}
 
 	if (inputHandler->OnKeyDown(PlayerKeySet::SHOOTING_KEY))
@@ -146,8 +135,27 @@ void CJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collis
 		if (onGround == false && collision->ny == 1) onGround = true;
 		// TODO: Collise with wall, then hold idle state
 	}
+	
+	else if (dynamic_cast<CSophia*>(collision->obj))
+	{
+		if (controllable == false && velocity.y < 0)
+		{
+			isEnabled = false;
+
+			auto game = CGame::GetInstance();
+			game->SetPlayer(sophia);
+			game->GetService<CCamera>()->SetTarget(sophia);
+
+			sophia->SetControllable(true);
+			for (auto co : sophia->GetColliders())
+			{
+				co->SetTrigger(false);
+				co->SetDynamic(true);
+			}
+		}
+	}
 }
 
-void CJason::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collisions)
+void CJason::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
 {
 }

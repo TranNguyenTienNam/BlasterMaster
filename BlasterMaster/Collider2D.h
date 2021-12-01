@@ -9,12 +9,13 @@ struct CCollisionEvent;
 typedef CCollisionEvent* LPCOLLISIONEVENT;
 struct CCollisionEvent
 {
+	bool isDeleted;
 	CGameObject* obj;
 	CCollider2D* co;
 	float nx, ny, t;
 	CCollisionEvent(float t, float nx, float ny, CGameObject* obj = NULL, CCollider2D* co = NULL)
 	{
-		this->t = t; this->nx = nx; this->ny = ny; this->obj = obj; this->co = co;
+		this->t = t; this->nx = nx; this->ny = ny; this->obj = obj; this->co = co; this->isDeleted = false;
 	}
 
 	static bool compare(const LPCOLLISIONEVENT& a, LPCOLLISIONEVENT& b)
@@ -52,9 +53,10 @@ public:
 		bool filterX, bool filterY);
 	void PhysicsUpdate(std::vector<CGameObject*>* coObjects);
 
+	bool IsTrigger() { return this->isTrigger; }
+	void SetTrigger(bool value) { this->isTrigger = value; }
 	bool IsDynamic() { return this->isDynamic; }
 	void SetDynamic(bool value) { this->isDynamic = value; }
-	void SetTrigger(bool value) { this->isTrigger = value; }
 	CGameObject* GetGameObject() { return this->object; }
 	void SetGameObject(CGameObject* gameObject) { this->object = gameObject; }
 

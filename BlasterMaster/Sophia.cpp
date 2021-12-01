@@ -46,7 +46,8 @@ CSophia::~CSophia()
 void CSophia::Update(DWORD dt)
 {
 	/*velocity.x += acceleration.x * dt;*/
-	velocity.y += -0.0026f * dt; // TODO: Need to adjust gravity
+	if (colliders.at(0)->IsDynamic() == true)
+		velocity.y += -0.0026f * dt; // TODO: Need to adjust gravity
 	/*if (abs(velocity.y) > 0.02) velocity.y = -0.02;*/
 
 #pragma region State Transition
@@ -132,8 +133,12 @@ void CSophia::Update(DWORD dt)
 			lastTimeSwitch = GetTickCount();
 			// Sophia is not controllable, collider is trigger, animation is idle
 			controllable = false;
+			velocity = VectorZero();
 			for (auto co : colliders)
+			{
 				co->SetTrigger(true);
+				co->SetDynamic(false);
+			}
 
 			// Enable Jason, set jason's position, state is jumping
 			auto game = CGame::GetInstance();

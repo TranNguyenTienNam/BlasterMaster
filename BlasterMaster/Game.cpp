@@ -189,7 +189,7 @@ LPDIRECT3DTEXTURE9 CGame::LoadTexture(LPCWSTR texturePath, D3DCOLOR transparentC
 
 void CGame::Load()
 {
-	LPCWSTR sceneFilePath = L"database\\scene1.txt";
+	LPCWSTR sceneFilePath = L"database\\scene2.txt";
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
 
 	auto game = CGame::GetInstance();
@@ -431,7 +431,7 @@ void CGame::Update(DWORD dt)
 	updates.clear();
 	quadtree->Update(gameObjects);
 	quadtree->Retrieve(updates, mainCam->GetBoundingBox());
-	DebugOut(L"updates %d\n", updates.size());
+	DebugOut(L"[BEGIN LOOP] updates %d\n", updates.size());
 
 	for (auto obj : updates)
 		if (obj->IsEnabled() == true) obj->PhysicsUpdate(&updates);
