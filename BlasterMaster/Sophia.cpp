@@ -47,7 +47,7 @@ void CSophia::Update(DWORD dt)
 {
 	/*velocity.x += acceleration.x * dt;*/
 	if (colliders.at(0)->IsDynamic() == true)
-		velocity.y += -0.0026f * dt; // TODO: Need to adjust gravity
+		velocity.y += GRAVITY * dt;
 	/*if (abs(velocity.y) > 0.02) velocity.y = -0.02;*/
 
 #pragma region State Transition
@@ -61,19 +61,18 @@ void CSophia::Update(DWORD dt)
 	else
 	{
 		// TODO: Move all changes of states into UpdateState() and the others into Update() of class State
-		// TODO: Maybe combine Wheel State with Physical State 
 		auto inputHandler = CGame::GetInstance()->GetService<CInputHandler>();
 
 		if (inputHandler->IsKeyDown(PlayerKeySet::MOVE_RIGHT_KEY))
 		{
-			velocity.x = 0.15f;
+			velocity.x = MOVE_SPEED;
 			/*acceleration.x = 0.0002f;*/
 			nx = 1;
 			stateAction = new CSophiaMoveLeftState;
 		}
 		else if (inputHandler->IsKeyDown(PlayerKeySet::MOVE_LEFT_KEY))
 		{
-			velocity.x = -0.15f;
+			velocity.x = -MOVE_SPEED;
 			/*acceleration.x = -0.0002f;*/
 			nx = -1;
 			stateAction = new CSophiaMoveRightState;
@@ -117,7 +116,7 @@ void CSophia::Update(DWORD dt)
 		if (inputHandler->OnKeyDown(PlayerKeySet::JUMPING_KEY) && onGround == true)
 		{
 			onGround = false;
-			velocity.y = 0.7f; // TODO: Jump speed?
+			velocity.y = JUMP_SPEED;
 
 			DWORD now = GetTickCount();
 

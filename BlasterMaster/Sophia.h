@@ -10,7 +10,8 @@
 
 #define MOVE_SPEED 0.15f
 #define MOVE_ACCELERATION 0.02f
-#define JUMP_SPEED 0.3f
+#define JUMP_SPEED 0.7f
+#define GRAVITY -0.0026f
 
 class CPlayer;
 

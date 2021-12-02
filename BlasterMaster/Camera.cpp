@@ -28,11 +28,14 @@ Vector2 CCamera::WorldToScreenPoint(Vector2 pos)
 
 RectF CCamera::GetBoundingBox()
 {
+	Vector2 nextPos = position + target->GetVelocity() * CGame::GetDeltaTime();
+
 	RectF boundingBox;
-	boundingBox.left = position.x;
-	boundingBox.top = position.y;
-	boundingBox.right = position.x + bbSize.x;
-	boundingBox.bottom = position.y  - bbSize.y;
+	boundingBox.left = min(position.x, nextPos.x);
+	boundingBox.top = max(position.y, nextPos.y);
+	boundingBox.right = max(position.x + bbSize.x, nextPos.x + bbSize.x);
+	boundingBox.bottom = min(position.y - bbSize.y, nextPos.y - bbSize.y);
+
 	return boundingBox;
 }
 

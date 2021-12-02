@@ -454,10 +454,10 @@ void CGame::Render()
 		for (auto obj : updates)
 			if (obj->IsEnabled() == true) obj->Render();
 
-		for (auto obj : updates)
+		/*for (auto obj : updates)
 			if (obj->IsEnabled() == true)
 				for (auto co : obj->GetColliders())
-					co->RenderBoundingBox();
+					co->RenderBoundingBox();*/
 
 		spriteHandler->End();
 		d3ddv->EndScene();
