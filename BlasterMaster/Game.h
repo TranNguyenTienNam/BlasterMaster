@@ -75,6 +75,7 @@ public:
 
 	void Update(DWORD dt);
 	void Render();
+	void Clean();
 
 	void GameInit(HWND hWnd);
 	void GameRun();

@@ -1,7 +1,8 @@
 #pragma once
 #include "GameObject.h"
+#include "Enemy.h"
 
-class CLaserGuard : public CGameObject
+class CLaserGuard : public CGameObject, public CEnemy
 {
 private:
 	void InitAnimations();

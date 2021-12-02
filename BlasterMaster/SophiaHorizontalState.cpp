@@ -7,6 +7,7 @@ void CSophiaHorizontalState::Shooting()
 	int nx = owner->GetDirection();
 	newBullet->SetDirection(nx);
 	newBullet->SetVelocity(Vector2(nx * 0.2f, 0.0f)); // TODO: Set velocity in bullet's constructor function
+	/*newBullet->GetColliders().at(0)->SetBoxSize(BOX_X);*/
 }
 
 void CSophiaHorizontalState::UpdateColliders()

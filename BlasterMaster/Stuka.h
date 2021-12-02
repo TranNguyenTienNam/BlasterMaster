@@ -1,7 +1,8 @@
 #pragma once
 #include "GameObject.h"
+#include "Enemy.h"
 
-class CStuka : public CGameObject
+class CStuka : public CGameObject, public CEnemy
 {
 private:
 	void InitAnimations();

@@ -19,6 +19,7 @@ class CGameObject
 {
 protected:
 	bool isEnabled = true;
+	bool isDestroyed = false;
 
 	Transform transform;
 	Vector2 velocity;
@@ -40,6 +41,8 @@ public:
 
 	bool IsEnabled() { return this->isEnabled; }
 	void SetEnable(bool value) { this->isEnabled = value; }
+	bool IsDestroyed() { return this->isDestroyed; }
+	void SetDestroyed() { this->isDestroyed = true; }
 
 	int GetDirection() { return this->nx; }
 	void SetDirection(int value) { this->nx = value; }
@@ -68,14 +71,6 @@ public:
 	virtual void OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 	virtual void OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 };
-
-//template<typename T>
-//inline void Instantiate(Vector2 position)
-//{
-//	CGameObject* newObject = new T;
-//	newObject->SetPosition(position);
-//	CGame::GetInstance()->AddGameObject(newObject);
-//}
 
 template<typename T>
 inline CGameObject* Instantiate(Vector2 position)

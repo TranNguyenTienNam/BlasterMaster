@@ -1,7 +1,8 @@
 #pragma once
 #include "GameObject.h"
+#include "Enemy.h"
 
-class CNeoworm : public CGameObject
+class CNeoworm : public CGameObject, public CEnemy
 {
 private:
 	void InitAnimations();

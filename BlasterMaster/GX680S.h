@@ -1,7 +1,8 @@
 #pragma once
 #include "GX680.h"
+#include "Enemy.h"
 
-class CGX680S : public CGameObject
+class CGX680S : public CGameObject, public CEnemy
 {
 private:
 	void InitAnimations();

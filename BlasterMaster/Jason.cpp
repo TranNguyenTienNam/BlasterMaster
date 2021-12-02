@@ -29,7 +29,7 @@ CJason::CJason() :CGameObject()
 
 	// Player's settings
 	isEnabled = false;
-	onGround = true;
+	onGround = false;
 	controllable = false;
 	jason = this;
 	SetState(JasonState::JASON_IDLE);

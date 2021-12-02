@@ -454,10 +454,10 @@ void CGame::Render()
 		for (auto obj : updates)
 			if (obj->IsEnabled() == true) obj->Render();
 
-		/*for (auto obj : updates)
+		for (auto obj : updates)
 			if (obj->IsEnabled() == true)
 				for (auto co : obj->GetColliders())
-					co->RenderBoundingBox();*/
+					co->RenderBoundingBox();
 
 		spriteHandler->End();
 		d3ddv->EndScene();
@@ -465,6 +465,16 @@ void CGame::Render()
 
 	// Display back buffer content to the screen
 	d3ddv->Present(NULL, NULL, NULL, NULL);
+}
+
+void CGame::Clean()
+{
+	for (auto obj : gameObjects)
+		if (obj->IsDestroyed() == true)
+		{
+			quadtree->RemoveGameObjectFromLeaf(obj);
+			delete obj;
+		}
 }
 
 void CGame::GameInit(HWND hWnd)
@@ -515,6 +525,7 @@ void CGame::GameRun()
 
 			Update(deltaTime);
 			Render();
+			Clean();
 		}
 		else
 			Sleep(tickPerFrame - deltaTime);

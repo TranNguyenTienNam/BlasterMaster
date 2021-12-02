@@ -12,13 +12,12 @@ private:
 	RectF m_rect;
 	std::unique_ptr<CQuadtree> m_subNodes[4];
 	std::vector<CGameObject*> m_inNodes;
-
-	void Split();
-	void RemoveGameObjectFromLeaf(CGameObject* gameObject);
-	bool Contain(CGameObject* gameObject);
 public:
 	CQuadtree(const int level, const RectF& rect);
 	~CQuadtree();
+	void Split();
+	void RemoveGameObjectFromLeaf(CGameObject* gameObject);
+	bool Contain(CGameObject* gameObject);
 	void Insert(CGameObject* gameObject);
 	void Update(std::vector<CGameObject*> gameObjects);
 	void Retrieve(std::vector<CGameObject*>& container, const RectF& rect);

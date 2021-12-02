@@ -1,4 +1,5 @@
 #include "HyperBeam.h"
+#include "Enemy.h"
 
 void CHyperBeam::InitSprites()
 {
@@ -10,6 +11,14 @@ void CHyperBeam::InitSprites()
 CHyperBeam::CHyperBeam()
 {
 	InitSprites();
+
+	// Init collider
+	auto collider = new CCollider2D;
+	collider->SetGameObject(this);
+	collider->SetOffset(VectorZero());
+	collider->SetDynamic(true);
+	collider->SetTrigger(true);
+	colliders.push_back(collider);
 }
 
 CHyperBeam::~CHyperBeam()
@@ -18,12 +27,26 @@ CHyperBeam::~CHyperBeam()
 
 void CHyperBeam::Update(DWORD dt)
 {
-	transform.position.x += velocity.x * dt;
-	transform.position.y += velocity.y * dt;
+	if (velocity.x != 0) colliders.at(0)->SetBoxSize(BOX_X);
+	else if (velocity.y != 0) colliders.at(0)->SetBoxSize(BOX_Y);
 }
 
 void CHyperBeam::Render()
 {
 	if (velocity.x != 0) sprites.at(HYPERBEAM_X)->Draw(transform.position, -nx, 255);
 	else if (velocity.y != 0) sprites.at(HYPERBEAM_Y)->Draw(transform.position, 1, 255);
+}
+
+void CHyperBeam::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
+{
+}
+
+void CHyperBeam::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
+{
+	if (dynamic_cast<CEnemy*>(collision->obj))
+	{
+		collision->obj->SetDestroyed();
+	}
+
+	SetDestroyed();
 }

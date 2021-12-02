@@ -1,7 +1,8 @@
 #pragma once
 #include "GameObject.h"
+#include "Enemy.h"
 
-class CInterrupt : public CGameObject
+class CInterrupt : public CGameObject, public CEnemy
 {
 private:
 	void InitAnimations();
