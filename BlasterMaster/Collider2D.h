@@ -2,6 +2,8 @@
 #include "GameObject.h"
 #include "Transform.h"
 
+#define BLOCK_PUSH_FACTOR 0.4f
+
 class CGameObject;
 class CCollider2D;
 

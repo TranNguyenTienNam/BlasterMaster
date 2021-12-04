@@ -8,7 +8,7 @@
 #include "SophiaCabin.h"
 #include "SophiaGun.h"
 
-#define MOVE_SPEED 0.15f
+#define MOVE_SPEED 1000.15f
 #define MOVE_ACCELERATION 0.02f
 #define JUMP_SPEED 0.7f
 #define GRAVITY -0.0026f

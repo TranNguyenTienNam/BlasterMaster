@@ -144,7 +144,7 @@ void CGame::Draw(Vector2 position, int nx, LPDIRECT3DTEXTURE9 texture, int left,
 
 	spriteHandler->SetTransform(&mat);
 
-	spriteHandler->Draw(texture, &r, &center, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+	spriteHandler->Draw(texture, &r, &center, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255)); // TODO: VFX take damaged
 }
 
 LPDIRECT3DTEXTURE9 CGame::LoadTexture(LPCWSTR texturePath, D3DCOLOR transparentColor)
@@ -433,8 +433,8 @@ void CGame::Update(DWORD dt)
 	quadtree->Retrieve(updates, mainCam->GetBoundingBox());
 	DebugOut(L"[BEGIN LOOP] updates %d\n", updates.size());
 
-	for (auto obj : updates)
-		if (obj->IsEnabled() == true) obj->PhysicsUpdate(&updates);
+	for (auto obj : gameObjects)
+		if (obj->IsEnabled() == true) obj->PhysicsUpdate(&gameObjects);
 
 	for (auto obj : updates)
 		if (obj->IsEnabled() == true) obj->Update(dt);

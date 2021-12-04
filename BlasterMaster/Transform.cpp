@@ -29,9 +29,9 @@ bool RectF::Equal(const RectF& other)
 
 bool RectF::Overlap(const RectF& other)
 {
-	if (this->right <= other.left || this->left >= other.right)
+	if (this->right < other.left || this->left > other.right)
 		return false;
-	if (this->top <= other.bottom || this->bottom >= other.top)
+	if (this->top < other.bottom || this->bottom > other.top)
 		return false;
 	return true;
 }

@@ -42,7 +42,7 @@ public:
 	bool IsEnabled() { return this->isEnabled; }
 	void SetEnable(bool value) { this->isEnabled = value; }
 	bool IsDestroyed() { return this->isDestroyed; }
-	void SetDestroyed() { this->isDestroyed = true; this->isEnabled = false; }
+	void SetDestroyed() { this->isDestroyed = true; }
 
 	int GetDirection() { return this->nx; }
 	void SetDirection(int value) { this->nx = value; }
