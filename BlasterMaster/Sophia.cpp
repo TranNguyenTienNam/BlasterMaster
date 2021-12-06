@@ -11,10 +11,22 @@
 #include "Brick.h"
 #include "Jason.h"
 #include "Camera.h"
+#include "Enemy.h"
+
+void CSophia::InitColliders()
+{
+	auto collider = new CCollider2D;
+	collider->SetGameObject(this);
+	collider->SetOffset(OFFSET_SOPHIA_IDLE);
+	collider->SetBoxSize(BOX_SOPHIA_IDLE);
+	collider->SetDynamic(true);
+	colliders.push_back(collider);
+}
 
 CSophia::CSophia()
 {
-	InitAnimations();
+	InitColliders();
+
 	leftWheel = new CSophiaLeftWheel(this);
 	rightWheel = new CSophiaRightWheel(this);
 	middle = new CSophiaMiddle(this);
@@ -26,26 +38,14 @@ CSophia::CSophia()
 	stateAction->SetOwner(this);
 	stateDirection->SetOwner(this);
 
-	// Init collider
-	auto collider = new CCollider2D;
-	collider->SetGameObject(this);
-	collider->SetOffset(OFFSET_SOPHIA_IDLE);
-	collider->SetBoxSize(BOX_SOPHIA_IDLE);
-	collider->SetDynamic(true);
-	colliders.push_back(collider);
-
 	// Player's settings
 	controllable = true;
 	sophia = this;
 }
 
-CSophia::~CSophia()
-{
-}
-
 void CSophia::Update(DWORD dt)
 {
-	/*velocity.x += acceleration.x * dt;*/
+	velocity.x += acceleration.x * dt;
 	if (colliders.at(0)->IsDynamic() == true)
 		velocity.y += GRAVITY * dt;
 	/*if (abs(velocity.y) > 0.02) velocity.y = -0.02;*/
@@ -65,15 +65,13 @@ void CSophia::Update(DWORD dt)
 
 		if (inputHandler->IsKeyDown(PlayerKeySet::MOVE_RIGHT_KEY))
 		{
-			velocity.x = MOVE_SPEED;
-			/*acceleration.x = 0.0002f;*/
+			acceleration.x = MOVE_ACCELERATION;
 			nx = 1;
 			stateAction = new CSophiaMoveLeftState;
 		}
 		else if (inputHandler->IsKeyDown(PlayerKeySet::MOVE_LEFT_KEY))
 		{
-			velocity.x = -MOVE_SPEED;
-			/*acceleration.x = -0.0002f;*/
+			acceleration.x = -MOVE_ACCELERATION;
 			nx = -1;
 			stateAction = new CSophiaMoveRightState;
 		}
@@ -168,6 +166,12 @@ void CSophia::Update(DWORD dt)
 	middle->Update(dt);
 	cabin->Update(dt);
 	gun->Update(dt);
+
+	DWORD now = GetTickCount();
+	if (now - lastTimeTakeDamage > untouchalbeTime && untouchable == true)
+	{
+		untouchable = false;
+	}
 }
 
 void CSophia::Render()
@@ -182,9 +186,17 @@ void CSophia::Render()
 
 void CSophia::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
 {
-	if (dynamic_cast<CBrick*>(collision->obj))
+	auto other = collision->obj;
+
+	if (dynamic_cast<CBrick*>(other))
 	{
 		if (onGround == false && collision->ny == 1) onGround = true;
+	}
+	else if (dynamic_cast<CEnemy*>(other))
+	{
+		DebugOut(L"Collide with enemy\n");
+		lastTimeTakeDamage = GetTickCount();
+		if (untouchable == false) untouchable = true;
 	}
 }
 

@@ -8,11 +8,6 @@
 #include "SophiaCabin.h"
 #include "SophiaGun.h"
 
-#define MOVE_SPEED 1000.15f
-#define MOVE_ACCELERATION 0.02f
-#define JUMP_SPEED 0.7f
-#define GRAVITY -0.0026f
-
 class CPlayer;
 
 class ISophiaState;
@@ -25,6 +20,11 @@ class CSophiaGun;
 class CSophia : public CGameObject, public CPlayable
 {
 private:
+	const float MOVE_SPEED = 0.15f;
+	const float MOVE_ACCELERATION = 0.0002f;
+	const float JUMP_SPEED = 0.7f;
+	const float GRAVITY = -0.0026f;
+
 	ISophiaState* stateAction;
 	ISophiaState* stateDirection;
 	//ISophiaState* equipment; // Dont need to code this if Ms.Trinh not require
@@ -33,9 +33,9 @@ private:
 	DWORD lastTimeToLowerGun;
 
 	// Power, Hover in class Player
+	virtual void InitColliders();
 public:
 	CSophia();
-	~CSophia();
 
 	CSophiaLeftWheel* leftWheel;
 	CSophiaRightWheel* rightWheel;

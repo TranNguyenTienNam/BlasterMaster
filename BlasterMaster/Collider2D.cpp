@@ -2,6 +2,7 @@
 #include "Collider2D.h"
 #include "Utils.h"
 #include "Sophia.h"
+#include "Jason.h"
 
 void CCollider2D::SweptAABB(
 	RectF movingRect, RectF staticRect,
@@ -26,16 +27,7 @@ void CCollider2D::SweptAABB(
 	rBroadPhase.right = dx > 0 ? movingRect.right + dx : movingRect.right;
 	rBroadPhase.bottom = dy > 0 ? movingRect.bottom : movingRect.bottom + dy;
 
-	if (staticRect.top > 120 && staticRect.top < 136)
-		DebugOut(L"swept dx %f dy %f\n", dx, dy);
-
-	if (!rBroadPhase.Overlap(staticRect) && staticRect.top > 120 && staticRect.top < 136) 
-		DebugOut(L"Not overlap %f %f %f %f\n", rBroadPhase.left, rBroadPhase.top, rBroadPhase.right, rBroadPhase.bottom);
-
 	if (!rBroadPhase.Overlap(staticRect)) return;
-
-	if (staticRect.top > 120 && staticRect.top < 136)
-		DebugOut(L"swept dx %f dy %f\n", dx, dy);
 
 	if (dx == 0 && dy == 0) return;		// moving object is not moving > obvious no collision
 
@@ -83,9 +75,6 @@ void CCollider2D::SweptAABB(
 		ty_exit = dy_exit / dy;
 	}
 
-	if (staticRect.top > 120 && staticRect.top < 136)
-		DebugOut(L"swept txe %f tye %f txx %f tyx %f\n", tx_entry, ty_entry, tx_exit, ty_exit);
-
 	if ((tx_entry < 0.0f && ty_entry < 0.0f) || tx_entry > 1.0f || ty_entry > 1.0f) return;
 
 	t_entry = max(tx_entry, ty_entry);
@@ -116,16 +105,22 @@ LPCOLLISIONEVENT CCollider2D::SweptAABBEx(CCollider2D* coOther)
 	RectF movingRect;		// moving object bbox
 	float t, nx, ny;
 
+	float dt = CGame::GetDeltaTime();
+
 	staticRect = coOther->GetBoundingBox();
 
 	// deal with moving object: m speed = original m speed - collide object speed
 	auto coObject = coOther->GetGameObject();
-	float sdx = coObject->GetVelocity().x * CGame::GetDeltaTime();
-	float sdy = coObject->GetVelocity().y * CGame::GetDeltaTime();
+	float sdx = coObject->GetVelocity().x * dt;
+	float sdy = coObject->GetVelocity().y * dt;
+
+	auto velSelf = object->GetVelocity();
+	this->dx = velSelf.x * dt;
+	this->dy = velSelf.y * dt;
 
 	// (rdx, rdy) is RELATIVE movement distance/velocity 
-	float rdx = this->dx - sdx;
-	float rdy = this->dy - sdy;
+	float rdx = dx - sdx;
+	float rdy = dy - sdy;
 
 	movingRect = GetBoundingBox();
 
@@ -134,6 +129,7 @@ LPCOLLISIONEVENT CCollider2D::SweptAABBEx(CCollider2D* coOther)
 		rdx, rdy, nx, ny, t);
 
 	CCollisionEvent* e = new CCollisionEvent(t, nx, ny, coObject, coOther);
+	/*if (e->t != -1) if (dynamic_cast<CSophia*>(object)) DebugOut(L"t %f nx %f ny %f\n", e->t, e->nx, e->ny);*/
 	return e;
 }
 
@@ -153,12 +149,11 @@ void CCollider2D::CalcPotentialCollisions(
 		if (object == coObjects->at(i)) continue;
 		if (coObjects->at(i)->IsEnabled() == false) continue;
 
+		// TODO: Filter by object tag
+
 		for (auto co : coObjects->at(i)->GetColliders())
 		{
 			LPCOLLISIONEVENT e = SweptAABBEx(co);
-
-			if (e->obj->GetPosition().y < 136)
-				DebugOut(L"pos.y %f t %f nx %f ny %f\n", e->obj->GetPosition().y, e->t, e->nx, e->ny);
 
 			if (e->t > 0 && e->t <= 1.0f)
 				coEvents.push_back(e);
@@ -191,9 +186,6 @@ void CCollider2D::FilterCollision(
 		if (c->isDeleted == true) continue;
 		if (c->co->IsTrigger() == true) continue;
 
-		/*if (c->obj->GetPosition().y < 136) 
-			DebugOut(L"pos.y %f t %f nx %f ny %f\n", c->obj->GetPosition().y, c->t, c->nx, c->ny);*/
-
 		if (c->t < min_tx && c->nx != 0 && filterX == true) {
 			min_tx = c->t; min_ix = i;
 		}
@@ -219,6 +211,8 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 	this->dx = velocity.x * dt;
 	this->dy = velocity.y * dt;
 
+	/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"vy %f\n", velocity.y);*/
+
 	coEvents.clear();
 	coEventX = NULL;
 	coEventY = NULL;
@@ -227,7 +221,7 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 
 	if (coEvents.size() == 0)
 	{
-		if (dynamic_cast<CSophia*>(object)) DebugOut(L"not collision\n");
+		/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"size 0\n");*/
 
 		pos.x += dx;
 		pos.y += dy;
@@ -241,7 +235,7 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 			// was collision on Y first ?
 			if (coEventY->t < coEventX->t)
 			{
-				if (dynamic_cast<CSophia*>(object)) DebugOut(L"Y first\n");
+				/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"Y first\n");*/
 
 				if (isTrigger == false)
 				{
@@ -283,7 +277,7 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 				{
 					if (isTrigger == false)
 						pos.x += colX_other->t * dx + colX_other->nx * BLOCK_PUSH_FACTOR;
-					else pos.x += dx;
+					else pos.x += coEventY->t * dx;
 
 					velocity.x = 0;
 					object->SetVelocity(velocity);
@@ -293,13 +287,13 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 				}
 				else
 				{
-					pos.x += dx;
+					pos.x += coEventY->t * dx;
 				}
 			}
 			// collision on X first
 			else
 			{
-				if (dynamic_cast<CSophia*>(object)) DebugOut(L"X first\n");
+				/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"X first\n");*/
 
 				if (isTrigger == false)
 				{
@@ -310,7 +304,7 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 				}
 				else
 				{
-					pos.x += dx;	
+					pos.x += dx;
 				}
 
 				object->SetPosition(pos);
@@ -334,14 +328,16 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 				// replace with a new collision event using corrected location 
 				coEvents.push_back(SweptAABBEx(coEventY->co));
 
-				// re-filter on X only
+				// re-filter on Y only
 				FilterCollision(coEvents, coEventX, colY_other, /*filterX=*/0, /*filterY=*/1);
 
 				if (colY_other != NULL)
 				{
+					/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"not trigger\n");*/
+
 					if (isTrigger == false)
 						pos.y += colY_other->t * dy + colY_other->ny * BLOCK_PUSH_FACTOR;
-					else pos.y += dy;
+					else pos.y += coEventX->t * dy;
 
 					velocity.y = 0;
 					object->SetVelocity(velocity);
@@ -351,7 +347,7 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 				}
 				else
 				{
-					pos.y += dy;
+					pos.y += coEventX->t * dy;
 				}
 			}
 		}
@@ -359,13 +355,12 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 		{
 			if (coEventX != NULL)
 			{
-				auto temp = coEventX->obj->GetPosition();
-				if (dynamic_cast<CSophia*>(object)) DebugOut(L"X only %f %f\n", temp.x, temp.y);
+				/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"X only\n");*/
 
 				if (isTrigger == false)
 				{
 					pos.x += coEventX->t * dx + coEventX->nx * BLOCK_PUSH_FACTOR;
-					pos.y += dy;
+					pos.y += coEventX->t * dy;
 
 					velocity.x = 0;
 					object->SetVelocity(velocity);
@@ -383,11 +378,11 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 			{
 				if (coEventY != NULL)
 				{
-					if (dynamic_cast<CSophia*>(object)) DebugOut(L"Y only\n");
+					/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"Y only\n");*/
 
 					if (isTrigger == false)
 					{
-						pos.x += dx;
+						pos.x += coEventY->t * dx;
 						pos.y += coEventY->t * dy + coEventY->ny * BLOCK_PUSH_FACTOR;
 
 						velocity.y = 0;
@@ -405,8 +400,7 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 				// both colX & colY are NULL 
 				else
 				{
-					if (dynamic_cast<CSophia*>(object)) DebugOut(L"both null\n");
-
+					/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"both null\n");*/
 					pos.x += dx;
 					pos.y += dy;
 				}
@@ -415,29 +409,6 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 	}
 
 	object->SetPosition(pos);
-
-	bool wasPushed = false;
-
-	for (UINT i = 0; i < coObjects->size(); i++)
-	{
-		if (wasPushed == true) break;
-		if (coObjects->at(i) == object) continue;
-		if (coObjects->at(i)->GetColliders().size() == 0) continue;
-
-		auto coOther = coObjects->at(i)->GetColliders().at(0);
-		auto bbOther = coOther->GetBoundingBox();
-		auto bbSelf = GetBoundingBox();
-
-		if (coOther->isTrigger == true) continue;
-
-		if (bbOther.Overlap(bbSelf) || bbOther.Contain(bbSelf) ||
-			bbSelf.Overlap(bbOther) || bbSelf.Contain(bbOther))
-		{
-			pos.y += bbOther.top - bbSelf.bottom + BLOCK_PUSH_FACTOR;
-			object->SetPosition(pos);
-			wasPushed = true;
-		}
-	}
 
 	for (UINT i = 0; i < coEvents.size(); i++)
 	{
@@ -474,5 +445,5 @@ void CCollider2D::RenderBoundingBox()
 	rect.right = boxSize.x;
 	rect.bottom = boxSize.y;
 
-	CGame::GetInstance()->Draw(posCollider, -1, bbox, rect.left, rect.top, rect.right, rect.bottom, 100);
+	CGame::GetInstance()->Draw(posCollider, -1, bbox, rect.left, rect.top, rect.right, rect.bottom, D3DCOLOR_ARGB(100, 255, 255, 255));
 }

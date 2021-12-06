@@ -15,17 +15,20 @@ void CJason::InitAnimations()
 	AddAnimation("Jump", animations->Get("ani-jason-jump"));
 }
 
-CJason::CJason() :CGameObject()
+void CJason::InitColliders()
 {
-	InitAnimations();
-
-	// Init collider
 	auto collider = new CCollider2D;
 	collider->SetGameObject(this);
 	collider->SetOffset(VectorZero());
-	collider->SetBoxSize(Vector2(JASON_WIDTH, JASON_HEIGHT));
+	collider->SetBoxSize(IDLE_SIZE);
 	collider->SetDynamic(true);
 	colliders.push_back(collider);
+}
+
+CJason::CJason()
+{
+	InitAnimations();
+	InitColliders();
 
 	// Player's settings
 	isEnabled = false;
@@ -33,11 +36,6 @@ CJason::CJason() :CGameObject()
 	controllable = false;
 	jason = this;
 	SetState(JasonState::JASON_IDLE);
-}
-
-CJason::~CJason()
-{
-
 }
 
 void CJason::SetState(JasonState state)
@@ -50,20 +48,18 @@ void CJason::SetState(JasonState state)
 		if (onGround == true) animation = animations.at("Idle");
 		break;
 	case JASON_MOVING_LEFT:
-		velocity.x = -JASON_WALKING_SPEED;
-		/*acceleration.x = -0.0002f;*/
+		acceleration.x = -MOVE_ACCELERATION;
 		nx = -1;
 		if (onGround == true && velocity.x != 0) animation = animations.at("Walk");
 		break;
 	case JASON_MOVING_RIGHT:
-		velocity.x = JASON_WALKING_SPEED;
-		/*acceleration.x = 0.0002f;*/
+		acceleration.x = MOVE_ACCELERATION;
 		nx = 1;
 		if (onGround == true && velocity.x != 0) animation = animations.at("Walk");
 		break;
 	case JASON_JUMPING:
 		onGround = false;
-		velocity.y = JASON_JUMP_SPEED_Y;
+		velocity.y = JUMP_SPEED;
 		animation = animations.at("Jump");
 		break;
 	default:
@@ -73,19 +69,19 @@ void CJason::SetState(JasonState state)
 
 void CJason::Update(DWORD dt)
 {
-	velocity.y += -0.0026f * dt;
+	velocity.y += GRAVITY * dt;
 	velocity.x += acceleration.x * dt;
 
 	// TODO: Limit velocity
 	/*if (velocity.x > JASON_WALKING_SPEED) velocity.x = JASON_WALKING_SPEED;
 	else if (velocity.x < -JASON_WALKING_SPEED) velocity.x = -JASON_WALKING_SPEED;*/
 
-	auto inputHandler = CGame::GetInstance()->GetService<CInputHandler>();
 	if (controllable == false)
 	{
-		/*SetState(JasonState::JASON_IDLE);*/
 		return;
 	}
+
+	auto inputHandler = CGame::GetInstance()->GetService<CInputHandler>();
 
 	if (inputHandler->IsKeyDown(PlayerKeySet::MOVE_RIGHT_KEY))
 	{
@@ -107,13 +103,15 @@ void CJason::Update(DWORD dt)
 
 	if (inputHandler->OnKeyDown(PlayerKeySet::SWITCH_CHARACTER_KEY) &&
 		GetTickCount() - lastTimeSwitch > switchDelay &&
-		sophia->GetColliders().at(0)->GetBoundingBox().Contain(colliders.at(0)->GetBoundingBox())) // TODO: Fix if size of colliders is greater than one
+		sophia->GetColliders().at(0)->GetBoundingBox().Contain(colliders.at(0)->GetBoundingBox()))
 	{
 		lastTimeSwitch = GetTickCount();
 		controllable = false;
 
 		transform.position = sophia->GetPosition();
 		velocity.x = 0;
+		acceleration.x = 0;
+		nx = sophia->GetDirection();
 		SetState(JasonState::JASON_JUMPING);
 	}
 
@@ -125,18 +123,20 @@ void CJason::Update(DWORD dt)
 
 void CJason::Render()
 {
-	animation->Render(transform.position, -nx);
+	animation->Render(transform.position, -nx, tempColor);
 }
 
 void CJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
 {
-	if (dynamic_cast<CBrick*>(collision->obj))
+	auto other = collision->obj;
+
+	if (dynamic_cast<CBrick*>(other))
 	{
 		if (onGround == false && collision->ny == 1) onGround = true;
 		// TODO: Collise with wall, then hold idle state
 	}
 	
-	else if (dynamic_cast<CSophia*>(collision->obj))
+	else if (dynamic_cast<CSophia*>(other))
 	{
 		if (controllable == false && velocity.y < 0)
 		{
@@ -153,6 +153,12 @@ void CJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collis
 				co->SetDynamic(true);
 			}
 		}
+	}
+	else if (dynamic_cast<CEnemy*>(other))
+	{
+		DebugOut(L"Collide with enemy\n");
+		lastTimeTakeDamage = GetTickCount();
+		if (untouchable == false) untouchable = true;
 	}
 }
 

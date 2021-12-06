@@ -9,16 +9,19 @@ void CDrap::InitAnimations()
 	AddAnimation("Clockwise", animations->Get("ani-drap"));
 }
 
-CDrap::CDrap() :CGameObject()
+void CDrap::InitColliders()
 {
-	InitAnimations();
-
-	// Init collider
 	auto collider = new CCollider2D;
 	collider->SetGameObject(this);
 	collider->SetOffset(VectorZero());
-	collider->SetBoxSize(DRAP_SIZE);
+	collider->SetBoxSize(DEFAULT_SIZE);
 	colliders.push_back(collider);
+}
+
+CDrap::CDrap()
+{
+	InitAnimations();
+	InitColliders();
 }
 
 CDrap::~CDrap()

@@ -2,13 +2,6 @@
 #include "GameObject.h"
 #include "Playable.h"
 
-#define JASON_WALKING_SPEED		0.1f
-#define JASON_JUMP_SPEED_Y		0.53f
-#define JASON_GRAVITY			0.0026f
-
-#define JASON_WIDTH 8.0f
-#define JASON_HEIGHT 16.0f
-
 enum JasonState
 {
 	JASON_IDLE,
@@ -22,13 +15,21 @@ class CPlayable;
 class CJason : public CGameObject, public CPlayable
 {
 private:
+	const float MOVE_SPEED = 0.1f;
+	const float MOVE_ACCELERATION = 0.0002f;
+	const float JUMP_SPEED = 0.53f;
+	const float GRAVITY = -0.0026f;
+	const Vector2 IDLE_SIZE = Vector2(8.0f, 16.0f);
+
+	D3DCOLOR tempColor; // temp
+
 	JasonState state;
 	LPANIMATION animation;
 protected:
 	void InitAnimations();
+	void InitColliders();
 public:
 	CJason();
-	~CJason();
 
 	void SetState(JasonState state);
 

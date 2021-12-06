@@ -18,7 +18,7 @@ protected:
 public:
 	CSprite(int left, int top, int witdh, int height, LPDIRECT3DTEXTURE9 texture);
 
-	void Draw(Vector2 position, int nx, int alpha);
+	void Draw(Vector2 position, int nx, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
 };
 
 typedef CSprite* LPSPRITE;
@@ -32,15 +32,4 @@ public:
 	LPSPRITE Get(std::string id);
 	void Clear();
 };
-
-class CTile : public CSprite
-{
-protected:
-	Vector2 position;
-public:
-	CTile(Vector2 pos, int left, int top, int width, int height, LPDIRECT3DTEXTURE9 texture);
-	Vector2 GetPosition() { return position; }
-	void Draw(int alpha);
-};
-
 #endif

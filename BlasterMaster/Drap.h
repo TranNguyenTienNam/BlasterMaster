@@ -4,17 +4,15 @@
 
 #define DRAP_WALKING_SPEED		0.15f
 
-#define DRAP_SIZE Vector2(16.0f, 16.0f)
-
 class CDrap : public CGameObject, public CEnemy
 {
-protected:
+private:
+	const Vector2 DEFAULT_SIZE = Vector2(16.0f, 16.0f);
 	void InitAnimations();
-
+	void InitColliders();
 public:
 	CDrap();
 	~CDrap();
 	void Update(DWORD dt);
 	void Render();
-	void SetState(int state);
 };

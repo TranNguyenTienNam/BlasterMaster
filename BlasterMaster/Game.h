@@ -54,8 +54,15 @@ public:
 
 	void InitDirectX(HWND hWnd);
 
-	void Draw(Vector2 position, int nx, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha);
+	void Draw(Vector2 position, int nx, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, 
+		D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
 	LPDIRECT3DTEXTURE9 LoadTexture(LPCWSTR texturePath, D3DCOLOR transparentColor);
+
+	LPDIRECT3DDEVICE9 GetDirect3DDevice() { return this->d3ddv; }
+	LPDIRECT3DSURFACE9 GetBackBuffer() { return backBuffer; }
+	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
+	int GetScreenWidth() { return screen_width; }
+	int GetScreenHeight() { return screen_height; }
 
 	void Load();
 	void _ParseSection_TEXTURES(std::string line);
@@ -66,12 +73,6 @@ public:
 	CGameObject* GetPlayer() { return player; }
 	void SetPlayer(CGameObject* object) { this->player = object; }
 	void AddGameObject(CGameObject* object);
-
-	LPDIRECT3DDEVICE9 GetDirect3DDevice() { return this->d3ddv; }
-	LPDIRECT3DSURFACE9 GetBackBuffer() { return backBuffer; }
-	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
-	int GetScreenWidth() { return screen_width; }
-	int GetScreenHeight() { return screen_height; }
 
 	void Update(DWORD dt);
 	void Render();

@@ -33,11 +33,18 @@ protected:
 
 	std::unordered_map<std::string, LPSPRITE> sprites;
 	std::unordered_map<std::string, LPANIMATION> animations;
-	virtual void InitSprites();
-	virtual void InitAnimations();
+
+	D3DCOLOR damagedColor[5] =
+	{
+		D3DCOLOR_ARGB(255, 255, 255, 255),
+		D3DCOLOR_ARGB(255, 148, 247, 207),
+		D3DCOLOR_ARGB(128, 124, 124, 124),
+		D3DCOLOR_ARGB(255, 247, 164, 143),
+		D3DCOLOR_ARGB(128, 124, 124, 124),
+	};
 public:
 	CGameObject();
-	~CGameObject();
+	virtual ~CGameObject();
 
 	bool IsEnabled() { return this->isEnabled; }
 	void SetEnable(bool value) { this->isEnabled = value; }

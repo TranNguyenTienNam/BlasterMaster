@@ -115,7 +115,8 @@ void CGame::InitDirectX(HWND hWnd)
 	DebugOut(L"[INFO] InitDirectX OK\n");
 }
 
-void CGame::Draw(Vector2 position, int nx, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
+void CGame::Draw(Vector2 position, int nx, 
+	LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, D3DCOLOR color)
 {
 	Vector2 camPos = GetService<CCamera>()->GetPosition();
 	Vector3 p = Vector3(0, 0, 0);
@@ -144,7 +145,7 @@ void CGame::Draw(Vector2 position, int nx, LPDIRECT3DTEXTURE9 texture, int left,
 
 	spriteHandler->SetTransform(&mat);
 
-	spriteHandler->Draw(texture, &r, &center, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255)); // TODO: VFX take damaged
+	spriteHandler->Draw(texture, &r, &center, &p, color); // TODO: VFX take damaged
 }
 
 LPDIRECT3DTEXTURE9 CGame::LoadTexture(LPCWSTR texturePath, D3DCOLOR transparentColor)
@@ -404,7 +405,11 @@ void CGame::_ParseSection_MAP(std::string line)
 				int width = object["width"].GetInt();
 				int height = object["height"].GetInt();
 
-				// TODO: Set direct
+				if (object.HasMember("nx") == true)
+				{
+					int nx = object["nx"].GetInt();
+					obj->SetDirection(nx);
+				}
 
 				obj->SetPosition(Vector2(x + width / 2, m_mapHeight - y + height / 2));
 
@@ -433,8 +438,8 @@ void CGame::Update(DWORD dt)
 	quadtree->Retrieve(updates, mainCam->GetBoundingBox());
 	DebugOut(L"[BEGIN LOOP] updates %d\n", updates.size());
 
-	for (auto obj : gameObjects)
-		if (obj->IsEnabled() == true) obj->PhysicsUpdate(&gameObjects);
+	for (auto obj : updates)
+		if (obj->IsEnabled() == true) obj->PhysicsUpdate(&updates);
 
 	for (auto obj : updates)
 		if (obj->IsEnabled() == true) obj->Update(dt);
@@ -449,7 +454,7 @@ void CGame::Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-		map->Draw(Vector2(m_mapWidth / 2, m_mapHeight / 2), 1, 255);
+		map->Draw(Vector2(m_mapWidth / 2, m_mapHeight / 2), 1);
 
 		for (auto obj : updates)
 			if (obj->IsEnabled() == true) obj->Render();

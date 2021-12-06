@@ -7,7 +7,7 @@ protected:
 	static CPlayable* target;
 
 	int hp;
-	int damage;
+	int damageOnCollision;
 public:
 
 };

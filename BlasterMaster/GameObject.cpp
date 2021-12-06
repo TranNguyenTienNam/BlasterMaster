@@ -1,23 +1,20 @@
 #include "GameObject.h"
 
-void CGameObject::InitSprites()
-{
-}
-
-void CGameObject::InitAnimations()
-{
-}
-
 CGameObject::CGameObject()
 {
 	nx = 1;
 	transform.position = VectorZero();
 	velocity = VectorZero();
+	acceleration = VectorZero();
 }
 
 CGameObject::~CGameObject()
 {
-	
+	for (auto co : colliders) delete co;
+	colliders.clear();
+
+	delete ownerQuadtree;
+	// TODO: Why cannot call this function?
 }
 
 void CGameObject::AddSprite(std::string stateName, LPSPRITE sprite)

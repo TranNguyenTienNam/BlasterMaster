@@ -39,7 +39,6 @@ protected:
 	bool isTrigger = false;
 	bool isDynamic = false;
 	CGameObject* object;
-	RectF boundingBox;
 	Vector2 offset;
 	Vector2 boxSize;
 public:
@@ -65,6 +64,5 @@ public:
 	void SetOffset(Vector2 offset) { this->offset = offset; }
 	void SetBoxSize(Vector2 size) { this->boxSize = size; }
 	RectF GetBoundingBox();
-	void SetBoundingBox(const RectF& boundingBox) { this->boundingBox = boundingBox; }
 	void RenderBoundingBox();
 };

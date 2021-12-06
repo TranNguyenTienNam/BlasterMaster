@@ -7,9 +7,19 @@ void CBallbot::InitAnimations()
 	AddAnimation("Ballbot", animations->Get("ani-ballbot"));
 }
 
+void CBallbot::InitColliders()
+{
+	auto collider = new CCollider2D;
+	collider->SetGameObject(this);
+	collider->SetOffset(VectorZero());
+	collider->SetBoxSize(DEFAULT_SIZE);
+	colliders.push_back(collider);
+}
+
 CBallbot::CBallbot()
 {
 	InitAnimations();
+	InitColliders();
 }
 
 CBallbot::~CBallbot()

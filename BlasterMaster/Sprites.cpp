@@ -10,9 +10,9 @@ CSprite::CSprite(int left, int top, int width, int height, LPDIRECT3DTEXTURE9 te
 	this->texture = texture;
 }
 
-void CSprite::Draw(Vector2 position, int nx, int alpha)
+void CSprite::Draw(Vector2 position, int nx, D3DCOLOR color)
 {
-	CGame::GetInstance()->Draw(position, nx, texture, left, top, left + width, top + height, alpha);
+	CGame::GetInstance()->Draw(position, nx, texture, left, top, left + width, top + height, color);
 }
 
 void CSprites::Add(std::string id, int left, int top, int width, int height, LPDIRECT3DTEXTURE9 texture)
@@ -35,15 +35,4 @@ void CSprites::Clear()
 	}
 
 	sprites.clear();
-}
-
-CTile::CTile(Vector2 pos, int left, int top, int width, int height, LPDIRECT3DTEXTURE9 texture)
-	:CSprite(left, top, width, height, texture)
-{
-	position = pos;
-}
-
-void CTile::Draw(int alpha)
-{
-	CGame::GetInstance()->Draw(position, 1, texture, left, top, left + width, top + height, alpha);
 }

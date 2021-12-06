@@ -23,5 +23,5 @@ void CSophiaMiddle::Update(DWORD dt)
 
 void CSophiaMiddle::Render()
 {
-	sprites.at(SPR_MIDDLE)->Draw(transform.position + parent->GetPosition(), -nx, 255);
+	sprites.at(SPR_MIDDLE)->Draw(transform.position + parent->GetPosition(), -nx);
 }

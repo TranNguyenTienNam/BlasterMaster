@@ -1,4 +1,5 @@
 #include "Playable.h"
+#include "GameObject.h"
 
 CJason* CPlayable::jason = nullptr;
 CSophia* CPlayable::sophia = nullptr;

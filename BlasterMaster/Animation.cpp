@@ -9,7 +9,7 @@ void CAnimation::Add(std::string id, DWORD time)
 	/*DebugOut(L"[INFO] animation frame added: %s\t%d\n", ToWSTR(id).c_str(), frames.size());*/
 }
 
-void CAnimation::Render(Vector2 position, int nx, int alpha)
+void CAnimation::Render(Vector2 position, int nx, D3DCOLOR color)
 {
 	DWORD now = GetTickCount();
 
@@ -50,5 +50,5 @@ void CAnimation::Render(Vector2 position, int nx, int alpha)
 		}
 	}
 
-	frames[currentFrame]->GetSprite()->Draw(position, nx, alpha);
+	frames[currentFrame]->GetSprite()->Draw(position, nx, color);
 }

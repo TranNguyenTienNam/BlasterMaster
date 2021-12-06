@@ -18,13 +18,18 @@ enum PlayerKeySet
 class CPlayable
 {
 protected:
-	bool onGround;
-
 	static CJason* jason;
 	static CSophia* sophia;
 	static DWORD switchDelay;
 	static DWORD lastTimeSwitch;
-public:
+
 	bool controllable;
+	bool untouchable;
+	bool onGround;
+	int power;			// HP
+
+	DWORD untouchalbeTime = 300;
+	DWORD lastTimeTakeDamage;
+public:
 	void SetControllable(bool value) { this->controllable = value; }
 };

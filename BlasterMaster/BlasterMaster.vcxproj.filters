@@ -214,7 +214,7 @@
       <Filter>Game Source\Game Object\Bullet\Player Bullet</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game Source\Game Object\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -351,7 +351,7 @@
       <Filter>Game Source\Game Object\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game Source\Game Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
