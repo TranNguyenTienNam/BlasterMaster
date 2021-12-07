@@ -5501,25 +5501,26 @@
                  "width":18,
                  "x":463,
                  "y":417
-                }, 
-                {
-                 "gid":328,
-                 "height":17,
-                 "id":484,
-                 "name":"ballcarry",
-                 "properties":[
-                        {
-                         "name":"nx",
-                         "type":"float",
-                         "value":1
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":18,
-                 "x":464,
-                 "y":464
-                }, 
+                },
+          {
+            "gid": 328,
+            "height": 17,
+            "id": 484,
+            "name": "ballcarry",
+            "properties": [
+              {
+                "name": "nx",
+                "type": "float",
+                "value": 1
+              }
+            ],
+            "rotation": 0,
+            "type": "",
+            "visible": true,
+            "width": 18,
+            "x": 1106,
+            "y": 160
+          }, 
                 {
                  "gid":254,
                  "height":18,

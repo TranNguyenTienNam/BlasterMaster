@@ -119,11 +119,17 @@ void CJason::Update(DWORD dt)
 	{
 		Instantiate<CNeoworm>(transform.position); // TODO: Replace neoworm by jason's bullet
 	}
+
+	/*DWORD now = GetTickCount();
+	if (now - lastTimeTakeDamage > untouchalbeTime && untouchable == true)
+	{
+		untouchable = false;
+	}*/
 }
 
 void CJason::Render()
 {
-	animation->Render(transform.position, -nx, tempColor);
+	animation->Render(transform.position, -nx, D3DCOLOR_ARGB(255, 124, 255, 124));
 }
 
 void CJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
@@ -154,12 +160,13 @@ void CJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collis
 			}
 		}
 	}
-	else if (dynamic_cast<CEnemy*>(other))
+	/*else if (dynamic_cast<CEnemy*>(other))
 	{
 		DebugOut(L"Collide with enemy\n");
 		lastTimeTakeDamage = GetTickCount();
+		selfCollider->SetTrigger(true);
 		if (untouchable == false) untouchable = true;
-	}
+	}*/
 }
 
 void CJason::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)

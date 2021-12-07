@@ -8,8 +8,6 @@
 #include "SophiaCabin.h"
 #include "SophiaGun.h"
 
-class CPlayer;
-
 class ISophiaState;
 class CSophiaLeftWheel;
 class CSophiaRightWheel;

@@ -3,6 +3,8 @@
 #include "Utils.h"
 #include "Sophia.h"
 #include "Jason.h"
+#include "Playable.h"
+#include "Enemy.h"
 
 void CCollider2D::SweptAABB(
 	RectF movingRect, RectF staticRect,
@@ -145,11 +147,15 @@ void CCollider2D::CalcPotentialCollisions(
 {
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		// If object is disable?
 		if (object == coObjects->at(i)) continue;
 		if (coObjects->at(i)->IsEnabled() == false) continue;
 
 		// TODO: Filter by object tag
+		auto selfTag = object->GetTag();
+		auto otherTag = coObjects->at(i)->GetTag();
+		if ((selfTag == ObjectsTag::InvinciblePlayer && otherTag == ObjectsTag::Enemy) ||
+			(otherTag == ObjectsTag::InvinciblePlayer && selfTag == ObjectsTag::Enemy)) 
+			continue;
 
 		for (auto co : coObjects->at(i)->GetColliders())
 		{
@@ -211,8 +217,6 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 	this->dx = velocity.x * dt;
 	this->dy = velocity.y * dt;
 
-	/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"vy %f\n", velocity.y);*/
-
 	coEvents.clear();
 	coEventX = NULL;
 	coEventY = NULL;
@@ -221,7 +225,7 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 
 	if (coEvents.size() == 0)
 	{
-		/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"size 0\n");*/
+		if (dynamic_cast<CSophia*>(object)) DebugOut(L"size 0\n");
 
 		pos.x += dx;
 		pos.y += dy;
@@ -235,7 +239,7 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 			// was collision on Y first ?
 			if (coEventY->t < coEventX->t)
 			{
-				/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"Y first\n");*/
+				if (dynamic_cast<CSophia*>(object)) DebugOut(L"Y first\n");
 
 				if (isTrigger == false)
 				{
@@ -293,7 +297,7 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 			// collision on X first
 			else
 			{
-				/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"X first\n");*/
+				if (dynamic_cast<CSophia*>(object)) DebugOut(L"X first\n");
 
 				if (isTrigger == false)
 				{
@@ -333,7 +337,7 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 
 				if (colY_other != NULL)
 				{
-					/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"not trigger\n");*/
+					if (dynamic_cast<CSophia*>(object)) DebugOut(L"not trigger\n");
 
 					if (isTrigger == false)
 						pos.y += colY_other->t * dy + colY_other->ny * BLOCK_PUSH_FACTOR;
@@ -355,7 +359,7 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 		{
 			if (coEventX != NULL)
 			{
-				/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"X only\n");*/
+				if (dynamic_cast<CSophia*>(object)) DebugOut(L"X only\n");
 
 				if (isTrigger == false)
 				{
@@ -378,7 +382,7 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 			{
 				if (coEventY != NULL)
 				{
-					/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"Y only\n");*/
+					if (dynamic_cast<CSophia*>(object)) DebugOut(L"Y only\n");
 
 					if (isTrigger == false)
 					{
@@ -400,7 +404,7 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 				// both colX & colY are NULL 
 				else
 				{
-					/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"both null\n");*/
+					if (dynamic_cast<CSophia*>(object)) DebugOut(L"both null\n");
 					pos.x += dx;
 					pos.y += dy;
 				}
@@ -420,6 +424,27 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 	}
 
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+}
+
+void CCollider2D::DealWithOverlappedCase(std::vector<CGameObject*>* coObjects)
+{
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		if (coObjects->at(i) == object) continue;
+		if (coObjects->at(i)->GetColliders().size() == 0) continue;
+
+		auto coOther = coObjects->at(i)->GetColliders().at(0);
+		if (coOther->isTrigger == true) continue;
+
+		auto bbOther = coOther->GetBoundingBox();
+		auto bbSelf = GetBoundingBox();
+
+		if (bbOther.Overlap(bbSelf) || bbOther.Contain(bbSelf) ||
+			bbSelf.Overlap(bbOther) || bbSelf.Contain(bbOther))
+		{
+			
+		}
+	}
 }
 
 RectF CCollider2D::GetBoundingBox()

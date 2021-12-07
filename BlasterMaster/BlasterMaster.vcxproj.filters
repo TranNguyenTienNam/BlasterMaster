@@ -79,6 +79,9 @@
     <Filter Include="Game Source\Game Object\Bullet\Player Bullet">
       <UniqueIdentifier>{16c3fb4d-c401-4cb1-8db6-6284ba28e0d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Game Object">
+      <UniqueIdentifier>{e22dcf06-1af2-4643-a949-d6df05b11e08}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -100,9 +103,6 @@
       <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="InputHandler.cpp">
@@ -216,6 +216,12 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Game Source\Game Object\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Framework\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectTag.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -234,9 +240,6 @@
       <Filter>Framework\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
@@ -352,6 +355,12 @@
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Game Source\Game Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Framework\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectTag.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

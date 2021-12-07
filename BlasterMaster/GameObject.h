@@ -10,6 +10,7 @@
 #include "Quadtree.h"
 #include "Collider2D.h"
 #include "Utils.h"
+#include "ObjectTag.h"
 
 class CQuadtree;
 class CCollider2D;
@@ -20,6 +21,8 @@ class CGameObject
 protected:
 	bool isEnabled = true;
 	bool isDestroyed = false;
+
+	ObjectsTag tag;
 
 	Transform transform;
 	Vector2 velocity;
@@ -50,6 +53,7 @@ public:
 	void SetEnable(bool value) { this->isEnabled = value; }
 	bool IsDestroyed() { return this->isDestroyed; }
 	void SetDestroyed() { this->isDestroyed = true; }
+	ObjectsTag GetTag() { return this->tag; }
 
 	int GetDirection() { return this->nx; }
 	void SetDirection(int value) { this->nx = value; }

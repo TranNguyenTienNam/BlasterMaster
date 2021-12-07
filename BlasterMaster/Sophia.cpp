@@ -39,7 +39,9 @@ CSophia::CSophia()
 	stateDirection->SetOwner(this);
 
 	// Player's settings
+	tag = ObjectsTag::Player;
 	controllable = true;
+	untouchable = false;
 	sophia = this;
 }
 
@@ -171,6 +173,7 @@ void CSophia::Update(DWORD dt)
 	if (now - lastTimeTakeDamage > untouchalbeTime && untouchable == true)
 	{
 		untouchable = false;
+		tag = ObjectsTag::Player;
 	}
 }
 
@@ -195,8 +198,14 @@ void CSophia::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* colli
 	else if (dynamic_cast<CEnemy*>(other))
 	{
 		DebugOut(L"Collide with enemy\n");
-		lastTimeTakeDamage = GetTickCount();
-		if (untouchable == false) untouchable = true;
+		if (untouchable == false)
+		{
+			lastTimeTakeDamage = GetTickCount();
+			untouchable = true;
+			tag = ObjectsTag::InvinciblePlayer;
+
+			// TODO: is pushed in the direction of the enemy's movement
+		}
 	}
 }
 

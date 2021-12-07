@@ -33,8 +33,8 @@ void CHyperBeam::Update(DWORD dt)
 
 void CHyperBeam::Render()
 {
-	if (velocity.x != 0) sprites.at(HYPERBEAM_X)->Draw(transform.position, -nx, 255);
-	else if (velocity.y != 0) sprites.at(HYPERBEAM_Y)->Draw(transform.position, 1, 255);
+	if (velocity.x != 0) sprites.at(HYPERBEAM_X)->Draw(transform.position, -nx);
+	else if (velocity.y != 0) sprites.at(HYPERBEAM_Y)->Draw(transform.position, 1);
 }
 
 void CHyperBeam::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)

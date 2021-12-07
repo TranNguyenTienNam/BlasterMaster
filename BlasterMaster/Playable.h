@@ -28,8 +28,9 @@ protected:
 	bool onGround;
 	int power;			// HP
 
-	DWORD untouchalbeTime = 300;
+	DWORD untouchalbeTime = 5000;
 	DWORD lastTimeTakeDamage;
 public:
+	bool IsInvincible() { return this->untouchable; }
 	void SetControllable(bool value) { this->controllable = value; }
 };

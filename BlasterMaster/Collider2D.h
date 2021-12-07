@@ -15,6 +15,7 @@ struct CCollisionEvent
 	CGameObject* obj;
 	CCollider2D* co;
 	float nx, ny, t;
+	float dx, dy;
 	CCollisionEvent(float t, float nx, float ny, CGameObject* obj = NULL, CCollider2D* co = NULL)
 	{
 		this->t = t; this->nx = nx; this->ny = ny; this->obj = obj; this->co = co; this->isDeleted = false;
@@ -53,6 +54,7 @@ public:
 		LPCOLLISIONEVENT& colX, LPCOLLISIONEVENT& colY,
 		bool filterX, bool filterY);
 	void PhysicsUpdate(std::vector<CGameObject*>* coObjects);
+	void DealWithOverlappedCase(std::vector<CGameObject*>* coObjects);
 
 	bool IsTrigger() { return this->isTrigger; }
 	void SetTrigger(bool value) { this->isTrigger = value; }

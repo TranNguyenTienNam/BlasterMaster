@@ -21,6 +21,14 @@ private:
 	const float GRAVITY = -0.0026f;
 	const Vector2 IDLE_SIZE = Vector2(8.0f, 16.0f);
 
+	D3DCOLOR damagedColor[4] =
+	{
+		D3DCOLOR_ARGB(255,148,247,207),
+		D3DCOLOR_ARGB(128,124,124,124),
+		D3DCOLOR_ARGB(255,247,164,143),
+		D3DCOLOR_ARGB(128,124,124,124),
+	};
+
 	D3DCOLOR tempColor; // temp
 
 	JasonState state;
