@@ -220,7 +220,7 @@
       <Filter>Framework\Game Object</Filter>
     </ClCompile>
     <ClCompile Include="ObjectTag.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Framework\Game Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -360,7 +360,7 @@
       <Filter>Framework\Game Object</Filter>
     </ClInclude>
     <ClInclude Include="ObjectTag.h">
-      <Filter>Header Files</Filter>
+      <Filter>Framework\Game Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

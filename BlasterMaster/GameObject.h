@@ -22,7 +22,7 @@ protected:
 	bool isEnabled = true;
 	bool isDestroyed = false;
 
-	ObjectsTag tag;
+	ObjectTag tag;
 
 	Transform transform;
 	Vector2 velocity;
@@ -53,7 +53,7 @@ public:
 	void SetEnable(bool value) { this->isEnabled = value; }
 	bool IsDestroyed() { return this->isDestroyed; }
 	void SetDestroyed() { this->isDestroyed = true; }
-	ObjectsTag GetTag() { return this->tag; }
+	ObjectTag GetTag() { return this->tag; }
 
 	int GetDirection() { return this->nx; }
 	void SetDirection(int value) { this->nx = value; }
@@ -84,12 +84,12 @@ public:
 };
 
 template<typename T>
-inline CGameObject* Instantiate(Vector2 position)
+inline T* Instantiate(Vector2 position)
 {
 	CGameObject* newObject = new T;
 	newObject->SetPosition(position);
 	CGame::GetInstance()->AddGameObject(newObject);
-	return newObject;
+	return (T*)newObject;
 }
 
 #endif

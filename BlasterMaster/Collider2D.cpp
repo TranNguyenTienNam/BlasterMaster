@@ -5,6 +5,8 @@
 #include "Jason.h"
 #include "Playable.h"
 #include "Enemy.h"
+#include "BallCarry.h"
+#include "Brick.h"
 
 void CCollider2D::SweptAABB(
 	RectF movingRect, RectF staticRect,
@@ -131,7 +133,6 @@ LPCOLLISIONEVENT CCollider2D::SweptAABBEx(CCollider2D* coOther)
 		rdx, rdy, nx, ny, t);
 
 	CCollisionEvent* e = new CCollisionEvent(t, nx, ny, coObject, coOther);
-	/*if (e->t != -1) if (dynamic_cast<CSophia*>(object)) DebugOut(L"t %f nx %f ny %f\n", e->t, e->nx, e->ny);*/
 	return e;
 }
 
@@ -153,8 +154,8 @@ void CCollider2D::CalcPotentialCollisions(
 		// TODO: Filter by object tag
 		auto selfTag = object->GetTag();
 		auto otherTag = coObjects->at(i)->GetTag();
-		if ((selfTag == ObjectsTag::InvinciblePlayer && otherTag == ObjectsTag::Enemy) ||
-			(otherTag == ObjectsTag::InvinciblePlayer && selfTag == ObjectsTag::Enemy)) 
+		if ((selfTag == ObjectTag::InvinciblePlayer && otherTag == ObjectTag::Enemy) ||
+			(otherTag == ObjectTag::InvinciblePlayer && selfTag == ObjectTag::Enemy)) 
 			continue;
 
 		for (auto co : coObjects->at(i)->GetColliders())
@@ -210,6 +211,8 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 	// Reduce the number of check collision if game object is not enabled, is nullptr, static
 	if (object == nullptr || isDynamic == false) return;
 
+	DealWithOverlappedCase(coObjects);
+
 	auto dt = CGame::GetDeltaTime();
 	auto pos = object->GetPosition();
 	auto velocity = object->GetVelocity();
@@ -221,11 +224,11 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 	coEventX = NULL;
 	coEventY = NULL;
 
-	CalcPotentialCollisions(coObjects, coEvents);
+	CalcPotentialCollisions(coObjects, coEvents); // TODO: Is it necessary to get a vector contains trigger objects?
 
 	if (coEvents.size() == 0)
 	{
-		if (dynamic_cast<CSophia*>(object)) DebugOut(L"size 0\n");
+		/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"size 0\n");*/
 
 		pos.x += dx;
 		pos.y += dy;
@@ -239,7 +242,7 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 			// was collision on Y first ?
 			if (coEventY->t < coEventX->t)
 			{
-				if (dynamic_cast<CSophia*>(object)) DebugOut(L"Y first\n");
+				/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"Y first\n");*/
 
 				if (isTrigger == false)
 				{
@@ -297,7 +300,7 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 			// collision on X first
 			else
 			{
-				if (dynamic_cast<CSophia*>(object)) DebugOut(L"X first\n");
+				/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"X first\n");*/
 
 				if (isTrigger == false)
 				{
@@ -337,8 +340,6 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 
 				if (colY_other != NULL)
 				{
-					if (dynamic_cast<CSophia*>(object)) DebugOut(L"not trigger\n");
-
 					if (isTrigger == false)
 						pos.y += colY_other->t * dy + colY_other->ny * BLOCK_PUSH_FACTOR;
 					else pos.y += coEventX->t * dy;
@@ -359,7 +360,7 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 		{
 			if (coEventX != NULL)
 			{
-				if (dynamic_cast<CSophia*>(object)) DebugOut(L"X only\n");
+				//if (dynamic_cast<CSophia*>(object)) DebugOut(L"X only\n");
 
 				if (isTrigger == false)
 				{
@@ -382,7 +383,7 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 			{
 				if (coEventY != NULL)
 				{
-					if (dynamic_cast<CSophia*>(object)) DebugOut(L"Y only\n");
+					//if (dynamic_cast<CSophia*>(object)) DebugOut(L"Y only\n");
 
 					if (isTrigger == false)
 					{
@@ -404,7 +405,7 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 				// both colX & colY are NULL 
 				else
 				{
-					if (dynamic_cast<CSophia*>(object)) DebugOut(L"both null\n");
+					//if (dynamic_cast<CSophia*>(object)) DebugOut(L"both null\n");
 					pos.x += dx;
 					pos.y += dy;
 				}
@@ -426,24 +427,288 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
+//void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
+//{
+//	// Reduce the number of check collision if game object is not enabled, is nullptr, static
+//	if (object == nullptr || isDynamic == false) return;
+//
+//	DealWithOverlappedCase(coObjects);
+//
+//	auto dt = CGame::GetDeltaTime();
+//	auto pos = object->GetPosition();
+//	auto velocity = object->GetVelocity();
+//
+//	this->dx = velocity.x * dt;
+//	this->dy = velocity.y * dt;
+//
+//	coEvents.clear();
+//	coEventX = NULL;
+//	coEventY = NULL;
+//
+//	if (dynamic_cast<CSophia*>(object)) DebugOut(L"v %f %f\n", velocity.x, velocity.y);
+//
+//	CalcPotentialCollisions(coObjects, coEvents); // TODO: Is it necessary to get a vector contains trigger objects?
+//
+//	if (coEvents.size() == 0)
+//	{
+//		/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"size 0\n");*/
+//
+//		pos.x += dx;
+//		pos.y += dy;
+//	}
+//	else
+//	{
+//		FilterCollision(coEvents, coEventX, coEventY);
+//
+//		if (coEventX != NULL && coEventY != NULL)
+//		{
+//			// was collision on Y first ?
+//			if (coEventY->t < coEventX->t)
+//			{
+//				/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"Y first\n");*/
+//
+//				PushingHandling(coEventY, 1);
+//
+//				if (coEventY->ny != 0)
+//					if (isTrigger == false) object->OnCollisionEnter(this, coEventY);
+//					else object->OnTriggerEnter(this, coEventY);
+//
+//				//
+//				// see if after correction on Y, is there still a collision on X ? 
+//				//
+//				LPCOLLISIONEVENT colX_other = NULL;
+//
+//				//
+//				// check again if there is true collision on X 
+//				//
+//
+//				// remove current collision event on X
+//				coEventX->isDeleted = true;
+//
+//				// replace with a new collision event using corrected location 
+//				coEvents.push_back(SweptAABBEx(coEventX->co));
+//
+//				// re-filter on X only
+//				FilterCollision(coEvents, colX_other, coEventY, /*filterX=*/1, /*filterY=*/0);
+//
+//				if (colX_other != NULL)
+//				{
+//					PushingHandling(colX_other, coEventY->t);
+//
+//					if (isTrigger == false) object->OnCollisionEnter(this, colX_other);
+//					else object->OnTriggerEnter(this, colX_other);
+//				}
+//				else
+//				{
+//					pos.x += coEventY->t * dx;
+//				}
+//			}
+//			// collision on X first
+//			else
+//			{
+//				/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"X first\n");*/
+//
+//				PushingHandling(coEventX, 1);
+//
+//				if (coEventX->nx != 0)
+//					if (isTrigger == false) object->OnCollisionEnter(this, coEventX);
+//					else object->OnTriggerEnter(this, coEventX);
+//
+//				//
+//				// see if after correction on X, is there still a collision on Y ? 
+//				//
+//				LPCOLLISIONEVENT colY_other = NULL;
+//
+//				//
+//				// check again if there is true collision on X 
+//				//
+//
+//				// remove current collision event on Y
+//				coEventY->isDeleted = true;
+//
+//				// replace with a new collision event using corrected location 
+//				coEvents.push_back(SweptAABBEx(coEventY->co));
+//
+//				// re-filter on Y only
+//				FilterCollision(coEvents, coEventX, colY_other, /*filterX=*/0, /*filterY=*/1);
+//
+//				if (colY_other != NULL)
+//				{
+//					PushingHandling(colY_other, coEventX->t);
+//
+//					if (isTrigger == false) object->OnCollisionEnter(this, colY_other);
+//					else object->OnTriggerEnter(this, colY_other);
+//				}
+//				else
+//				{
+//					pos.y += coEventX->t * dy;
+//				}
+//			}
+//		}
+//		else
+//		{
+//			if (coEventX != NULL)
+//			{
+//				//if (dynamic_cast<CSophia*>(object)) DebugOut(L"X only\n");
+//
+//				if (isTrigger == false)
+//				{
+//					pos.x += coEventX->t * dx + coEventX->nx * BLOCK_PUSH_FACTOR;
+//					pos.y += coEventX->t * dy;
+//
+//					velocity.x = 0;
+//					object->SetVelocity(velocity);
+//				}
+//				else
+//				{
+//					pos.x += dx;
+//					pos.y += dy;
+//				}
+//
+//				if (isTrigger == false) object->OnCollisionEnter(this, coEventX);
+//				else object->OnTriggerEnter(this, coEventX);
+//			}
+//			else
+//			{
+//				if (coEventY != NULL)
+//				{
+//					//if (dynamic_cast<CSophia*>(object)) DebugOut(L"Y only\n");
+//
+//					if (isTrigger == false)
+//					{
+//						pos.x += coEventY->t * dx;
+//						pos.y += coEventY->t * dy + coEventY->ny * BLOCK_PUSH_FACTOR;
+//
+//						velocity.y = 0;
+//						object->SetVelocity(velocity);
+//					}
+//					else
+//					{
+//						pos.x += dx;
+//						pos.y += dy;
+//					}
+//
+//					if (isTrigger == false) object->OnCollisionEnter(this, coEventY);
+//					else object->OnTriggerEnter(this, coEventY);
+//				}
+//				// both colX & colY are NULL 
+//				else
+//				{
+//					//if (dynamic_cast<CSophia*>(object)) DebugOut(L"both null\n");
+//					pos.x += dx;
+//					pos.y += dy;
+//				}
+//			}
+//		}
+//	}
+//
+//	object->SetPosition(pos);
+//
+//	for (UINT i = 0; i < coEvents.size(); i++)
+//	{
+//		if (coEvents[i]->co->IsTrigger() == true)
+//		{
+//			if (isTrigger == false) object->OnCollisionEnter(this, coEvents[i]);
+//			else object->OnTriggerEnter(this, coEvents[i]);
+//		}
+//	}
+//
+//	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+//}
+
+void CCollider2D::PushingHandling(LPCOLLISIONEVENT& coEvent, float previousCollisionDuration = 1.0f)
+{
+	auto pos = object->GetPosition();
+	auto velocity = object->GetVelocity();
+
+	if (isTrigger == false)
+	{
+		if (coEvent->nx != 0)
+		{
+			pos.x += coEvent->t * dx + coEvent->nx * BLOCK_PUSH_FACTOR;
+			velocity.x = 0;
+		}
+
+		if (coEvent->ny != 0)
+		{
+			pos.y += coEvent->t * dy + coEvent->ny * BLOCK_PUSH_FACTOR;
+			velocity.y = 0;
+		}
+
+		object->SetVelocity(velocity);
+		if (dynamic_cast<CSophia*>(object)) DebugOut(L"v %f %f\n", velocity.x, velocity.y);
+	}
+	else
+	{
+		if (coEvent->nx != 0) pos.x += dx * previousCollisionDuration;
+		if (coEvent->ny != 0) pos.y += dy * previousCollisionDuration;
+	}
+
+	object->SetPosition(pos);
+}
+
 void CCollider2D::DealWithOverlappedCase(std::vector<CGameObject*>* coObjects)
 {
-	for (UINT i = 0; i < coObjects->size(); i++)
-	{
-		if (coObjects->at(i) == object) continue;
-		if (coObjects->at(i)->GetColliders().size() == 0) continue;
+	if (isTrigger == true) return;
 
-		auto coOther = coObjects->at(i)->GetColliders().at(0);
+	std::vector<CGameObject*> overlappedObjects;
+
+	for (auto coO : *coObjects)
+	{
+		if (coO == object) continue;
+		if (coO->GetColliders().size() == 0) continue;
+
+		auto coOther = coO->GetColliders().at(0);
 		if (coOther->isTrigger == true) continue;
 
 		auto bbOther = coOther->GetBoundingBox();
 		auto bbSelf = GetBoundingBox();
 
-		if (bbOther.Overlap(bbSelf) || bbOther.Contain(bbSelf) ||
-			bbSelf.Overlap(bbOther) || bbSelf.Contain(bbOther))
+		if (bbSelf.Overlap(bbOther) && dynamic_cast<CBrick*>(coO))
+			overlappedObjects.emplace_back(coO);
+	}
+
+	for (auto coO : overlappedObjects)
+	{
+		auto bbOther = coO->GetColliders().at(0)->GetBoundingBox();
+		auto bbSelf = GetBoundingBox();
+
+		if (bbSelf.Overlap(bbOther) == false) continue;
+
+		float deltaX = 0, deltaY = 0;
+
+		if (bbSelf.left < bbOther.right && bbSelf.left > bbOther.left)
 		{
-			
+			deltaX += bbOther.right - bbSelf.left + BLOCK_PUSH_FACTOR;
 		}
+
+		if (bbSelf.right > bbOther.left && bbSelf.right < bbOther.right)
+		{
+			deltaX += -1 * (bbSelf.right - bbOther.left + BLOCK_PUSH_FACTOR);
+		}
+
+		if (bbSelf.bottom < bbOther.top && bbSelf.bottom > bbOther.bottom)
+		{
+			deltaY += bbOther.top - bbSelf.bottom + BLOCK_PUSH_FACTOR;
+		}
+
+		if (bbSelf.top > bbOther.bottom && bbSelf.top < bbOther.top)
+		{
+			deltaY += -1 * (bbSelf.top - bbOther.bottom + BLOCK_PUSH_FACTOR);
+		}
+
+		if (deltaX != 0 && deltaY != 0)
+		{
+			if (abs(deltaX) <= abs(deltaY))
+			{
+				deltaY = 0;
+			}
+			else deltaX = 0;
+		}
+
+		auto newPos = object->GetPosition();
+		newPos += Vector2(deltaX, deltaY);
+		object->SetPosition(newPos);
 	}
 }
 

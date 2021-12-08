@@ -1,6 +1,6 @@
 #pragma once
 
-enum class ObjectsTag
+enum class ObjectTag
 {
 	Player,
 	Enemy,
@@ -8,7 +8,7 @@ enum class ObjectsTag
 	InvinciblePlayer,
 };
 
-class CObjectTag
+class TagUtils
 {
 };
 

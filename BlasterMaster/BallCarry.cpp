@@ -23,7 +23,7 @@ CBallCarry::CBallCarry()
 	InitAnimations();
 	InitColliders();
 
-	tag = ObjectsTag::Enemy;
+	tag = ObjectTag::Enemy;
 }
 
 CBallCarry::~CBallCarry()

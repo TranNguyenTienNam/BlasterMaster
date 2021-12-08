@@ -6,8 +6,7 @@ void CSophiaHorizontalState::Shooting()
 	auto newBullet = Instantiate<CHyperBeam>(owner->GetPosition() + owner->gun->GetPosition());
 	int nx = owner->GetDirection();
 	newBullet->SetDirection(nx);
-	newBullet->SetVelocity(Vector2(nx * 0.2f, 0.0f)); // TODO: Set velocity in bullet's constructor function
-	/*newBullet->GetColliders().at(0)->SetBoxSize(BOX_X);*/
+	newBullet->SetVelocity(Vector2(nx * newBullet->GetSpeed(), 0.0f));
 }
 
 void CSophiaHorizontalState::UpdateColliders()
@@ -17,8 +16,6 @@ void CSophiaHorizontalState::UpdateColliders()
 
 	colliders.at(0)->SetOffset(OFFSET_SOPHIA_IDLE);
 	colliders.at(0)->SetBoxSize(BOX_SOPHIA_IDLE);
-
-	owner->SetColliders(colliders);
 }
 
 void CSophiaHorizontalState::Update(DWORD dt)

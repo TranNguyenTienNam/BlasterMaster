@@ -11,8 +11,6 @@ void CSophiaUpward45State::UpdateColliders()
 
 	colliders.at(0)->SetOffset(Vector2(-0.5f * nx, 10.5f));
 	colliders.at(0)->SetBoxSize(BOX_SOPHIA_UPWARD_45);
-
-	owner->SetColliders(colliders);
 }
 
 void CSophiaUpward45State::Update(DWORD dt)

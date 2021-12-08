@@ -962,7 +962,7 @@
                          "value":1
                         }],
                  "rotation":0,
-                 "type":"",
+                 "type":"enemy",
                  "visible":true,
                  "width":22,
                  "x":125,
@@ -980,7 +980,7 @@
                          "value":1
                         }],
                  "rotation":0,
-                 "type":"",
+                 "type":"enemy",
                  "visible":true,
                  "width":22,
                  "x":157,
@@ -998,7 +998,7 @@
                          "value":1
                         }],
                  "rotation":0,
-                 "type":"",
+                 "type":"enemy",
                  "visible":true,
                  "width":22,
                  "x":125,
@@ -1016,7 +1016,7 @@
                          "value":-1
                         }],
                  "rotation":0,
-                 "type":"",
+                 "type":"enemy",
                  "visible":true,
                  "width":18,
                  "x":144,
@@ -1027,7 +1027,7 @@
                  "id":95,
                  "name":"jason",
                  "rotation":0,
-                 "type":"",
+                 "type":"player",
                  "visible":true,
                  "width":8,
                  "x":64,
@@ -1038,7 +1038,7 @@
                  "id":96,
                  "name":"sophia",
                  "rotation":0,
-                 "type":"",
+                 "type":"player",
                  "visible":true,
                  "width":8,
                  "x":80,

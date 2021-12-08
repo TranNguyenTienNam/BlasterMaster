@@ -4,7 +4,7 @@
 void CSophiaUpwardState::Shooting()
 {
 	auto newBullet = Instantiate<CHyperBeam>(owner->GetPosition() + owner->gun->GetPosition());
-	newBullet->SetVelocity(Vector2(0.0f, 0.2f));
+	newBullet->SetVelocity(Vector2(0.0f, newBullet->GetSpeed()));
 }
 
 void CSophiaUpwardState::UpdateColliders()

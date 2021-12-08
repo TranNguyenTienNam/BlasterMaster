@@ -31,6 +31,7 @@ CJason::CJason()
 	InitColliders();
 
 	// Player's settings
+	tag = ObjectTag::Player;
 	isEnabled = false;
 	onGround = false;
 	controllable = false;

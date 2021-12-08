@@ -9,12 +9,15 @@
 
 class CHyperBeam : public CBullet
 {
+private:
+	const float SPEED = 0.2f;
 protected:
 	void InitSprites();
 public:
 	CHyperBeam();
 	~CHyperBeam();
 
+	float GetSpeed() { return SPEED; }
 	virtual void Update(DWORD dt);
 	virtual void Render();
 
