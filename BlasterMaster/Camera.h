@@ -8,6 +8,7 @@ class CCamera : public CService
 protected:
 	Vector2 position;
 	RectF boundary;
+	RectF freezeBoundary = RectF(104, 64, 152, 160);
 	Vector2 bbSize;
 	CGameObject* target;
 public:

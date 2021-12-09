@@ -145,7 +145,7 @@ void CGame::Draw(Vector2 position, int nx,
 
 	spriteHandler->SetTransform(&mat);
 
-	spriteHandler->Draw(texture, &r, &center, &p, color); // TODO: VFX take damaged
+	spriteHandler->Draw(texture, &r, &center, &p, color);
 }
 
 LPDIRECT3DTEXTURE9 CGame::LoadTexture(LPCWSTR texturePath, D3DCOLOR transparentColor)

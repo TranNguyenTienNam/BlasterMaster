@@ -161,6 +161,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="HoverItem.cpp" />
     <ClCompile Include="HyperBeam.cpp" />
     <ClCompile Include="ObjectTag.cpp" />
     <ClCompile Include="PowerItem.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="HoverItem.h" />
     <ClInclude Include="HyperBeam.h" />
     <ClInclude Include="ObjectTag.h" />
     <ClInclude Include="PowerItem.h" />

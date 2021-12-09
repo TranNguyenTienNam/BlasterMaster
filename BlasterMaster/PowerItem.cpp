@@ -8,13 +8,6 @@ void CPowerItem::InitSprites()
 
 CPowerItem::CPowerItem()
 {
-	/*auto collider = new CCollider2D;
-	collider->SetGameObject(this);
-	collider->SetTrigger(true);
-	colliders.push_back(collider);
-
-	timeSpawn = GetTickCount();*/
-
 	InitSprites();
 }
 

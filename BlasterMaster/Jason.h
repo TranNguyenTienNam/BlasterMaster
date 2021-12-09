@@ -14,10 +14,11 @@ class CPlayable;
 class CJason : public CPlayable
 {
 private:
-	const float MOVE_SPEED = 0.1f;
-	const float MOVE_ACCELERATION = 0.0002f;
+	const float WALK_SPEED = 0.1f;
+	const float WALK_ACCELERATION = 0.0002f;
 	const float JUMP_SPEED = 0.53f;
 	const float GRAVITY = -0.0026f;
+	const float CROUCH_SPEED = 0.02f;
 	const Vector2 IDLE_SIZE = Vector2(8.0f, 16.0f);
 
 	D3DCOLOR damagedColor[4] =

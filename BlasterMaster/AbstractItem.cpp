@@ -22,6 +22,7 @@ void CAbstractItem::Update(DWORD dt)
 	DWORD now = GetTickCount();
 	if (now - timeSpawn > aliveDuration)
 	{
+		// TODO: Flickering effect before despawning
 		SetDestroyed();
 		SetEnable(false);
 	}
@@ -35,6 +36,7 @@ void CAbstractItem::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* c
 {
 	if (dynamic_cast<CPlayable*>(collision->obj))
 	{
+		// TODO: Set collider of all items is static, then move SetDestroyed and SetEnable function into GetEffect
 		GetEffect();
 		SetDestroyed();
 		SetEnable(false);

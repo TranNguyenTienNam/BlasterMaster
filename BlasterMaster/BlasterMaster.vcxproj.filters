@@ -231,6 +231,9 @@
     <ClCompile Include="PowerItem.cpp">
       <Filter>Game Source\Game Object\Items</Filter>
     </ClCompile>
+    <ClCompile Include="HoverItem.cpp">
+      <Filter>Game Source\Game Object\Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -375,6 +378,9 @@
       <Filter>Game Source\Game Object\Items</Filter>
     </ClInclude>
     <ClInclude Include="PowerItem.h">
+      <Filter>Game Source\Game Object\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="HoverItem.h">
       <Filter>Game Source\Game Object\Items</Filter>
     </ClInclude>
   </ItemGroup>

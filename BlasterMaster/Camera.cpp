@@ -4,6 +4,7 @@
 
 CCamera::CCamera()
 {
+	position = VectorInfinity();
 }
 
 CCamera::~CCamera()
@@ -23,7 +24,7 @@ Vector2 CCamera::WorldToScreenPoint(Vector2 pos)
 
 	mat *= translate;
 
-	return Vector2(mat._41, mat._42);
+	return Vector2((int)mat._41, (int)mat._42);
 }
 
 RectF CCamera::GetBoundingBox()
@@ -44,22 +45,24 @@ void CCamera::Update()
 	Vector2 posTarget = target->GetPosition();
 
 	Vector2 vpPlayer = WorldToScreenPoint(posTarget);
-	/*DebugOut(L"wp %f %f\n", posTarget.x, posTarget.y);*/
-	/*DebugOut(L"vp %f %f\n", vpPlayer.x, vpPlayer.y);*/	
 	
-	position.x = (int)(posTarget.x - bbSize.x / 2);
-	position.y = (int)(posTarget.y + bbSize.y / 2);
-
-	// static camera
-	/*if (vpPlayer.x >= 48 && vpPlayer.x <= 208)
-		position.x = posTarget.x - bbSize.x / 2;
-	if (vpPlayer.y >= 64 && vpPlayer.y <= 192)
-		position.y = posTarget.y + bbSize.y / 2;*/
-
-	// Camera co 2 kieu: static va follow target
-	// Static la camera khong chuyen dong khi target di chuyen trong mot rect nhat dinh 
-	// vpPlayer.x <= 48 || vpPlayer.x >= 208 (3 tile left right) (goi tat Viewport player)
-	// vpPlayer.y <= 64 || vpPlayer.y >= 192 (4 tile bottom top)
+	if (position == VectorInfinity())
+	{
+		position.x = (int)(posTarget.x - bbSize.x / 2);
+		position.y = (int)(posTarget.y + bbSize.y / 2);
+	}
+	else
+	{
+		// freeze camera
+		if (vpPlayer.x <= freezeBoundary.left)
+			position.x = (int)(posTarget.x - freezeBoundary.left);
+		if (vpPlayer.x >= freezeBoundary.right)
+			position.x = (int)(posTarget.x - freezeBoundary.right);
+		if (vpPlayer.y <= freezeBoundary.top)
+			position.y = (int)(posTarget.y + freezeBoundary.top);
+		if (vpPlayer.y >= freezeBoundary.bottom)
+			position.y = (int)(posTarget.y + freezeBoundary.bottom);
+	}
 
 	// Boundary block
 	if (position.x <= boundary.left)

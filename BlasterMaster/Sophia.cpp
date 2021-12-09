@@ -47,6 +47,8 @@ CSophia::CSophia()
 
 void CSophia::Update(DWORD dt)
 {
+	DebugOut(L"sophia pos %f %f\n", transform.position.x, transform.position.y);
+
 	velocity.x += acceleration.x * dt;
 	if (colliders.at(0)->IsDynamic() == true)
 		velocity.y += GRAVITY * dt;

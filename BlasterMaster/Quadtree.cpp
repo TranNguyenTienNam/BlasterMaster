@@ -18,7 +18,7 @@ void CQuadtree::Update(std::vector<CGameObject*> gameObjects)
 {
 	for (const auto& object : gameObjects)
 	{
-		if (object->IsEnabled() == false) continue; // TODO: [WARNING] Maybe this way will be unconvenient 
+		if (object->IsEnabled() == false) continue;
 
 		for (auto co : object->GetColliders())
 		{
