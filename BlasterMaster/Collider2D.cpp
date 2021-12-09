@@ -656,6 +656,7 @@ void CCollider2D::DealWithOverlappedCase(std::vector<CGameObject*>* coObjects)
 	for (auto coO : *coObjects)
 	{
 		if (coO == object) continue;
+		if (coO->IsEnabled() == false) continue;
 		if (coO->GetColliders().size() == 0) continue;
 
 		auto selfTag = object->GetTag();

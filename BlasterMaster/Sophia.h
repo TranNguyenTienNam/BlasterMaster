@@ -1,7 +1,6 @@
 #pragma once
-#include "GameObject.h"
-#include "SophiaState.h"
 #include "Playable.h"
+#include "SophiaState.h"
 #include "SophiaLeftWheel.h"
 #include "SophiaRightWheel.h"
 #include "SophiaMiddle.h"
@@ -15,7 +14,7 @@ class CSophiaMiddle;
 class CSophiaCabin;
 class CSophiaGun;
 
-class CSophia : public CGameObject, public CPlayable
+class CSophia : public CPlayable
 {
 private:
 	const float MOVE_SPEED = 0.15f;

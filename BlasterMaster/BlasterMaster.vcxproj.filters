@@ -82,6 +82,9 @@
     <Filter Include="Framework\Game Object">
       <UniqueIdentifier>{e22dcf06-1af2-4643-a949-d6df05b11e08}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Source\Game Object\Items">
+      <UniqueIdentifier>{8f8575af-cef9-4da4-be7f-b5b65f5b7a31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -222,6 +225,12 @@
     <ClCompile Include="ObjectTag.cpp">
       <Filter>Framework\Game Object</Filter>
     </ClCompile>
+    <ClCompile Include="AbstractItem.cpp">
+      <Filter>Game Source\Game Object\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="PowerItem.cpp">
+      <Filter>Game Source\Game Object\Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -361,6 +370,12 @@
     </ClInclude>
     <ClInclude Include="ObjectTag.h">
       <Filter>Framework\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractItem.h">
+      <Filter>Game Source\Game Object\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerItem.h">
+      <Filter>Game Source\Game Object\Items</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

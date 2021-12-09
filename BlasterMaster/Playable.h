@@ -1,6 +1,6 @@
 #pragma once
-#include <Windows.h>
 #include <dinput.h>
+#include "GameObject.h"
 
 class CJason;
 class CSophia;
@@ -15,7 +15,7 @@ enum PlayerKeySet
 	SOPHIA_UPWARD_KEY = DIK_UP
 };
 
-class CPlayable
+class CPlayable : public CGameObject
 {
 protected:
 	static CJason* jason;

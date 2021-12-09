@@ -1,5 +1,4 @@
 #pragma once
-#include "GameObject.h"
 #include "Playable.h"
 
 enum JasonState
@@ -12,7 +11,7 @@ enum JasonState
 
 class CPlayable;
 
-class CJason : public CGameObject, public CPlayable
+class CJason : public CPlayable
 {
 private:
 	const float MOVE_SPEED = 0.1f;

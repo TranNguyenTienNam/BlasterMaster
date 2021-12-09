@@ -10,6 +10,7 @@ protected:
 	int hp;
 	int damageOnCollision;
 public:
-	void DropItemOnDestroy();
+	void DropItem();
+	void OnDestroy();
 };
 

@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractItem.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationFrame.cpp" />
     <ClCompile Include="Animations.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="HyperBeam.cpp" />
     <ClCompile Include="ObjectTag.cpp" />
+    <ClCompile Include="PowerItem.cpp" />
     <ClCompile Include="SophiaMoveRightState.cpp" />
     <ClCompile Include="Collider2D.cpp" />
     <ClCompile Include="SophiaMoveLeftState.cpp" />
@@ -199,6 +201,7 @@
     <ClCompile Include="SophiaIdleState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractItem.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationFrame.h" />
     <ClInclude Include="Animations.h" />
@@ -210,6 +213,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="HyperBeam.h" />
     <ClInclude Include="ObjectTag.h" />
+    <ClInclude Include="PowerItem.h" />
     <ClInclude Include="SophiaMoveRightState.h" />
     <ClInclude Include="Collider2D.h" />
     <ClInclude Include="SophiaMoveLeftState.h" />

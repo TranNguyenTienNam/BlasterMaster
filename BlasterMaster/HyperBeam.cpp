@@ -43,10 +43,16 @@ void CHyperBeam::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* co
 
 void CHyperBeam::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
 {
-	if (dynamic_cast<CEnemy*>(collision->obj))
+	auto other = collision->obj;
+	if (dynamic_cast<CEnemy*>(other))
 	{
-		collision->obj->SetDestroyed();
+		((CEnemy*)other)->OnDestroy();
+		other->SetDestroyed();
+		other->SetEnable(false);
 	}
 
 	SetDestroyed();
+	SetEnable(false);
+
+	// TODO: Instantiate VFX explosion
 }
