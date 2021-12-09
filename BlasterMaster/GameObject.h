@@ -81,6 +81,7 @@ public:
 	virtual void Render() = 0;
 	virtual void OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 	virtual void OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
+	virtual void OnDestroy();
 };
 
 template<typename T>

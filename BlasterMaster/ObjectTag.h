@@ -6,6 +6,7 @@ enum class ObjectTag
 	Enemy,
 	Platform,
 	InvinciblePlayer,
+	Eyelet
 };
 
 class TagUtils

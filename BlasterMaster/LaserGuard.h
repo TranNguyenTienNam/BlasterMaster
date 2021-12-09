@@ -1,8 +1,7 @@
 #pragma once
-#include "GameObject.h"
 #include "Enemy.h"
 
-class CLaserGuard : public CGameObject, public CEnemy
+class CLaserGuard : public CEnemy
 {
 private:
 	const Vector2 DEFAULT_SIZE = Vector2(17.0f, 18.0f);

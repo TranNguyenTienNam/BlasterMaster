@@ -1,8 +1,7 @@
 #pragma once
-#include "GX680.h"
 #include "Enemy.h"
 
-class CGX680S : public CGameObject, public CEnemy
+class CGX680S : public CEnemy
 {
 private:
 	const Vector2 DEFAULT_SIZE = Vector2(18.0f, 16.0f);

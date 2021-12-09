@@ -2,6 +2,7 @@
 #include "Utils.h"
 #include "Playable.h"
 #include "Jason.h"
+#include "HyperBeam.h"
 
 CQuadtree::CQuadtree(const int level, const RectF& rect)
 	: m_level(level), m_rect(rect), m_subNodes{ nullptr, nullptr, nullptr, nullptr }
@@ -19,6 +20,13 @@ void CQuadtree::Update(std::vector<CGameObject*> gameObjects)
 	{
 		for (auto co : object->GetColliders())
 		{
+			if (object->GetQuadtree() == nullptr)
+			{
+				object->SetEnable(false);
+				object->SetDestroyed();
+				continue;
+			}
+
 			if (co->IsDynamic() == true)
 			{
 				if (object->GetQuadtree()->m_rect.Contain(object->GetPosition()) == false)
@@ -61,6 +69,8 @@ void CQuadtree::Split()
 
 void CQuadtree::RemoveGameObjectFromLeaf(CGameObject* gameObject)
 {
+	if (gameObject->GetQuadtree() == nullptr) return;
+
 	RectF rect = gameObject->GetQuadtree()->m_rect;
 	if (m_subNodes[0] != nullptr)
 	{
@@ -78,9 +88,10 @@ void CQuadtree::RemoveGameObjectFromLeaf(CGameObject* gameObject)
 		m_inNodes[gameObject->GetInNodesIndex()] = m_inNodes.back();
 		m_inNodes.pop_back();
 		// Update vector index
-		if (gameObject->GetInNodesIndex() < m_inNodes.size())
+		int index = gameObject->GetInNodesIndex();
+		if (index < m_inNodes.size())
 		{
-			m_inNodes[gameObject->GetInNodesIndex()]->SetInNodesIndex(gameObject->GetInNodesIndex());
+			m_inNodes[index]->SetInNodesIndex(index);
 		}
 		// Set the index of game object to -1
 		gameObject->SetInNodesIndex(-1);
@@ -162,7 +173,7 @@ void CQuadtree::Reset(float screen_width, float screen_height)
 }
 
 bool CQuadtree::Contain(CGameObject* gameObject)
-{ 
+{
 	Vector2 posObj = gameObject->GetPosition();
 	return m_rect.Contain(posObj); 
 }

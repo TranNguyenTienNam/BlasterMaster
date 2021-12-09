@@ -40,3 +40,7 @@ void CGameObject::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* c
 void CGameObject::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
 {
 }
+
+void CGameObject::OnDestroy()
+{
+}

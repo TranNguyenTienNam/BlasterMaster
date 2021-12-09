@@ -3,6 +3,7 @@
 tex-player	textures\player.png	41	255	4
 tex-tileset	textures\tileset.png	0	0	0
 tex-enemies	textures\enemies.png	41	255	4
+tex-items	textures\items.png	0	0	0
 
 # id			left	top	width	height	texture_id
 [SPRITES]
@@ -106,6 +107,12 @@ spr-jason-bullet	75	40	4	4	tex-player
 
 # === ENEMY BULLET ===
 spr-ballcarry-bomb	117	20	6	24	tex-enemies
+
+# ===== ITEMS ========
+spr-power-item	255	109	16	16	tex-items
+spr-hover-item	105	109	16	16	tex-items
+spr-gun-item	5	59	16	16	tex-items
+
 
 # ===== VFX ==========
 spr-explosion-0	140	101	7	8	tex-player

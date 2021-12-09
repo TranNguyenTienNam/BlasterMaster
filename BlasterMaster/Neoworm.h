@@ -1,8 +1,7 @@
 #pragma once
-#include "GameObject.h"
 #include "Enemy.h"
 
-class CNeoworm : public CGameObject, public CEnemy
+class CNeoworm : public CEnemy
 {
 private:
 	const Vector2 DEFAULT_SIZE = Vector2(9.0f, 9.0f);

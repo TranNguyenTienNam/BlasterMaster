@@ -9,6 +9,8 @@ CBrick::CBrick() :CGameObject()
 	collider->SetOffset(VectorZero());
 	collider->SetBoxSize(Vector2(BRICK_WIDTH, BRICK_WIDTH));
 	colliders.push_back(collider);
+
+	tag = ObjectTag::Platform;
 }
 
 void CBrick::Update(DWORD dt)

@@ -405,10 +405,14 @@ void CGame::_ParseSection_MAP(std::string line)
 				int width = object["width"].GetInt();
 				int height = object["height"].GetInt();
 
-				if (object.HasMember("nx") == true)
+				if (object.HasMember("properties") == true)
 				{
-					int nx = object["nx"].GetInt();
-					obj->SetDirection(nx);
+					auto properties = object["properties"].GetArray();
+					if (properties.Size() > 0)
+					{
+						int nx = properties[0]["value"].GetInt();
+						obj->SetDirection(nx);
+					}
 				}
 
 				obj->SetPosition(Vector2(x + width / 2, m_mapHeight - y + height / 2));
