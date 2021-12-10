@@ -35,5 +35,5 @@ void CDrap::Update(DWORD dt)
 void CDrap::Render()
 {
 	Vector2 pos = transform.position;
-	animations.at("Clockwise")->Render(pos, nx);
+	animations.at("Clockwise")->Render(pos, nx, layer_index);
 }

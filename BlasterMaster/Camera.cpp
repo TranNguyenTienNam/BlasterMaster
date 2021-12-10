@@ -53,7 +53,7 @@ void CCamera::Update()
 	}
 	else
 	{
-		// freeze camera
+		// Freeze camera
 		if (vpPlayer.x <= freezeBoundary.left)
 			position.x = (int)(posTarget.x - freezeBoundary.left);
 		if (vpPlayer.x >= freezeBoundary.right)

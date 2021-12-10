@@ -33,5 +33,5 @@ void CStuka::Update(DWORD dt)
 
 void CStuka::Render()
 {
-	animations.at("Stuka")->Render(transform.position, nx);
+	animations.at("Stuka")->Render(transform.position, nx, layer_index);
 }

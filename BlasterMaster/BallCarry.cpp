@@ -37,7 +37,7 @@ void CBallCarry::Update(DWORD dt)
 
 void CBallCarry::Render()
 {
-	animations.at("BallCarry")->Render(transform.position, nx);
+	animations.at("BallCarry")->Render(transform.position, nx, layer_index);
 }
 
 void CBallCarry::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)

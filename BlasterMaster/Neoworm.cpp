@@ -40,5 +40,5 @@ void CNeoworm::Update(DWORD dt)
 
 void CNeoworm::Render()
 {
-	animations.at("Move")->Render(transform.position, nx);
+	animations.at("Move")->Render(transform.position, nx, layer_index);
 }

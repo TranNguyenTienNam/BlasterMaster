@@ -23,6 +23,7 @@ protected:
 	bool isDestroyed = false;
 
 	ObjectTag tag;
+	int layer_index = 1;
 
 	Transform transform;
 	Vector2 velocity;

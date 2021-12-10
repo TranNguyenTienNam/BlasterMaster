@@ -27,5 +27,5 @@ void CSophiaRightWheel::Update(DWORD dt)
 
 void CSophiaRightWheel::Render()
 {
-	animations.at(ANIM_RIGHT_WHEEL)->Render(transform.position + parent->GetPosition(), -1);
+	animations.at(ANIM_RIGHT_WHEEL)->Render(transform.position + parent->GetPosition(), -1, layer_index);
 }

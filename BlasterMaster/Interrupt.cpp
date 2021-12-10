@@ -32,5 +32,5 @@ void CInterrupt::Update(DWORD dt)
 
 void CInterrupt::Render()
 {
-	sprites.at("Close")->Draw(transform.position, 1);
+	sprites.at("Close")->Draw(transform.position, 1, layer_index);
 }

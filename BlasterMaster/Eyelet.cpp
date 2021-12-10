@@ -44,5 +44,5 @@ void CEyelet::Update(DWORD dt)
 
 void CEyelet::Render()
 {
-	animations.at("Eyelet")->Render(transform.position, nx);
+	animations.at("Eyelet")->Render(transform.position, nx, layer_index);
 }

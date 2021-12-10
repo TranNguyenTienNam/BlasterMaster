@@ -18,5 +18,5 @@ void CHoverItem::GetEffect()
 
 void CHoverItem::Render()
 {
-	sprites.at("hover-item")->Draw(transform.position, 1);
+	sprites.at("hover-item")->Draw(transform.position, 1, layer_index);
 }

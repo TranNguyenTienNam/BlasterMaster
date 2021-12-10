@@ -18,7 +18,7 @@ protected:
 public:
 	CSprite(int left, int top, int witdh, int height, LPDIRECT3DTEXTURE9 texture);
 
-	void Draw(Vector2 position, int nx, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
+	void Draw(Vector2 position, int nx, int layer_index, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
 };
 
 typedef CSprite* LPSPRITE;

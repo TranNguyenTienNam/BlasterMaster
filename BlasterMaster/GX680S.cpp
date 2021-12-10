@@ -35,5 +35,5 @@ void CGX680S::Update(DWORD dt)
 
 void CGX680S::Render()
 {
-	animations.at("GX680S")->Render(transform.position, 1);
+	animations.at("GX680S")->Render(transform.position, 1, layer_index);
 }

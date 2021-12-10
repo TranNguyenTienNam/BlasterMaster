@@ -115,7 +115,7 @@ void CGame::InitDirectX(HWND hWnd)
 	DebugOut(L"[INFO] InitDirectX OK\n");
 }
 
-void CGame::Draw(Vector2 position, int nx, 
+void CGame::Draw(Vector2 position, int nx, int layer_index,
 	LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, D3DCOLOR color)
 {
 	Vector2 camPos = GetService<CCamera>()->GetPosition();
@@ -127,7 +127,7 @@ void CGame::Draw(Vector2 position, int nx,
 	r.right = right;
 	r.bottom = bottom;
 
-	Vector3 center = Vector3((right - left) / 2, (bottom - top) / 2, 0.0f);
+	Vector3 center = Vector3((right - left) / 2, (bottom - top) / 2, 1.0f);
 
 	D3DXMATRIX mat;
 	D3DXMatrixIdentity(&mat);
@@ -138,7 +138,7 @@ void CGame::Draw(Vector2 position, int nx,
 
 	// Translate
 	D3DXMATRIX translate;
-	D3DXMatrixTranslation(&translate, (position.x - camPos.x), (-position.y + camPos.y), 0.0f);
+	D3DXMatrixTranslation(&translate, (position.x - camPos.x), (-position.y + camPos.y), layer_index);
 
 	mat *= flipX;
 	mat *= translate;
@@ -456,9 +456,9 @@ void CGame::Render()
 		// Clear the whole window with a color
 		d3ddv->ColorFill(GetBackBuffer(), NULL, BACKGROUND_COLOR);
 
-		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
+		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_DEPTH_BACKTOFRONT);
 
-		map->Draw(Vector2(m_mapWidth / 2, m_mapHeight / 2), 1);
+		map->Draw(Vector2(m_mapWidth / 2, m_mapHeight / 2), 1, 1);
 
 		for (auto obj : updates)
 			if (obj->IsEnabled() == true) obj->Render();

@@ -33,5 +33,5 @@ void CLaserGuard::Update(DWORD dt)
 
 void CLaserGuard::Render()
 {
-	animations.at("LaserGuard")->Render(transform.position, 1);
+	animations.at("LaserGuard")->Render(transform.position, 1, layer_index);
 }

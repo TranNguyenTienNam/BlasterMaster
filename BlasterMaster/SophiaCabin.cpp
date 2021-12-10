@@ -29,7 +29,7 @@ void CSophiaCabin::Render()
 {
 	auto directionState = parent->GetDirectionState();
 	if (dynamic_cast<CSophiaHorizontalState*>(directionState))
-		sprites.at(SPR_CABIN_00)->Draw(transform.position + parent->GetPosition(), -nx);
+		sprites.at(SPR_CABIN_00)->Draw(transform.position + parent->GetPosition(), -nx, layer_index);
 	else 
-		sprites.at(SPR_CABIN_UPWARD)->Draw(transform.position + parent->GetPosition(), -nx);
+		sprites.at(SPR_CABIN_UPWARD)->Draw(transform.position + parent->GetPosition(), -nx, layer_index);
 }

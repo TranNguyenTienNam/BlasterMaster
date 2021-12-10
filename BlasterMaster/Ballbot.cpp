@@ -32,5 +32,5 @@ void CBallbot::Update(DWORD dt)
 
 void CBallbot::Render()
 {
-	animations.at("Ballbot")->Render(transform.position, nx);
+	animations.at("Ballbot")->Render(transform.position, nx, layer_index);
 }

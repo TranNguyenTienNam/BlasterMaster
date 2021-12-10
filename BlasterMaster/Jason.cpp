@@ -70,6 +70,8 @@ void CJason::SetState(JasonState state)
 
 void CJason::Update(DWORD dt)
 {
+	DebugOut(L"jason pos %f %f\n", transform.position.x, transform.position.y);
+
 	velocity.y += GRAVITY * dt;
 	velocity.x += acceleration.x * dt;
 
@@ -130,7 +132,7 @@ void CJason::Update(DWORD dt)
 
 void CJason::Render()
 {
-	animation->Render(transform.position, -nx, D3DCOLOR_ARGB(255, 124, 255, 124));
+	animation->Render(transform.position, -nx, layer_index + 1, D3DCOLOR_ARGB(255, 124, 255, 124));
 }
 
 void CJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)

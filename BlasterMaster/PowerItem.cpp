@@ -18,5 +18,5 @@ void CPowerItem::GetEffect()
 
 void CPowerItem::Render()
 {
-	sprites.at("power-item")->Draw(transform.position, 1);
+	sprites.at("power-item")->Draw(transform.position, 1, layer_index);
 }

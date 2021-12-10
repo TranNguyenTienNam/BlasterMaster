@@ -54,7 +54,8 @@ public:
 
 	void InitDirectX(HWND hWnd);
 
-	void Draw(Vector2 position, int nx, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, 
+	void Draw(Vector2 position, int nx, int layer_index,
+		LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom,
 		D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
 	LPDIRECT3DTEXTURE9 LoadTexture(LPCWSTR texturePath, D3DCOLOR transparentColor);
 
