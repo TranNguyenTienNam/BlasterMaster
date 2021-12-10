@@ -2,6 +2,11 @@
 #include "PowerItem.h"
 #include "HoverItem.h"
 
+CEnemy::CEnemy()
+{
+	tag = ObjectTag::Enemy;
+}
+
 void CEnemy::DropItem()
 {
 }

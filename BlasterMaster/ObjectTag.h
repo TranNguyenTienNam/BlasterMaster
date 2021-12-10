@@ -3,7 +3,6 @@
 enum class ObjectTag
 {
 	Player,
-	InvinciblePlayer,
 
 	Enemy,
 	Eyelet,

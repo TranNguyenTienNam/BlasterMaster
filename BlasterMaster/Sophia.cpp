@@ -204,7 +204,6 @@ void CSophia::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* colli
 		{
 			lastTimeTakeDamage = GetTickCount();
 			untouchable = true;
-			tag = ObjectTag::InvinciblePlayer;
 
 			// TODO: is pushed in the direction of the enemy's movement
 		}

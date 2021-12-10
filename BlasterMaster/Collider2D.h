@@ -54,7 +54,7 @@ public:
 		LPCOLLISIONEVENT& colX, LPCOLLISIONEVENT& colY,
 		bool filterX, bool filterY);
 	void PhysicsUpdate(std::vector<CGameObject*>* coObjects);
-	void PushingHandling(LPCOLLISIONEVENT& coEvent, float previousCollisionDuration);
+	void PushingHandling(LPCOLLISIONEVENT& coEvent, bool isOnlyAxis, float previousCollisionDuration);
 	void DealWithOverlappedCase(std::vector<CGameObject*>* coObjects);
 
 	bool IsTrigger() { return this->isTrigger; }
