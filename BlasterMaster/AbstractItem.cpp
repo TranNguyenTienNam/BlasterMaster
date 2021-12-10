@@ -11,6 +11,7 @@ CAbstractItem::CAbstractItem()
 	colliders.push_back(collider);
 
 	timeSpawn = GetTickCount();
+	flickeringDuration = (aliveDuration - preWarningDuration) / flickeringTimes;
 }
 
 void CAbstractItem::GetEffect()
@@ -20,9 +21,16 @@ void CAbstractItem::GetEffect()
 void CAbstractItem::Update(DWORD dt)
 {
 	DWORD now = GetTickCount();
+
+	if (now - timeSpawn > preWarningDuration)
+	{
+		int sizeAlphaArray = sizeof(alphaArray) / sizeof(*alphaArray);
+		int index = (now - timeSpawn - preWarningDuration) / flickeringDuration % sizeAlphaArray;
+		alpha = alphaArray[index];
+	}
+
 	if (now - timeSpawn > aliveDuration)
 	{
-		// TODO: Flickering effect before despawning
 		SetDestroyed();
 		SetEnable(false);
 	}
