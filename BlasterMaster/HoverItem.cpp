@@ -9,6 +9,8 @@ void CHoverItem::InitSprites()
 CHoverItem::CHoverItem()
 {
 	InitSprites();
+
+	dropRate = 50;
 }
 
 void CHoverItem::GetEffect()

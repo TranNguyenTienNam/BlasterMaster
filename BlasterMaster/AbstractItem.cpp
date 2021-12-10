@@ -1,6 +1,8 @@
 #include "AbstractItem.h"
 #include "Playable.h"
 
+int CAbstractItem::dropRate = 100;
+
 CAbstractItem::CAbstractItem()
 {
 	// Init colliders
@@ -24,8 +26,7 @@ void CAbstractItem::Update(DWORD dt)
 
 	if (now - timeSpawn > preWarningDuration)
 	{
-		int sizeAlphaArray = sizeof(alphaArray) / sizeof(*alphaArray);
-		int index = (now - timeSpawn - preWarningDuration) / flickeringDuration % sizeAlphaArray;
+		int index = (now - timeSpawn - preWarningDuration) / flickeringDuration % alphaArray.size();
 		alpha = alphaArray[index];
 	}
 

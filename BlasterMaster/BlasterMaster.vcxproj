@@ -163,6 +163,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="HoverItem.cpp" />
     <ClCompile Include="HyperBeam.cpp" />
+    <ClCompile Include="Math.cpp" />
     <ClCompile Include="ObjectTag.cpp" />
     <ClCompile Include="PowerItem.cpp" />
     <ClCompile Include="SophiaMoveRightState.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="HoverItem.h" />
     <ClInclude Include="HyperBeam.h" />
+    <ClInclude Include="Math.h" />
     <ClInclude Include="ObjectTag.h" />
     <ClInclude Include="PowerItem.h" />
     <ClInclude Include="SophiaMoveRightState.h" />

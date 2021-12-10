@@ -9,11 +9,13 @@ protected:
 	const int flickeringTimes = 50;
 
 	int alpha = 255;
-	int alphaArray[4] = { 100,255,160,255 };
+	std::vector<int> alphaArray = { 100,255,160,255 };
 	DWORD timeSpawn;
 	DWORD flickeringDuration;
+	static int dropRate;
 public:
 	CAbstractItem();
+	static int GetDropRate() { return dropRate; }
 	virtual void GetEffect();
 	virtual void Update(DWORD dt);
 	virtual void Render();

@@ -85,6 +85,9 @@
     <Filter Include="Game Source\Game Object\Items">
       <UniqueIdentifier>{8f8575af-cef9-4da4-be7f-b5b65f5b7a31}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Utils">
+      <UniqueIdentifier>{c09eac23-5e5a-4945-afd7-ec1559d1959c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -101,9 +104,6 @@
     </ClCompile>
     <ClCompile Include="Textures.cpp">
       <Filter>Framework\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils.cpp">
-      <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Framework</Filter>
@@ -234,6 +234,12 @@
     <ClCompile Include="HoverItem.cpp">
       <Filter>Game Source\Game Object\Items</Filter>
     </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>Framework\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Math.cpp">
+      <Filter>Framework\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -250,9 +256,6 @@
     </ClInclude>
     <ClInclude Include="Textures.h">
       <Filter>Framework\Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils.h">
-      <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Framework</Filter>
@@ -382,6 +385,12 @@
     </ClInclude>
     <ClInclude Include="HoverItem.h">
       <Filter>Game Source\Game Object\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Framework\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Framework\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
