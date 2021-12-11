@@ -48,15 +48,6 @@ public:
 	void AddGameObject(CGameObject* object);
 };
 
-class CPlayScenceKeyHandler : public CScenceKeyHandler
-{
-public:
-	virtual void KeyState(BYTE* states);
-	virtual void OnKeyDown(int KeyCode);
-	virtual void OnKeyUp(int KeyCode) {};
-	CPlayScenceKeyHandler(CScene* s) :CScenceKeyHandler(s) {};
-};
-
 template<typename T>
 inline T* Instantiate(Vector2 position)
 {
@@ -66,3 +57,12 @@ inline T* Instantiate(Vector2 position)
 	current_scene->AddGameObject(newObject);
 	return (T*)newObject;
 }
+
+class CPlayScenceKeyHandler : public CScenceKeyHandler
+{
+public:
+	virtual void KeyState(BYTE* states);
+	virtual void OnKeyDown(int KeyCode);
+	virtual void OnKeyUp(int KeyCode) {};
+	CPlayScenceKeyHandler(CScene* s) :CScenceKeyHandler(s) {};
+};

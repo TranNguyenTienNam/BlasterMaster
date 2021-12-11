@@ -12,7 +12,8 @@ class CPortal : public CGameObject
 	int width;
 	int height;
 public:
-	CPortal(float l, float t, float w, float h, int scene_id);
+	CPortal(float w, float h, int scene_id);
 	void Update(DWORD dt);
+	void Render();
 	int GetSceneId() { return scene_id; }
 };

@@ -938,6 +938,102 @@
                  "width":16,
                  "x":80,
                  "y":160
+                }, 
+                {
+                 "gid":32,
+                 "height":16,
+                 "id":108,
+                 "name":"brick",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":16,
+                 "y":368
+                }, 
+                {
+                 "gid":31,
+                 "height":16,
+                 "id":109,
+                 "name":"brick",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":0,
+                 "y":368
+                }, 
+                {
+                 "gid":32,
+                 "height":16,
+                 "id":110,
+                 "name":"brick",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":0,
+                 "y":416
+                }, 
+                {
+                 "gid":43,
+                 "height":16,
+                 "id":111,
+                 "name":"brick",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":16,
+                 "y":416
+                }, 
+                {
+                 "gid":44,
+                 "height":16,
+                 "id":112,
+                 "name":"brick",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":32,
+                 "y":368
+                }, 
+                {
+                 "gid":44,
+                 "height":16,
+                 "id":113,
+                 "name":"brick",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":32,
+                 "y":416
+                }, 
+                {
+                 "gid":9,
+                 "height":16,
+                 "id":106,
+                 "name":"brick",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":48,
+                 "y":128
+                }, 
+                {
+                 "gid":21,
+                 "height":16,
+                 "id":107,
+                 "name":"brick",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":48,
+                 "y":144
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1030,7 +1126,7 @@
                  "type":"player",
                  "visible":true,
                  "width":8,
-                 "x":64,
+                 "x":80,
                  "y":112
                 }, 
                 {
@@ -1043,6 +1139,17 @@
                  "width":8,
                  "x":80,
                  "y":112
+                }, 
+                {
+                 "height":32,
+                 "id":105,
+                 "name":"portal",
+                 "rotation":0,
+                 "type":"portal",
+                 "visible":true,
+                 "width":16,
+                 "x":48,
+                 "y":368
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1051,7 +1158,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":104,
+ "nextobjectid":114,
  "orientation":"orthogonal",
  "properties":[
         {

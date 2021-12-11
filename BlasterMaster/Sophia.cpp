@@ -14,6 +14,7 @@
 #include "Scenes.h"
 #include "Enemy.h"
 #include "PlayScene.h"
+#include "Portal.h"
 
 void CSophia::InitColliders()
 {
@@ -209,6 +210,10 @@ void CSophia::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* colli
 
 			// TODO: is pushed in the direction of the enemy's movement
 		}
+	}
+	else if (dynamic_cast<CPortal*>(other))
+	{
+		CGame::GetInstance()->GetService<CScenes>()->SwitchScene(1);
 	}
 }
 

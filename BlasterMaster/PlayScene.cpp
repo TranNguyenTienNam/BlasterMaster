@@ -50,7 +50,6 @@ CPlayScene::~CPlayScene()
 
 void CPlayScene::Load()
 {
-	LPCWSTR sceneFilePath = L"database\\scene2.txt";
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
 
 	auto game = CGame::GetInstance();
@@ -239,14 +238,27 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 			{
 				CGameObject* obj = NULL;
 
+				int x = object["x"].GetInt();
+				int y = object["y"].GetInt();
+
+				int width = object["width"].GetInt();
+				int height = object["height"].GetInt();
+
 				auto object_type = object["name"].GetString();
 
 				if (strcmp(object_type, "jason") == 0) obj = new CJason;
 				else if (strcmp(object_type, "sophia") == 0)
 				{
+					if (player != NULL)
+					{
+						DebugOut(L"[ERROR] SOPHIA object was created before!\n");
+						return;
+					}
 					obj = new CSophia;
 					player = (CSophia*)obj;
 					mainCam->SetTarget(player);
+
+					DebugOut(L"[INFO] Player object created!\n");
 				}
 				else if (strcmp(object_type, "interrupt") == 0) obj = new CInterrupt;
 				else if (strcmp(object_type, "neoworm") == 0) obj = new CNeoworm;
@@ -259,17 +271,17 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 				else if (strcmp(object_type, "gx680s") == 0) obj = new CGX680S;
 				else if (strcmp(object_type, "laserguard") == 0) obj = new CLaserGuard;
 				else if (strcmp(object_type, "brick") == 0) obj = new CBrick;
+				else if (strcmp(object_type, "portal") == 0)
+				{
+					int scene_id = 1;
+					obj = new CPortal(width, height, scene_id);
+					DebugOut(L"[INFO] Portal object created!\n");
+				}
 				else
 				{
 					DebugOut(L"[ERR] Invalid object type: %s\n", ToWSTR(object_type).c_str());
 					continue;
 				}
-
-				int x = object["x"].GetInt();
-				int y = object["y"].GetInt();
-
-				int width = object["width"].GetInt();
-				int height = object["height"].GetInt();
 
 				if (object.HasMember("properties") == true)
 				{
@@ -283,8 +295,7 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 
 				obj->SetPosition(Vector2(x + width / 2, m_mapHeight - y + height / 2));
 
-				gameObjects.push_back(obj);
-				quadtree->Insert(obj);
+				AddGameObject(obj);
 			}
 		}
 	}
@@ -327,9 +338,7 @@ void CPlayScene::Render()
 	Unload current scene
 */
 void CPlayScene::Unload()
-{
-	delete map;
-	 
+{ 
 	for (auto obj : gameObjects)
 		obj->SetDestroyed();
 	gameObjects.clear();
@@ -366,6 +375,20 @@ void CPlayScene::AddGameObject(CGameObject* object)
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	switch (KeyCode)
+	{
+	case DIK_1:
+		CGame::GetInstance()->GetService<CScenes>()->SwitchScene(1);
+		break;
+	case DIK_2:
+		CGame::GetInstance()->GetService<CScenes>()->SwitchScene(2);
+		break;
+	case DIK_3:
+		CGame::GetInstance()->GetService<CScenes>()->SwitchScene(3);
+		break;
+	default:
+		break;
+	}
 }
 
 void CPlayScenceKeyHandler::KeyState(BYTE* states)

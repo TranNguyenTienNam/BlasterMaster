@@ -745,5 +745,5 @@ void CCollider2D::RenderBoundingBox()
 	rect.right = boxSize.x;
 	rect.bottom = boxSize.y;
 
-	CGame::GetInstance()->Draw(posCollider, -1, 10, bbox, rect.left, rect.top, rect.right, rect.bottom, D3DCOLOR_ARGB(100, 255, 255, 255));
+	CGame::GetInstance()->Draw(posCollider, -1, 2, bbox, rect.left, rect.top, rect.right, rect.bottom, D3DCOLOR_ARGB(100, 255, 255, 255));
 }

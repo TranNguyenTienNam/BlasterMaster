@@ -4,7 +4,7 @@
 void CNeoworm::InitSprites()
 {
 	auto sprites = CGame::GetInstance()->GetService<CSprites>();
-	AddSprite("Larval", sprites->Get("spr-neoworm-larval"));
+	AddSprite("Larva", sprites->Get("spr-neoworm-larva"));
 }
 
 void CNeoworm::InitAnimations()

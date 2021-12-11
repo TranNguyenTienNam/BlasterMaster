@@ -77,6 +77,7 @@ void CScenes::SwitchScene(int scene_id)
 
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];
+
 	game->GetService<CInputHandler>()->SetKeyHandler(s->GetKeyEventHandler());
 	s->Load();
 }
