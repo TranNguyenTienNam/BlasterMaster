@@ -7,11 +7,13 @@
 
 #include "Animation.h"
 #include "Transform.h"
-#include "Quadtree.h"
 #include "Collider2D.h"
 #include "Utils.h"
 #include "ObjectTag.h"
+#include "PlayScene.h"
+#include "Scenes.h"
 
+class CPlayScene;
 class CQuadtree;
 class CCollider2D;
 struct CCollisionEvent;
@@ -84,14 +86,5 @@ public:
 	virtual void OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 	virtual void OnDestroy();
 };
-
-template<typename T>
-inline T* Instantiate(Vector2 position)
-{
-	CGameObject* newObject = new T;
-	newObject->SetPosition(position);
-	CGame::GetInstance()->AddGameObject(newObject);
-	return (T*)newObject;
-}
 
 #endif

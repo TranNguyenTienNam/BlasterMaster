@@ -11,7 +11,9 @@
 #include "Brick.h"
 #include "Jason.h"
 #include "Camera.h"
+#include "Scenes.h"
 #include "Enemy.h"
+#include "PlayScene.h"
 
 void CSophia::InitColliders()
 {
@@ -148,7 +150,7 @@ void CSophia::Update(DWORD dt)
 
 			// Enable Jason, set jason's position, state is jumping
 			auto game = CGame::GetInstance();
-			game->SetPlayer(jason);
+			((CPlayScene*)game->GetService<CScenes>()->GetCurrentScene())->SetPlayer(jason);
 			game->GetService<CCamera>()->SetTarget(jason);
 
 			jason->SetEnable(true);

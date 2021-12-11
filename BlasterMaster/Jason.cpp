@@ -6,6 +6,8 @@
 #include "Sophia.h"
 #include "Camera.h"
 #include "Neoworm.h"
+#include "PlayScene.h"
+#include "Scenes.h"
 
 void CJason::InitAnimations()
 {
@@ -152,7 +154,7 @@ void CJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collis
 			isEnabled = false;
 
 			auto game = CGame::GetInstance();
-			game->SetPlayer(sophia);
+			((CPlayScene*)game->GetService<CScenes>()->GetCurrentScene())->SetPlayer(sophia);
 			game->GetService<CCamera>()->SetTarget(sophia);
 
 			sophia->SetControllable(true);

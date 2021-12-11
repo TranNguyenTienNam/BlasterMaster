@@ -14,11 +14,8 @@
 
 #define MAX_FRAME_RATE 120
 
-class CGameObject;
-class CTile;
 class CSprite;
 typedef CSprite* LPSPRITE;
-class CQuadtree;
 
 class CGame : public CServiceLocator
 {
@@ -37,17 +34,6 @@ class CGame : public CServiceLocator
 
 	int screen_width;
 	int screen_height;
-
-	float m_mapWidth;
-	float m_mapHeight;
-
-	LPSPRITE map;
-
-	CGameObject* player;
-	std::vector<CGameObject*> gameObjects;
-	std::vector<CGameObject*> updates;
-
-	CQuadtree* quadtree;
 public:
 	static CGame* GetInstance();
 	static DWORD GetDeltaTime() { return deltaTime; }
@@ -64,16 +50,6 @@ public:
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
 	int GetScreenWidth() { return screen_width; }
 	int GetScreenHeight() { return screen_height; }
-
-	void Load();
-	void _ParseSection_TEXTURES(std::string line);
-	void _ParseSection_SPRITES(std::string line);
-	void _ParseSection_ANIMATIONS(std::string line);
-	void _ParseSection_MAP(std::string line);
-
-	CGameObject* GetPlayer() { return player; }
-	void SetPlayer(CGameObject* object) { this->player = object; }
-	void AddGameObject(CGameObject* object);
 
 	void Update(DWORD dt);
 	void Render();

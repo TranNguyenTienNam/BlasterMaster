@@ -165,7 +165,10 @@
     <ClCompile Include="HyperBeam.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="ObjectTag.cpp" />
+    <ClCompile Include="PlayScene.cpp" />
+    <ClCompile Include="Portal.cpp" />
     <ClCompile Include="PowerItem.cpp" />
+    <ClCompile Include="Scenes.cpp" />
     <ClCompile Include="SophiaMoveRightState.cpp" />
     <ClCompile Include="Collider2D.cpp" />
     <ClCompile Include="SophiaMoveLeftState.cpp" />
@@ -217,7 +220,11 @@
     <ClInclude Include="HyperBeam.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="ObjectTag.h" />
+    <ClInclude Include="PlayScene.h" />
+    <ClInclude Include="Portal.h" />
     <ClInclude Include="PowerItem.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Scenes.h" />
     <ClInclude Include="SophiaMoveRightState.h" />
     <ClInclude Include="Collider2D.h" />
     <ClInclude Include="SophiaMoveLeftState.h" />

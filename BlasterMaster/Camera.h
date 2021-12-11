@@ -3,6 +3,8 @@
 #include "Transform.h"
 #include "GameObject.h"
 
+class CGameObject;
+
 class CCamera : public CService
 {
 protected:

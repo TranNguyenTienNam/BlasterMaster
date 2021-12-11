@@ -88,6 +88,12 @@
     <Filter Include="Framework\Utils">
       <UniqueIdentifier>{c09eac23-5e5a-4945-afd7-ec1559d1959c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Scene">
+      <UniqueIdentifier>{5b91a1d8-c74c-4bfe-89be-84e206be9c99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Source\Game Object\Portal">
+      <UniqueIdentifier>{8bd9cddb-2cdb-4039-88b5-d7d2c26bcb90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -240,6 +246,15 @@
     <ClCompile Include="Math.cpp">
       <Filter>Framework\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Scenes.cpp">
+      <Filter>Framework\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayScene.cpp">
+      <Filter>Framework\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Game Source\Game Object\Portal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -391,6 +406,18 @@
     </ClInclude>
     <ClInclude Include="Math.h">
       <Filter>Framework\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes.h">
+      <Filter>Framework\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Framework\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScene.h">
+      <Filter>Framework\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Game Source\Game Object\Portal</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

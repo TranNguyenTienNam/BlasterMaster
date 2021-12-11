@@ -1,8 +1,5 @@
 #include "Quadtree.h"
 #include "Utils.h"
-#include "Playable.h"
-#include "Jason.h"
-#include "HyperBeam.h"
 
 CQuadtree::CQuadtree(const int level, const RectF& rect)
 	: m_level(level), m_rect(rect), m_subNodes{ nullptr, nullptr, nullptr, nullptr }
