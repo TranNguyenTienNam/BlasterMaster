@@ -32,4 +32,17 @@ public:
 	LPSPRITE Get(std::string id);
 	void Clear();
 };
+
+class CMapBackground : public CSprite
+{
+protected:
+	Vector2 position;
+public:
+	CMapBackground();
+	Vector2 GetPosition() { return this->position; }
+	void SetPosition(Vector2 pos) { this->position = pos; }
+	void Draw(int nx, int layer_index, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
+};
+
+typedef CMapBackground* LPMAPBACKGROUND;
 #endif

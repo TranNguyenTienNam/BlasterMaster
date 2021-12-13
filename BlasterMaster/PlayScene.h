@@ -15,18 +15,30 @@ const int CELL_SIZE = 128;
 class CGameObject;
 class CQuadtree;
 
+enum class PlaySceneState
+{
+	FreePlaying,
+	Switching,
+};
+
 class CPlayScene : public CScene
 {
 protected:
+	PlaySceneState state;
+
 	CGameObject* player;
-	std::vector<CGameObject*> gameObjects;
+
+	LPSPRITE map;								// current scene
+	std::vector<CGameObject*> gameObjects;				//
+	
+	LPSPRITE map_switching;						// TODO: last scene, maybe both vector?
+	std::vector<CGameObject*> gameObjects_switching;	//
+
 	std::vector<CGameObject*> updates;
 	CQuadtree* quadtree;					// Quadtree for space partitioning
 
 	float m_mapWidth;
 	float m_mapHeight;
-
-	LPSPRITE map;
 
 	void _ParseSection_TEXTURES(std::string line);
 	void _ParseSection_SPRITES(std::string line);
@@ -42,9 +54,14 @@ public:
 	virtual void Render();
 	virtual void Unload();
 	virtual void Clean();
+	virtual void PreSwitchingSection(std::vector<CGameObject*> objects, LPMAPBACKGROUND mapBackGround);
+	virtual void AfterSwitchingSection();
 
+	void SetState(PlaySceneState _state) { this->state = _state; }
+	LPSPRITE GetMapBackground() { return this->map; }
 	CGameObject* GetPlayer() { return player; }
 	void SetPlayer(CGameObject* object) { this->player = object; }
+	std::vector<CGameObject*> GetGameObjects() { return this->gameObjects; }
 	void AddGameObject(CGameObject* object);
 };
 

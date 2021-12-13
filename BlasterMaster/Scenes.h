@@ -23,6 +23,7 @@ public:
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	void Load(LPCWSTR gameFile);
 	void SwitchScene(int scene_id);
+	void SwitchSection(int scene_id);
 };
 
 #endif 

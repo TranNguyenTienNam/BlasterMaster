@@ -7,6 +7,7 @@
 #include "Enemy.h"
 #include "BallCarry.h"
 #include "Brick.h"
+#include "Interrupt.h"
 
 void CCollider2D::SweptAABB(
 	RectF movingRect, RectF staticRect,
@@ -498,6 +499,7 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 				else
 				{
 					pos.x += coEventY->t * dx;
+					object->SetPosition(pos);
 				}
 			}
 			// collision on X first
@@ -539,10 +541,9 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 				else
 				{
 					pos.y += coEventX->t * dy;
+					object->SetPosition(pos);
 				}
 			}
-
-			object->SetPosition(pos);
 		}
 		else
 		{
@@ -667,6 +668,11 @@ void CCollider2D::DealWithOverlappedCase(std::vector<CGameObject*>* coObjects)
 
 		auto selfTag = object->GetTag();
 		auto otherTag = coO->GetTag();
+		if ((selfTag == ObjectTag::Player && otherTag == ObjectTag::Enemy) ||
+			(otherTag == ObjectTag::Player && selfTag == ObjectTag::Enemy))
+			continue;
+
+		//if (dynamic_cast<CInterrupt*>(coO)) DebugOut(L"CAILONMA\n");
 
 		auto coOther = coO->GetColliders().at(0);
 		if (coOther->isTrigger == true) continue;

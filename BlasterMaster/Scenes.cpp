@@ -81,3 +81,23 @@ void CScenes::SwitchScene(int scene_id)
 	game->GetService<CInputHandler>()->SetKeyHandler(s->GetKeyEventHandler());
 	s->Load();
 }
+
+void CScenes::SwitchSection(int scene_id)
+{
+	DebugOut(L"[INFO] Switching to section %d\n", scene_id);
+
+	auto game = CGame::GetInstance();
+	auto currentScene = ((CPlayScene*)scenes[current_scene]);
+
+	// Step 1: Translate position of last objects and camera's boundary
+
+	// Step 2: Load new scene and 
+	current_scene = scene_id;
+	auto s = (CPlayScene*)scenes[scene_id];
+	game->GetService<CInputHandler>()->SetKeyHandler(s->GetKeyEventHandler());
+	s->SetState(PlaySceneState::Switching);
+	s->Load();
+	//s->PreSwitchingSection(currentScene->GetGameObjects(), currentScene->GetMapBackground());
+
+	// Step 3: Unload game objects of last scene
+}

@@ -663,7 +663,7 @@
         {
          "name":"Image Path",
          "type":"string",
-         "value":"maps\/sectionC.png"
+         "value":"maps/sectionC.png"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.7.2",

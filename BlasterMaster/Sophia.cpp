@@ -50,7 +50,7 @@ CSophia::CSophia()
 
 void CSophia::Update(DWORD dt)
 {
-	DebugOut(L"sophia pos %f %f\n", transform.position.x, transform.position.y);
+	//DebugOut(L"sophia pos %f %f v %f %f\n", transform.position.x, transform.position.y, velocity.x, velocity.y);
 
 	velocity.x += acceleration.x * dt;
 	if (colliders.at(0)->IsDynamic() == true)
@@ -213,7 +213,7 @@ void CSophia::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* colli
 	}
 	else if (dynamic_cast<CPortal*>(other))
 	{
-		CGame::GetInstance()->GetService<CScenes>()->SwitchScene(1);
+		CGame::GetInstance()->GetService<CScenes>()->SwitchScene(2);
 	}
 }
 

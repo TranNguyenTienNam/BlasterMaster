@@ -36,3 +36,12 @@ void CSprites::Clear()
 
 	sprites.clear();
 }
+
+CMapBackground::CMapBackground() :CSprite(left, top, width, height, texture)
+{
+}
+
+void CMapBackground::Draw(int nx, int layer_index, D3DCOLOR color)
+{
+	CGame::GetInstance()->Draw(position, nx, layer_index, texture, left, top, left + width, top + height, color);
+}

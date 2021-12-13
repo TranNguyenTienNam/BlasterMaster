@@ -14,7 +14,6 @@ CGameObject::~CGameObject()
 	colliders.clear();
 
 	delete ownerQuadtree;
-	// TODO: Why cannot call this function?
 }
 
 void CGameObject::AddSprite(std::string stateName, LPSPRITE sprite)
@@ -30,7 +29,7 @@ void CGameObject::AddAnimation(std::string stateName, LPANIMATION animation)
 void CGameObject::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 {
 	for (auto co : colliders)
-		co->PhysicsUpdate(coObjects);
+		if (co != nullptr) co->PhysicsUpdate(coObjects);
 }
 
 void CGameObject::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)

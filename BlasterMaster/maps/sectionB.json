@@ -5913,7 +5913,7 @@
         {
          "name":"Image Path",
          "type":"string",
-         "value":"maps\/sectionB.png"
+         "value":"maps/sectionB.png"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.7.2",

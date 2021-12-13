@@ -28,6 +28,7 @@
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 	CScene(id, filePath)
 {
+	state = PlaySceneState::FreePlaying;
 	key_handler = new CPlayScenceKeyHandler(this);
 }
 
@@ -90,6 +91,12 @@ void CPlayScene::Load()
 
 	f.close();
 
+	/*if (state == PlaySceneState::FreePlaying)
+	{
+		game->GetService<CTextures>()->Add("tex-bbox", L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
+		game->GetService<CTextures>()->Add("tex-green-bbox", L"textures\\green-bbox.png", D3DCOLOR_XRGB(255, 255, 255));
+	}*/
+
 	game->GetService<CTextures>()->Add("tex-bbox", L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 	game->GetService<CTextures>()->Add("tex-green-bbox", L"textures\\green-bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
@@ -98,6 +105,8 @@ void CPlayScene::Load()
 
 void CPlayScene::_ParseSection_TEXTURES(std::string line)
 {
+	if (state == PlaySceneState::Switching) return;
+
 	vector<string> tokens = split(line);
 
 	if (tokens.size() < 5) return; // skip invalid lines
@@ -113,6 +122,8 @@ void CPlayScene::_ParseSection_TEXTURES(std::string line)
 
 void CPlayScene::_ParseSection_SPRITES(std::string line)
 {
+	if (state == PlaySceneState::Switching) return;
+
 	vector<string> tokens = split(line);
 
 	if (tokens.size() < 6) return; // skip invalid lines
@@ -136,6 +147,8 @@ void CPlayScene::_ParseSection_SPRITES(std::string line)
 
 void CPlayScene::_ParseSection_ANIMATIONS(std::string line)
 {
+	if (state == PlaySceneState::Switching) return;
+
 	vector<string> tokens = split(line);
 
 	if (tokens.size() < 3) return; // skip invalid lines - an animation must at least has 1 frame and 1 frame time
@@ -205,18 +218,19 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 		if (strcmp(prop["name"].GetString(), "Image Path") == 0)
 		{
 			std::string image_path = prop["value"].GetString();
-			std::string texID = "tex-" + image_path;
-			texID.erase(texID.end() - 4, texID.end());
+			std::string map_name = image_path;
+			map_name.erase(map_name.end() - 4, map_name.end());
+			map_name.erase(map_name.begin(), map_name.begin() + 5);
 
+			std::string texID = "tex-" + map_name;
 			auto textures = game->GetService<CTextures>();
 			textures->Add(texID, ToWSTR(image_path).c_str(), D3DCOLOR_XRGB(0, 0, 0));
 			auto texmap = textures->Get(texID);
 
-			std::string sprID = "spr-" + image_path;
-			sprID.erase(sprID.end() - 4, sprID.end());
-
+			std::string sprID = "spr-" + map_name;
 			auto sprites = game->GetService<CSprites>();
 			sprites->Add(sprID, 0, 0, m_mapWidth, m_mapHeight, texmap);
+
 			map = sprites->Get(sprID);
 		}
 	}
@@ -252,7 +266,7 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 					if (player != NULL)
 					{
 						DebugOut(L"[ERROR] SOPHIA object was created before!\n");
-						return;
+						continue;
 					}
 					obj = new CSophia;
 					player = (CSophia*)obj;
@@ -305,13 +319,14 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 
 void CPlayScene::Update(DWORD dt)
 {
+	DebugOut(L"[CODE] Update %d\n", gameObjects.size());
 	auto mainCam = CGame::GetInstance()->GetService<CCamera>();
 	mainCam->Update();
 
 	updates.clear();
 	quadtree->Update(gameObjects);
+	//quadtree->Update(gameObjects_switching);
 	quadtree->Retrieve(updates, mainCam->GetBoundingBox());
-	DebugOut(L"[BEGIN LOOP] updates %d\n", updates.size());
 
 	for (auto obj : updates)
 		if (obj->IsEnabled() == true) obj->PhysicsUpdate(&updates);
@@ -322,7 +337,11 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
+	//if (map != nullptr)
 	map->Draw(Vector2(m_mapWidth / 2, m_mapHeight / 2), 1, 1);
+
+	/*if (map_switching != nullptr) 
+		map_switching->Draw(1, 1);*/
 
 	for (auto obj : updates)
 		if (obj->IsEnabled() == true) obj->Render();
@@ -340,13 +359,17 @@ void CPlayScene::Render()
 void CPlayScene::Unload()
 { 
 	for (auto obj : gameObjects)
+	{
 		obj->SetDestroyed();
+		obj->SetEnable(false);
+	}
 	gameObjects.clear();
 
 	player = NULL;
 	
 	if (quadtree != nullptr)
 	{
+		//quadtree->Reset(m_mapWidth, m_mapHeight);
 		delete quadtree;
 		quadtree = nullptr;
 	}
@@ -364,6 +387,42 @@ void CPlayScene::Clean()
 			delete obj;
 		}
 	}
+}
+
+void CPlayScene::PreSwitchingSection(std::vector<CGameObject*> objects, LPMAPBACKGROUND mapBackGround)
+{
+	// Translate object's position and push into backup vector
+	//for (auto obj : objects)
+	//{
+	//	auto pos = obj->GetPosition();
+	//	pos += Vector2(1376, 304); // TODO: Temp, get translation property of portal
+	//	obj->SetPosition(pos);
+
+	//	AddGameObject(obj);
+	//	gameObjects_switching.emplace_back(obj);
+	//}
+
+	//map_switching = mapBackGround;
+	//auto posMap = map_switching->GetPosition();
+	//posMap += Vector2(1376, 304); // TODO: Temp, get translation property of portal
+	//map_switching->SetPosition(posMap);
+
+	//CGame::GetInstance()->GetService<CCamera>()->SetBoundless(true);
+}
+
+void CPlayScene::AfterSwitchingSection()
+{
+	state = PlaySceneState::FreePlaying;
+
+	for (auto obj : gameObjects_switching)
+	{
+		obj->SetEnable(false);
+		obj->SetDestroyed();
+	}
+
+	map_switching = nullptr;
+
+	CGame::GetInstance()->GetService<CCamera>()->SetBoundless(false);
 }
 
 void CPlayScene::AddGameObject(CGameObject* object)

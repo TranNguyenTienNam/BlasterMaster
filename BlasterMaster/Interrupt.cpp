@@ -1,4 +1,5 @@
 #include "Interrupt.h"
+#include "Sprites.h"
 
 void CInterrupt::InitAnimations()
 {

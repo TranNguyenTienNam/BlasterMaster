@@ -178,8 +178,8 @@ void CGame::GameInit(HWND hWnd)
 	game->AddService(new CInputHandler);
 	game->GetService<CInputHandler>()->SetHandleWindow(hWnd);
 	game->GetService<CInputHandler>()->Initialize();
-	game->AddService(new CScenes);
 	game->AddService(new CCamera);
+	game->AddService(new CScenes);
 	game->GetService<CScenes>()->Load(L"database\\blaster-master.txt");
 }
 
@@ -228,6 +228,4 @@ void CGame::GameEnd()
 	if (d3ddv != NULL)d3ddv->Release();
 	if (d3d != NULL) d3d->Release();
 	DebugOut(L"[INFO] Cleanup Ok\n");
-
-	//quadtree->Reset(screen_width, screen_height);
 }

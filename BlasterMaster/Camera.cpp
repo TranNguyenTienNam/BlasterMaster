@@ -65,12 +65,15 @@ void CCamera::Update()
 	}
 
 	// Boundary block
-	if (position.x <= boundary.left)
-		position.x = boundary.left;
-	if (position.y >= boundary.top)
-		position.y = boundary.top;
-	if (position.x + bbSize.x >= boundary.right)
-		position.x = boundary.right - bbSize.x;
-	if (position.y - bbSize.y <= boundary.bottom)
-		position.y = boundary.bottom + bbSize.y;
+	if (boundless == false)
+	{
+		if (position.x <= boundary.left)
+			position.x = boundary.left;
+		if (position.y >= boundary.top)
+			position.y = boundary.top;
+		if (position.x + bbSize.x >= boundary.right)
+			position.x = boundary.right - bbSize.x;
+		if (position.y - bbSize.y <= boundary.bottom)
+			position.y = boundary.bottom + bbSize.y;
+	}
 }
