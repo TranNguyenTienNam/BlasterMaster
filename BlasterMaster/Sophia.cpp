@@ -213,7 +213,7 @@ void CSophia::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* colli
 	}
 	else if (dynamic_cast<CPortal*>(other))
 	{
-		CGame::GetInstance()->GetService<CScenes>()->SwitchScene(2);
+		CGame::GetInstance()->GetService<CScenes>()->SwitchScene(((CPortal*)other)->GetSceneId());
 	}
 }
 

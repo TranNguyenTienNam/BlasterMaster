@@ -5809,54 +5809,6 @@
                  "y":400
                 }, 
                 {
-                 "gid":468,
-                 "height":17,
-                 "id":493,
-                 "name":"gx680s",
-                 "rotation":0,
-                 "type":"enemy",
-                 "visible":true,
-                 "width":18,
-                 "x":1200,
-                 "y":96
-                }, 
-                {
-                 "gid":234,
-                 "height":17,
-                 "id":494,
-                 "name":"gx680",
-                 "rotation":0,
-                 "type":"enemy",
-                 "visible":true,
-                 "width":18,
-                 "x":1168,
-                 "y":96
-                }, 
-                {
-                 "gid":229,
-                 "height":18,
-                 "id":495,
-                 "name":"drap",
-                 "rotation":0,
-                 "type":"enemy",
-                 "visible":true,
-                 "width":18,
-                 "x":1232,
-                 "y":96
-                }, 
-                {
-                 "gid":350,
-                 "height":18,
-                 "id":496,
-                 "name":"laserguard",
-                 "rotation":0,
-                 "type":"enemy",
-                 "visible":true,
-                 "width":17,
-                 "x":1264,
-                 "y":96
-                }, 
-                {
                  "height":16,
                  "id":501,
                  "name":"jason",
@@ -5882,6 +5834,22 @@
                  "height":32,
                  "id":503,
                  "name":"portal",
+                 "properties":[
+                        {
+                         "name":"SceneID",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"TranslationX",
+                         "type":"int",
+                         "value":-1376
+                        }, 
+                        {
+                         "name":"TranslationY",
+                         "type":"int",
+                         "value":-256
+                        }],
                  "rotation":0,
                  "type":"portal",
                  "visible":true,
@@ -5893,6 +5861,22 @@
                  "height":32,
                  "id":504,
                  "name":"portal",
+                 "properties":[
+                        {
+                         "name":"SceneID",
+                         "type":"int",
+                         "value":3
+                        }, 
+                        {
+                         "name":"TranslationX",
+                         "type":"int",
+                         "value":-1376
+                        }, 
+                        {
+                         "name":"TranslationY",
+                         "type":"int",
+                         "value":-48
+                        }],
                  "rotation":0,
                  "type":"portal",
                  "visible":true,
@@ -5913,7 +5897,7 @@
         {
          "name":"Image Path",
          "type":"string",
-         "value":"maps/sectionB.png"
+         "value":"maps\/sectionB.png"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.7.2",

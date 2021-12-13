@@ -28,10 +28,10 @@ protected:
 
 	CGameObject* player;
 
-	LPSPRITE map;								// current scene
+	LPMAPBACKGROUND map;								// current scene
 	std::vector<CGameObject*> gameObjects;				//
 	
-	LPSPRITE map_switching;						// TODO: last scene, maybe both vector?
+	LPMAPBACKGROUND map_switching;						// TODO: last scene, maybe both vector?
 	std::vector<CGameObject*> gameObjects_switching;	//
 
 	std::vector<CGameObject*> updates;
@@ -58,7 +58,7 @@ public:
 	virtual void AfterSwitchingSection();
 
 	void SetState(PlaySceneState _state) { this->state = _state; }
-	LPSPRITE GetMapBackground() { return this->map; }
+	LPMAPBACKGROUND GetMapBackground() { return this->map; }
 	CGameObject* GetPlayer() { return player; }
 	void SetPlayer(CGameObject* object) { this->player = object; }
 	std::vector<CGameObject*> GetGameObjects() { return this->gameObjects; }

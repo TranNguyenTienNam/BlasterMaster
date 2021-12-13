@@ -632,6 +632,22 @@
                  "height":32,
                  "id":52,
                  "name":"portal",
+                 "properties":[
+                        {
+                         "name":"SceneID",
+                         "type":"int",
+                         "value":2
+                        }, 
+                        {
+                         "name":"TranslationX",
+                         "type":"int",
+                         "value":1376
+                        }, 
+                        {
+                         "name":"TranslationY",
+                         "type":"int",
+                         "value":36
+                        }],
                  "rotation":0,
                  "type":"portal",
                  "visible":true,
@@ -643,6 +659,12 @@
                  "height":16,
                  "id":53,
                  "name":"miniportal",
+                 "properties":[
+                        {
+                         "name":"SceneID",
+                         "type":"int",
+                         "value":4
+                        }],
                  "rotation":0,
                  "type":"miniportal",
                  "visible":true,
@@ -663,7 +685,7 @@
         {
          "name":"Image Path",
          "type":"string",
-         "value":"maps/sectionC.png"
+         "value":"maps\/sectionC.png"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.7.2",

@@ -1146,6 +1146,11 @@
                  "name":"portal",
                  "properties":[
                         {
+                         "name":"SceneID",
+                         "type":"int",
+                         "value":2
+                        }, 
+                        {
                          "name":"TranslationX",
                          "type":"int",
                          "value":1376
@@ -1153,7 +1158,7 @@
                         {
                          "name":"TranslationY",
                          "type":"int",
-                         "value":-256
+                         "value":304
                         }],
                  "rotation":0,
                  "type":"portal",
@@ -1175,7 +1180,7 @@
         {
          "name":"Image Path",
          "type":"string",
-         "value":"maps/sectionA.png"
+         "value":"maps\/sectionA.png"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.7.2",

@@ -1,13 +1,13 @@
 #include "Sprites.h"
 #include "Utils.h"
 
-CSprite::CSprite(int left, int top, int width, int height, LPDIRECT3DTEXTURE9 texture)
+CSprite::CSprite(int l, int t, int w, int h, LPDIRECT3DTEXTURE9 tex)
 {
-	this->left = left;
-	this->top = top;
-	this->width = width;
-	this->height = height;
-	this->texture = texture;
+	this->left = l;
+	this->top = t;
+	this->width = w;
+	this->height = h;
+	this->texture = tex;
 }
 
 void CSprite::Draw(Vector2 position, int nx, int layer_index, D3DCOLOR color)
@@ -37,11 +37,15 @@ void CSprites::Clear()
 	sprites.clear();
 }
 
-CMapBackground::CMapBackground() :CSprite(left, top, width, height, texture)
+CMapBackground::CMapBackground(int w, int h, LPDIRECT3DTEXTURE9 tex)
 {
+	this->width = w;
+	this->height = h;
+	this->texture = tex;
+	this->position = VectorZero();
 }
 
 void CMapBackground::Draw(int nx, int layer_index, D3DCOLOR color)
 {
-	CGame::GetInstance()->Draw(position, nx, layer_index, texture, left, top, left + width, top + height, color);
+	CGame::GetInstance()->Draw(position, nx, layer_index, texture, 0, 0, width, height, color);
 }

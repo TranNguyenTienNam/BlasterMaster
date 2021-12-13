@@ -4,6 +4,8 @@ tex-player	textures\player.png	41	255	4
 tex-tileset	textures\tileset.png	0	0	0
 tex-enemies	textures\enemies.png	41	255	4
 tex-items	textures\items.png	0	0	0
+tex-bbox	textures\bbox.png	0	0	0
+tex-green-bbox	textures\green-bbox.png	0	0	0
 
 # id			left	top	width	height	texture_id
 [SPRITES]
@@ -171,11 +173,5 @@ ani-laserguard	spr-laserguard-0	100	spr-laserguard-1	100
 # ===== VFX ==========
 ani-explosion-destroy	spr-explosion-3	100	spr-explosion-2	100	spr-explosion-1	100	spr-explosion-0	100
 
-[TILEMAP]
+[MAP]
 maps\sectionA.json
-
-[OBJECTS]
-
-# --- SCENE PORTAL ----
-# type		x	y	w	h	scene_id
-#obj-portal	48	80	20	40	2

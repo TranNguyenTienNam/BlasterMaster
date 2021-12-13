@@ -2,6 +2,10 @@
 [TEXTURES]
 tex-player	textures\player.png	41	255	4
 tex-tileset	textures\tileset.png	0	0	0
+tex-enemies	textures\enemies.png	41	255	4
+tex-items	textures\items.png	0	0	0
+tex-bbox	textures\bbox.png	0	0	0
+tex-green-bbox	textures\green-bbox.png	0	0	0
 
 # id			left	top	width	height	texture_id
 [SPRITES]
@@ -22,7 +26,7 @@ spr-jason-die-3	54	64	16	16	tex-player
 spr-jason-die-4	3	81	16	16	tex-player
 # crouch					
 spr-jason-crouch-0	3	47	16	8	tex-player
-spr-jason-crouch-1	20	47	16	8	tex-player
+spr-jason-crouch-1	21	47	16	8	tex-player
 # lie					
 spr-jason-lie	20	89	16	8	tex-player
 
@@ -42,6 +46,80 @@ spr-sophia-gun-90	30	3	8	8	tex-player
 spr-sophia-cabin	39	3	16	8	tex-player
 spr-sophia-cabin-turn	56	3	16	8	tex-player
 spr-sophia-cabin-45	73	3	16	16	tex-player
+spr-sophia-cabin-open	125	3	16	16	tex-player
+
+# === INTERRUPT ======
+spr-interrupt-close	153	1486	22	18	tex-enemies
+spr-interrupt-open	128	1489	22	15	tex-enemies
+spr-interrupt-bullet	178	1495	9	9	tex-enemies
+
+# === NEOWORM ========
+spr-neoworm-0	168	1265	18	10	tex-enemies
+spr-neoworm-1	187	1265	17	10	tex-enemies
+spr-neoworm-larva	178	1495	9	9	tex-enemies
+
+# === BALLBOT ========
+spr-ballbot-0	128	737	18	18	tex-enemies
+spr-ballbot-1	149	737	18	18	tex-enemies
+spr-ballbot-2	170	737	18	18	tex-enemies
+
+# === STUKA ==========
+spr-stuka-0	54	386	18	18	tex-enemies
+spr-stuka-1	74	386	18	18	tex-enemies
+spr-stuka-2	94	386	18	18	tex-enemies
+spr-stuka-3	114	386	18	18	tex-enemies
+spr-stuka-4	134	386	18	18	tex-enemies
+spr-stuka-5	154	386	18	18	tex-enemies
+spr-stuka-6	174	386	18	18	tex-enemies
+
+# === EYELET =========
+spr-eyelet-0	128	31	18	15	tex-enemies
+spr-eyelet-1	148	28	18	18	tex-enemies
+spr-eyelet-2	168	31	18	15	tex-enemies
+spr-eyelet-3	188	36	18	10	tex-enemies
+
+# === BALL CARRY =====
+spr-ballcarry-sleep	128	652	16	16	tex-enemies
+spr-ballcarry-move-0	147	651	18	17	tex-enemies
+spr-ballcarry-open	168	653	18	15	tex-enemies
+spr-ballcarry-move-1	188	650	16	18	tex-enemies
+
+# === DRAP ===========
+spr-drap-0	128	274	18	18	tex-enemies
+spr-drap-1	148	276	18	16	tex-enemies
+spr-drap-2	188	276	18	16	tex-enemies
+spr-drap-3	168	274	18	18	tex-enemies
+
+# === GX680 ==========
+spr-gx680-0	128	296	18	16	tex-enemies
+spr-gx680-1	148	295	18	17	tex-enemies
+
+# === GX680S =========
+spr-gx680s-0	128	1150	18	16	tex-enemies
+spr-gx680s-1	148	1149	18	17	tex-enemies
+
+# === LASER GUARD ====
+spr-laserguard-0	128	717	17	18	tex-enemies
+spr-laserguard-1	146	717	17	18	tex-enemies
+
+# === PLAYER BULLET ===
+spr-hyperbeam-axisy	117	20	6	24	tex-player
+spr-hyperbeam-axisx	91	21	24	6	tex-player
+spr-jason-bullet	75	40	4	4	tex-player
+
+# === ENEMY BULLET ===
+spr-ballcarry-bomb	117	20	6	24	tex-enemies
+
+# ===== ITEMS ========
+spr-power-item	255	109	16	16	tex-items
+spr-hover-item	105	109	16	16	tex-items
+spr-gun-item	5	59	16	16	tex-items
+
+# ===== VFX ==========
+spr-explosion-0	140	101	7	8	tex-player
+spr-explosion-1	149	97	16	13	tex-player
+spr-explosion-2	166	97	16	16	tex-player
+spr-explosion-3	183	93	24	24	tex-player
 
 # ani_id		sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
@@ -65,11 +143,35 @@ ani-jason-lie	spr-jason-lie	100
 ani-sophia-left-wheel	spr-sophia-wheel-0	100	spr-sophia-wheel-1	100	spr-sophia-wheel-2	100	spr-sophia-wheel-3	100
 ani-sophia-right-wheel	spr-sophia-wheel-3	100	spr-sophia-wheel-0	100	spr-sophia-wheel-1	100	spr-sophia-wheel-2	100
 
-[TILEMAP]
+# === NEOWORM ========
+ani-neoworm	spr-neoworm-0	100	spr-neoworm-1	100
+
+# === BALLBOT ========
+ani-ballbot	spr-ballbot-0	100	spr-ballbot-1	100	spr-ballbot-2	100
+
+# === STUKA ==========
+ani-stuka	spr-stuka-0	150	spr-stuka-1	150	spr-stuka-2	150	spr-stuka-3	150	spr-stuka-4	150	spr-stuka-5	150	spr-stuka-6	150
+
+# === EYELET =========
+ani-eyelet	spr-eyelet-0	100	spr-eyelet-1	100	spr-eyelet-2	100	spr-eyelet-3	100
+
+# === BALL CARRY =====
+ani-ballcarry	spr-ballcarry-move-0	100	spr-ballcarry-move-1	100
+
+# === DRAP ===========
+ani-drap	spr-drap-0	150	spr-drap-1	150	spr-drap-2	150	spr-drap-3	150
+
+# === GX680 ==========
+ani-gx680	spr-gx680-0	100	spr-gx680-1	100
+
+# === GX680S =========
+ani-gx680s	spr-gx680s-0	100	spr-gx680s-1	100
+
+# === LASER GUARD ====
+ani-laserguard	spr-laserguard-0	100	spr-laserguard-1	100
+
+# ===== VFX ==========
+ani-explosion-destroy	spr-explosion-3	100	spr-explosion-2	100	spr-explosion-1	100	spr-explosion-0	100
+
+[MAP]
 maps\sectionC.json
-
-[OBJECTS]
-
-# --- SCENE PORTAL ----
-# type		x	y	w	h	scene_id
-obj-portal	160	78	20	40	1

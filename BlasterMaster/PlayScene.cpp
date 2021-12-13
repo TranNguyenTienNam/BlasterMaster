@@ -74,7 +74,7 @@ void CPlayScene::Load()
 		if (line == "[TEXTURES]") { section = SCENE_SECTION_TEXTURES; continue; }
 		if (line == "[SPRITES]") { section = SCENE_SECTION_SPRITES; continue; }
 		if (line == "[ANIMATIONS]") { section = SCENE_SECTION_ANIMATIONS; continue; }
-		if (line == "[TILEMAP]") { section = SCENE_SECTION_MAP; continue; }
+		if (line == "[MAP]") { section = SCENE_SECTION_MAP; continue; }
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -90,15 +90,6 @@ void CPlayScene::Load()
 	}
 
 	f.close();
-
-	/*if (state == PlaySceneState::FreePlaying)
-	{
-		game->GetService<CTextures>()->Add("tex-bbox", L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-		game->GetService<CTextures>()->Add("tex-green-bbox", L"textures\\green-bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-	}*/
-
-	game->GetService<CTextures>()->Add("tex-bbox", L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-	game->GetService<CTextures>()->Add("tex-green-bbox", L"textures\\green-bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
@@ -227,11 +218,8 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 			textures->Add(texID, ToWSTR(image_path).c_str(), D3DCOLOR_XRGB(0, 0, 0));
 			auto texmap = textures->Get(texID);
 
-			std::string sprID = "spr-" + map_name;
-			auto sprites = game->GetService<CSprites>();
-			sprites->Add(sprID, 0, 0, m_mapWidth, m_mapHeight, texmap);
-
-			map = sprites->Get(sprID);
+			map = new CMapBackground(m_mapWidth, m_mapHeight, texmap);
+			map->SetPosition(Vector2(m_mapWidth / 2, m_mapHeight / 2));
 		}
 	}
 
@@ -258,10 +246,10 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 				int width = object["width"].GetInt();
 				int height = object["height"].GetInt();
 
-				auto object_type = object["name"].GetString();
+				auto object_name = object["name"].GetString();
 
-				if (strcmp(object_type, "jason") == 0) obj = new CJason;
-				else if (strcmp(object_type, "sophia") == 0)
+				if (strcmp(object_name, "jason") == 0) obj = new CJason;
+				else if (strcmp(object_name, "sophia") == 0)
 				{
 					if (player != NULL)
 					{
@@ -274,26 +262,47 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 
 					DebugOut(L"[INFO] Player object created!\n");
 				}
-				else if (strcmp(object_type, "interrupt") == 0) obj = new CInterrupt;
-				else if (strcmp(object_type, "neoworm") == 0) obj = new CNeoworm;
-				else if (strcmp(object_type, "ballbot") == 0) obj = new CBallbot;
-				else if (strcmp(object_type, "stuka") == 0) obj = new CStuka;
-				else if (strcmp(object_type, "eyelet") == 0) obj = new CEyelet;
-				else if (strcmp(object_type, "ballcarry") == 0) obj = new CBallCarry;
-				else if (strcmp(object_type, "drap") == 0) obj = new CDrap;
-				else if (strcmp(object_type, "gx680") == 0) obj = new CGX680;
-				else if (strcmp(object_type, "gx680s") == 0) obj = new CGX680S;
-				else if (strcmp(object_type, "laserguard") == 0) obj = new CLaserGuard;
-				else if (strcmp(object_type, "brick") == 0) obj = new CBrick;
-				else if (strcmp(object_type, "portal") == 0)
+				else if (strcmp(object_name, "interrupt") == 0) obj = new CInterrupt;
+				else if (strcmp(object_name, "neoworm") == 0) obj = new CNeoworm;
+				else if (strcmp(object_name, "ballbot") == 0) obj = new CBallbot;
+				else if (strcmp(object_name, "stuka") == 0) obj = new CStuka;
+				else if (strcmp(object_name, "eyelet") == 0) obj = new CEyelet;
+				else if (strcmp(object_name, "ballcarry") == 0) obj = new CBallCarry;
+				else if (strcmp(object_name, "drap") == 0) obj = new CDrap;
+				else if (strcmp(object_name, "gx680") == 0) obj = new CGX680;
+				else if (strcmp(object_name, "gx680s") == 0) obj = new CGX680S;
+				else if (strcmp(object_name, "laserguard") == 0) obj = new CLaserGuard;
+				else if (strcmp(object_name, "brick") == 0) obj = new CBrick;
+				else if (strcmp(object_name, "portal") == 0)
 				{
-					int scene_id = 1;
-					obj = new CPortal(width, height, scene_id);
+					int translationX = 0;
+					int translationY = 0;
+					int sceneID = 0;
+
+					auto props = object["properties"].GetArray();
+					for (auto& prop : props)
+					{
+						if (strcmp(prop["name"].GetString(), "TranslationX") == 0)
+						{
+							translationX = prop["value"].GetInt();
+						}
+						else if (strcmp(prop["name"].GetString(), "TranslationY") == 0)
+						{
+							translationY = prop["value"].GetInt();
+						}
+						else if (strcmp(prop["name"].GetString(), "SceneID") == 0)
+						{
+							sceneID = prop["value"].GetInt();
+						}
+					}
+
+					obj = new CPortal(width, height, sceneID);
+					((CPortal*)obj)->SetTranslation(Vector2(translationX, translationY));
 					DebugOut(L"[INFO] Portal object created!\n");
 				}
 				else
 				{
-					DebugOut(L"[ERR] Invalid object type: %s\n", ToWSTR(object_type).c_str());
+					DebugOut(L"[ERR] Invalid object type: %s\n", ToWSTR(object_name).c_str());
 					continue;
 				}
 
@@ -337,11 +346,11 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
-	//if (map != nullptr)
-	map->Draw(Vector2(m_mapWidth / 2, m_mapHeight / 2), 1, 1);
+	if (map != nullptr)
+		map->Draw(1, 1);
 
-	/*if (map_switching != nullptr) 
-		map_switching->Draw(1, 1);*/
+	if (map_switching != nullptr) 
+		map_switching->Draw(1, 1);
 
 	for (auto obj : updates)
 		if (obj->IsEnabled() == true) obj->Render();
@@ -358,6 +367,9 @@ void CPlayScene::Render()
 */
 void CPlayScene::Unload()
 { 
+	delete map;
+	map = nullptr;
+
 	for (auto obj : gameObjects)
 	{
 		obj->SetDestroyed();
@@ -392,22 +404,22 @@ void CPlayScene::Clean()
 void CPlayScene::PreSwitchingSection(std::vector<CGameObject*> objects, LPMAPBACKGROUND mapBackGround)
 {
 	// Translate object's position and push into backup vector
-	//for (auto obj : objects)
-	//{
-	//	auto pos = obj->GetPosition();
-	//	pos += Vector2(1376, 304); // TODO: Temp, get translation property of portal
-	//	obj->SetPosition(pos);
+	for (auto obj : objects)
+	{
+		auto pos = obj->GetPosition();
+		pos += Vector2(1376, 304); // TODO: Temp, get translation property of portal
+		obj->SetPosition(pos);
 
-	//	AddGameObject(obj);
-	//	gameObjects_switching.emplace_back(obj);
-	//}
+		AddGameObject(obj);
+		gameObjects_switching.emplace_back(obj);
+	}
 
-	//map_switching = mapBackGround;
-	//auto posMap = map_switching->GetPosition();
-	//posMap += Vector2(1376, 304); // TODO: Temp, get translation property of portal
-	//map_switching->SetPosition(posMap);
+	map_switching = mapBackGround;
+	auto posMap = map_switching->GetPosition();
+	posMap += Vector2(1376, 304); // TODO: Temp, get translation property of portal
+	map_switching->SetPosition(posMap);
 
-	//CGame::GetInstance()->GetService<CCamera>()->SetBoundless(true);
+	CGame::GetInstance()->GetService<CCamera>()->SetBoundless(true);
 }
 
 void CPlayScene::AfterSwitchingSection()
@@ -420,6 +432,7 @@ void CPlayScene::AfterSwitchingSection()
 		obj->SetDestroyed();
 	}
 
+	delete map_switching;
 	map_switching = nullptr;
 
 	CGame::GetInstance()->GetService<CCamera>()->SetBoundless(false);

@@ -33,12 +33,17 @@ public:
 	void Clear();
 };
 
-class CMapBackground : public CSprite
+class CMapBackground
 {
 protected:
+	int width;
+	int height;
+
 	Vector2 position;
+
+	LPDIRECT3DTEXTURE9 texture;
 public:
-	CMapBackground();
+	CMapBackground(int witdh, int height, LPDIRECT3DTEXTURE9 texture);
 	Vector2 GetPosition() { return this->position; }
 	void SetPosition(Vector2 pos) { this->position = pos; }
 	void Draw(int nx, int layer_index, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
