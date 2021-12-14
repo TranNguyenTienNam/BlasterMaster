@@ -171,7 +171,8 @@ ani-gx680s	spr-gx680s-0	100	spr-gx680s-1	100
 ani-laserguard	spr-laserguard-0	100	spr-laserguard-1	100
 
 # ===== VFX ==========
-ani-explosion-destroy	spr-explosion-3	100	spr-explosion-2	100	spr-explosion-1	100	spr-explosion-0	100
+ani-big-explosion	spr-explosion-3	100	spr-explosion-2	100	spr-explosion-1	100	spr-explosion-0	100
+ani-small-explosion	spr-explosion-2	200	spr-explosion-1	100	spr-explosion-0	100
 
 [MAP]
 maps\sectionB.json

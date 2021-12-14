@@ -1,6 +1,15 @@
 #include "Animation.h"
 #include "Utils.h"
 
+CAnimation::CAnimation()
+{
+}
+
+CAnimation::CAnimation(const CAnimation& anim)
+{
+	this->frames = anim.frames;
+}
+
 void CAnimation::Add(std::string id, DWORD time)
 {
 	LPSPRITE newSprite = CGame::GetInstance()->GetService<CSprites>()->Get(id);
@@ -27,7 +36,13 @@ void CAnimation::Render(Vector2 position, int nx, int layer_index, D3DCOLOR colo
 			{
 				if (isPaused == false) currentFrame++;
 				lastFrameTime = now;
-				if (isLooped == true && currentFrame == frames.size()) currentFrame = 0;
+
+				if (currentFrame == frames.size() - 1 && isLooped == false) isFinished = true;
+
+				if (currentFrame == frames.size())
+				{
+					if (isLooped == true) currentFrame = 0;
+				}
 			}
 		}
 	}
@@ -45,7 +60,13 @@ void CAnimation::Render(Vector2 position, int nx, int layer_index, D3DCOLOR colo
 			{
 				if (isPaused == false) currentFrame--;
 				lastFrameTime = now;
-				if (isLooped == true && currentFrame == -1) currentFrame = frames.size() - 1;
+
+				if (currentFrame == 0 && isLooped == false) isFinished = true;
+
+				if (currentFrame == -1)
+				{
+					if (isLooped == true) currentFrame = frames.size() - 1;
+				}
 			}
 		}
 	}

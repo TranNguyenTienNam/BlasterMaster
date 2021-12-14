@@ -267,6 +267,15 @@
     <ClCompile Include="BigJason.cpp">
       <Filter>Game Source\Game Object\Player\Big Jason</Filter>
     </ClCompile>
+    <ClCompile Include="MiniPortal.cpp">
+      <Filter>Game Source\Game Object\Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualEffect.cpp">
+      <Filter>Game Source\Game Object\VFX</Filter>
+    </ClCompile>
+    <ClCompile Include="SmallExplosion.cpp">
+      <Filter>Game Source\Game Object\VFX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -436,6 +445,15 @@
     </ClInclude>
     <ClInclude Include="BigJason.h">
       <Filter>Game Source\Game Object\Player\Big Jason</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniPortal.h">
+      <Filter>Game Source\Game Object\Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualEffect.h">
+      <Filter>Game Source\Game Object\VFX</Filter>
+    </ClInclude>
+    <ClInclude Include="SmallExplosion.h">
+      <Filter>Game Source\Game Object\VFX</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

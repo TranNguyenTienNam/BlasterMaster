@@ -12,6 +12,12 @@ LPANIMATION CAnimations::Get(std::string id)
 	return animations.at(id);
 }
 
+LPANIMATION CAnimations::Clone(std::string id)
+{
+	auto clone = new CAnimation(*Get(id));
+	return clone;
+}
+
 void CAnimations::Clear()
 {
 	for (auto x : animations)

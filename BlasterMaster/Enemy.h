@@ -8,7 +8,7 @@ protected:
 	static CPlayable* target;
 
 	int hp;
-	int damageOnCollision;
+	int damageOnCollision = 1;
 public:
 	CEnemy();
 	static void SetTarget(CPlayable* object) { target = object; }

@@ -1,5 +1,6 @@
 #include "BigJason.h"
 #include "Animations.h"
+#include "Enemy.h"
 
 void CBigJason::InitAnimations()
 {
@@ -10,6 +11,7 @@ void CBigJason::InitAnimations()
 	AddAnimation("Walk-Front", animations->Get("ani-bigjason-walk-front"));
 	AddAnimation("Walk-Back", animations->Get("ani-bigjason-walk-back"));
 	AddAnimation("Walk-Left", animations->Get("ani-bigjason-walk-left"));
+	AddAnimation("Dead", animations->Get("ani-bigjason-dead"));
 }
 
 void CBigJason::InitColliders()
@@ -29,6 +31,7 @@ CBigJason::CBigJason()
 
 	// Player's settings
 	tag = ObjectTag::Player;
+	controllable = true;
 	SetState(BigJasonState::IDLE_FRONT);
 	lastState = currentState;
 }
@@ -91,6 +94,8 @@ void CBigJason::SetState(BigJasonState state)
 
 void CBigJason::Update(DWORD dt)
 {
+	if (controllable == false) return;
+
 	auto inputHandler = CGame::GetInstance()->GetService<CInputHandler>();
 	
 	if (inputHandler->IsKeyDown(BigJasonKeySet::MOVE_LEFT))
@@ -139,6 +144,13 @@ void CBigJason::Update(DWORD dt)
 			break;
 		}	
 	}
+	else
+	{
+		if (abs(velocity.x) == abs(velocity.y))
+		{
+			velocity /= sqrt(2);
+		}
+	}
 }
 
 void CBigJason::Render()
@@ -152,6 +164,11 @@ void CBigJason::Render()
 
 void CBigJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
 {
+	auto other = collision->obj;
+	if (dynamic_cast<CEnemy*>(other))
+	{
+
+	}
 }
 
 void CBigJason::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)

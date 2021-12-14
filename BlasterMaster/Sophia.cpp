@@ -202,7 +202,6 @@ void CSophia::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* colli
 	}
 	else if (dynamic_cast<CEnemy*>(other))
 	{
-		DebugOut(L"Collide with enemy\n");
 		if (untouchable == false)
 		{
 			lastTimeTakeDamage = GetTickCount();
@@ -210,10 +209,6 @@ void CSophia::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* colli
 
 			// TODO: is pushed in the direction of the enemy's movement
 		}
-	}
-	else if (dynamic_cast<CPortal*>(other))
-	{
-		CGame::GetInstance()->GetService<CScenes>()->SwitchScene(((CPortal*)other)->GetSceneId());
 	}
 }
 

@@ -1,7 +1,7 @@
-#include "Portal.h"
+#include "MiniPortal.h"
 #include "Playable.h"
 
-CPortal::CPortal(float w, float h, int scene_id)
+CMiniPortal::CMiniPortal(float w, float h, int scene_id)
 {
 	this->scene_id = scene_id;
 	width = w;
@@ -18,16 +18,16 @@ CPortal::CPortal(float w, float h, int scene_id)
 	colliders.push_back(collider);
 }
 
-void CPortal::Update(DWORD dt)
+void CMiniPortal::Update(DWORD dt)
 {
 }
 
-void CPortal::Render()
+void CMiniPortal::Render()
 {
 	colliders.at(0)->RenderBoundingBox();
 }
 
-void CPortal::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
+void CMiniPortal::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
 {
 	auto other = collision->obj;
 	if (dynamic_cast<CPlayable*>(other))

@@ -18,4 +18,6 @@ public:
 	void Update(DWORD dt);
 	void Render();
 	int GetSceneId() { return scene_id; }
+
+	void OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 };

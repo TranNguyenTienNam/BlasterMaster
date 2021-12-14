@@ -166,11 +166,13 @@
     <ClCompile Include="HoverItem.cpp" />
     <ClCompile Include="HyperBeam.cpp" />
     <ClCompile Include="Math.cpp" />
+    <ClCompile Include="MiniPortal.cpp" />
     <ClCompile Include="ObjectTag.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="PowerItem.cpp" />
     <ClCompile Include="Scenes.cpp" />
+    <ClCompile Include="SmallExplosion.cpp" />
     <ClCompile Include="SophiaMoveRightState.cpp" />
     <ClCompile Include="Collider2D.cpp" />
     <ClCompile Include="SophiaMoveLeftState.cpp" />
@@ -206,6 +208,7 @@
     <ClCompile Include="SophiaUpwardState.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="SophiaIdleState.cpp" />
+    <ClCompile Include="VisualEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractItem.h" />
@@ -223,12 +226,14 @@
     <ClInclude Include="HoverItem.h" />
     <ClInclude Include="HyperBeam.h" />
     <ClInclude Include="Math.h" />
+    <ClInclude Include="MiniPortal.h" />
     <ClInclude Include="ObjectTag.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PowerItem.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Scenes.h" />
+    <ClInclude Include="SmallExplosion.h" />
     <ClInclude Include="SophiaMoveRightState.h" />
     <ClInclude Include="Collider2D.h" />
     <ClInclude Include="SophiaMoveLeftState.h" />
@@ -264,6 +269,7 @@
     <ClInclude Include="SophiaUpwardState.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="SophiaIdleState.h" />
+    <ClInclude Include="VisualEffect.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

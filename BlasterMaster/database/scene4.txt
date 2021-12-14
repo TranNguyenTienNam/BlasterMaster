@@ -60,10 +60,10 @@ spr-hover-item	105	109	16	16	tex-items
 spr-gun-item	5	59	16	16	tex-items
 
 # ===== VFX ==========
-spr-bullet-explosion-0	140	101	7	8	tex-player
-spr-bullet-explosion-1	149	97	16	13	tex-player
-spr-bullet-explosion-2	166	97	16	16	tex-player
-spr-bullet-explosion-3	183	93	24	24	tex-player
+spr-explosion-0	140	101	7	8	tex-player
+spr-explosion-1	149	97	16	13	tex-player
+spr-explosion-2	166	97	16	16	tex-player
+spr-explosion-3	183	93	24	24	tex-player
 
 # ani_id		sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
@@ -92,7 +92,8 @@ ani-gx680s	spr-gx680s-0	100	spr-gx680s-1	100
 ani-laserguard	spr-laserguard-0	100	spr-laserguard-1	100
 
 # ===== VFX ==========
-ani-explosion-destroy	spr-bullet-explosion-3	100	spr-bullet-explosion-2	100	spr-bullet-explosion-1	100	spr-bullet-explosion-0	100
+ani-big-explosion	spr-explosion-3	100	spr-explosion-2	100	spr-explosion-1	100	spr-explosion-0	100
+ani-small-explosion	spr-explosion-2	200	spr-explosion-1	100	spr-explosion-0	100
 
 [MAP]
 maps\topdown.json

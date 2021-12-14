@@ -10,11 +10,15 @@
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/filereadstream.h"
 
+#pragma region Include Game Object
 #include "Sophia.h"
-#include "BigJason.h"
-#include "Portal.h"
-#include "Brick.h"
 #include "Jason.h"
+#include "BigJason.h"
+
+#include "Portal.h"
+#include "MiniPortal.h"
+
+#include "Brick.h"
 #include "Interrupt.h"
 #include "Neoworm.h"
 #include "Ballbot.h"
@@ -25,6 +29,7 @@
 #include "GX680.h"
 #include "GX680S.h"
 #include "LaserGuard.h"
+#pragma endregion
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 	CScene(id, filePath)
@@ -278,7 +283,7 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 
 					CEnemy::SetTarget((CPlayable*)obj);
 
-					DebugOut(L"[INFO] BIG JASON created!\n");
+					DebugOut(L"[INFO] BIG JASON object created!\n");
 				}
 				else if (strcmp(object_name, "interrupt") == 0) obj = new CInterrupt;
 				else if (strcmp(object_name, "neoworm") == 0) obj = new CNeoworm;
@@ -321,6 +326,22 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 					obj = new CPortal(width, height, sceneID);
 					((CPortal*)obj)->SetTranslation(Vector2(translationX, translationY));
 					DebugOut(L"[INFO] Portal object created!\n");
+				}
+				else if (strcmp(object_name, "miniportal") == 0)
+				{
+					int sceneID = 0;
+
+					auto props = object["properties"].GetArray();
+					for (auto& prop : props)
+					{
+						if (strcmp(prop["name"].GetString(), "SceneID") == 0)
+						{
+							sceneID = prop["value"].GetInt();
+						}
+					}
+
+					obj = new CMiniPortal(width, height, sceneID);
+					DebugOut(L"[INFO] Mini Portal object created!\n");
 				}
 				else
 				{

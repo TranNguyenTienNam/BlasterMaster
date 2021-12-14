@@ -11,6 +11,7 @@ class CAnimations : public CService
 public:
 	void Add(std::string id, LPANIMATION anim);
 	LPANIMATION Get(std::string id);
+	LPANIMATION Clone(std::string id);
 	void Clear();
 };
 

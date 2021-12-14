@@ -1,6 +1,7 @@
 #include "HyperBeam.h"
 #include "Enemy.h"
 #include "Brick.h"
+#include "SmallExplosion.h"
 
 void CHyperBeam::InitSprites()
 {
@@ -55,7 +56,7 @@ void CHyperBeam::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* coll
 	{
 		SetDestroyed();
 		SetEnable(false);
-	}
 
-	// TODO: Instantiate VFX explosion
+		Instantiate<CSmallExplosion>(transform.position);
+	}
 }

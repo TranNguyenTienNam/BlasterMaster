@@ -13,6 +13,7 @@ enum class ObjectTag
 	EnemyBullet,
 
 	Platform,
+	Portal,
 };
 
 class TagUtils

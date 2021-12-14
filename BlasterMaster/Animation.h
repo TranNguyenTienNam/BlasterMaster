@@ -15,14 +15,18 @@ class CAnimation
 	bool isLooped = true;
 	bool isPaused = false;
 	bool isReversed = false;
+	bool isFinished = false;
 
 public:
+	CAnimation();
+	CAnimation(const CAnimation& anim);
 	void Add(std::string id, DWORD time);
 	void Render(Vector2 position, int nx, int layer_index, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	void SetIsLooped(bool value) { this->isLooped = value; }
 	void SetIsPaused(bool value) { this->isPaused = value; }
 	void SetIsReversed(bool value) { this->isReversed = value; }
+	bool IsFinished() { return this->isFinished; }
 };
 
 typedef CAnimation* LPANIMATION;
