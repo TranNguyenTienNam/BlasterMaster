@@ -1,7 +1,7 @@
 #pragma once
 #include "Playable.h"
 
-enum JasonState
+enum class JasonState
 {
 	JASON_IDLE,
 	JASON_MOVING_LEFT,

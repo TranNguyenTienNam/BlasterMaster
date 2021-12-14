@@ -9072,6 +9072,34 @@
                  "width":18,
                  "x":448,
                  "y":1392
+                }, 
+                {
+                 "height":16,
+                 "id":882,
+                 "name":"miniportal",
+                 "properties":[
+                        {
+                         "name":"SceneID",
+                         "type":"int",
+                         "value":3
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":112,
+                 "y":64
+                }, 
+                {
+                 "height":16,
+                 "id":884,
+                 "name":"bigjason",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":112,
+                 "y":112
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -9080,8 +9108,14 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":882,
+ "nextobjectid":885,
  "orientation":"orthogonal",
+ "properties":[
+        {
+         "name":"Image Path",
+         "type":"string",
+         "value":"maps\/topdown.png"
+        }],
  "renderorder":"right-down",
  "tiledversion":"1.7.2",
  "tileheight":16,

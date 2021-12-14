@@ -45,22 +45,22 @@ void CJason::SetState(JasonState state)
 {
 	switch (state)
 	{
-	case JASON_IDLE:
+	case JasonState::JASON_IDLE:
 		velocity.x = 0.0f;
 		/*acceleration.x = 0.0f;*/
 		if (onGround == true) animation = animations.at("Idle");
 		break;
-	case JASON_MOVING_LEFT:
+	case JasonState::JASON_MOVING_LEFT:
 		acceleration.x = -WALK_ACCELERATION;
 		nx = -1;
 		if (onGround == true && velocity.x != 0) animation = animations.at("Walk");
 		break;
-	case JASON_MOVING_RIGHT:
+	case JasonState::JASON_MOVING_RIGHT:
 		acceleration.x = WALK_ACCELERATION;
 		nx = 1;
 		if (onGround == true && velocity.x != 0) animation = animations.at("Walk");
 		break;
-	case JASON_JUMPING:
+	case JasonState::JASON_JUMPING:
 		onGround = false;
 		velocity.y = JUMP_SPEED;
 		animation = animations.at("Jump");

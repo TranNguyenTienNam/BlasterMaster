@@ -42,6 +42,8 @@ CBallBomb::~CBallBomb()
 void CBallBomb::Update(DWORD dt)
 {
 	velocity.y += -0.00026f * dt;
+
+	// TODO: VFX explosion
 }
 
 void CBallBomb::Render()

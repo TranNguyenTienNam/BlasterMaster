@@ -22,5 +22,4 @@ void CEnemy::DropItem()
 void CEnemy::OnDestroy()
 {
 	DropItem();
-	DebugOut(L"drop item\n");
 }

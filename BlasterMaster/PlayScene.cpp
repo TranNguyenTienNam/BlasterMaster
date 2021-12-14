@@ -11,6 +11,7 @@
 #include "rapidjson/filereadstream.h"
 
 #include "Sophia.h"
+#include "BigJason.h"
 #include "Portal.h"
 #include "Brick.h"
 #include "Jason.h"
@@ -262,7 +263,22 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 
 					CEnemy::SetTarget((CPlayable*)obj);
 
-					DebugOut(L"[INFO] Player object created!\n");
+					DebugOut(L"[INFO] SOPHIA created!\n");
+				}
+				else if (strcmp(object_name, "bigjason") == 0)
+				{
+					if (player != NULL)
+					{
+						DebugOut(L"[ERROR] BIG JASON object was created before!\n");
+						continue;
+					}
+					obj = new CBigJason;
+					player = (CBigJason*)obj;
+					mainCam->SetTarget(player);
+
+					CEnemy::SetTarget((CPlayable*)obj);
+
+					DebugOut(L"[INFO] BIG JASON created!\n");
 				}
 				else if (strcmp(object_name, "interrupt") == 0) obj = new CInterrupt;
 				else if (strcmp(object_name, "neoworm") == 0) obj = new CNeoworm;

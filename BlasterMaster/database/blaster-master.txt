@@ -1,8 +1,8 @@
 [SETTINGS]
-start	2
+start	4
 #scene list
 [SCENES]
 1	database\scene1.txt
 2	database\scene2.txt
 3	database\scene3.txt
-#4	database\scrolling-scene.txt
+4	database\scene4.txt

@@ -1,5 +1,6 @@
 #include "HyperBeam.h"
 #include "Enemy.h"
+#include "Brick.h"
 
 void CHyperBeam::InitSprites()
 {
@@ -50,9 +51,11 @@ void CHyperBeam::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* coll
 		other->SetDestroyed();
 		other->SetEnable(false);
 	}
-
-	SetDestroyed();
-	SetEnable(false);
+	else if (dynamic_cast<CBrick*>(other))
+	{
+		SetDestroyed();
+		SetEnable(false);
+	}
 
 	// TODO: Instantiate VFX explosion
 }
