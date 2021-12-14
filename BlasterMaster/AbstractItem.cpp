@@ -12,6 +12,8 @@ CAbstractItem::CAbstractItem()
 	collider->SetDynamic(true);
 	colliders.push_back(collider);
 
+	tag = ObjectTag::Item;
+
 	timeSpawn = GetTickCount();
 	flickeringDuration = (aliveDuration - preWarningDuration) / flickeringTimes;
 }

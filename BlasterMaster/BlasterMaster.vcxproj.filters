@@ -94,6 +94,9 @@
     <Filter Include="Game Source\Game Object\Portal">
       <UniqueIdentifier>{8bd9cddb-2cdb-4039-88b5-d7d2c26bcb90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Source\Game Object\VFX">
+      <UniqueIdentifier>{87fafa5a-a9e2-455b-8ad6-e5c312492ed2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -254,6 +257,9 @@
     </ClCompile>
     <ClCompile Include="Portal.cpp">
       <Filter>Game Source\Game Object\Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="BallBomb.cpp">
+      <Filter>Game Source\Game Object\Bullet\Enemy Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -418,6 +424,9 @@
     </ClInclude>
     <ClInclude Include="Portal.h">
       <Filter>Game Source\Game Object\Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="BallBomb.h">
+      <Filter>Game Source\Game Object\Bullet\Enemy Bullet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

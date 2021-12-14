@@ -1,6 +1,13 @@
 #include "Math.h"
 
-int CMath::Random()
+const float CMath::PI = 3.14f;
+
+int CMath::Random(int start, int end)
 {
-	return rand() % 100 + 1;
+	return rand() % (end - start + 1) + start;
+}
+
+float CMath::CalcDistance(Vector2 pos1, Vector2 pos2)
+{
+	return sqrt((pow(pos1.x - pos2.x, 2) + pow(pos1.y - pos2.y, 2)));
 }

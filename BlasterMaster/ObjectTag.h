@@ -7,6 +7,8 @@ enum class ObjectTag
 	Enemy,
 	Eyelet,
 
+	Item,
+
 	PlayerBullet,
 	EnemyBullet,
 

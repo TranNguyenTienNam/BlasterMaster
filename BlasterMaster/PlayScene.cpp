@@ -260,13 +260,19 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 					player = (CSophia*)obj;
 					mainCam->SetTarget(player);
 
+					CEnemy::SetTarget((CPlayable*)obj);
+
 					DebugOut(L"[INFO] Player object created!\n");
 				}
 				else if (strcmp(object_name, "interrupt") == 0) obj = new CInterrupt;
 				else if (strcmp(object_name, "neoworm") == 0) obj = new CNeoworm;
 				else if (strcmp(object_name, "ballbot") == 0) obj = new CBallbot;
 				else if (strcmp(object_name, "stuka") == 0) obj = new CStuka;
-				else if (strcmp(object_name, "eyelet") == 0) obj = new CEyelet;
+				else if (strcmp(object_name, "eyelet") == 0)
+				{
+					obj = new CEyelet;
+					((CEyelet*)obj)->SetInitAxisY(m_mapHeight - y + height / 2);
+				}
 				else if (strcmp(object_name, "ballcarry") == 0) obj = new CBallCarry;
 				else if (strcmp(object_name, "drap") == 0) obj = new CDrap;
 				else if (strcmp(object_name, "gx680") == 0) obj = new CGX680;
@@ -328,7 +334,7 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 
 void CPlayScene::Update(DWORD dt)
 {
-	DebugOut(L"[CODE] Update %d\n", gameObjects.size());
+	DebugOut(L"[CODE] Update %d\n", updates.size());
 	auto mainCam = CGame::GetInstance()->GetService<CCamera>();
 	mainCam->Update();
 

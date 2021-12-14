@@ -33,13 +33,8 @@ CEyelet::~CEyelet()
 void CEyelet::Update(DWORD dt)
 {
 	velocity.x = nx * 0.05f;
-
-	float pi = 3.14f;
 	angular += angularFrequency * dt;
-	if (angular > 360.0f) angular = 0.0f;
-	transform.position.y = 376.0f + angularAmplitude * sin(angular * pi / 180);
-
-	DebugOut(L"eyelet %d %f %f\n", nx, transform.position.x, transform.position.y);
+	transform.position.y = axisY + angularAmplitude * sin(angular * CMath::PI / 180);
 }
 
 void CEyelet::Render()

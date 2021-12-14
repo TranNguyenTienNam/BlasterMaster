@@ -155,6 +155,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationFrame.cpp" />
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="BallBomb.cpp" />
     <ClCompile Include="Ballbot.cpp" />
     <ClCompile Include="BallCarry.cpp" />
     <ClCompile Include="Brick.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationFrame.h" />
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="BallBomb.h" />
     <ClInclude Include="Ballbot.h" />
     <ClInclude Include="BallCarry.h" />
     <ClInclude Include="Brick.h" />

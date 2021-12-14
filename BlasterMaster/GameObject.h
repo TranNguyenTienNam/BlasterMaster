@@ -12,6 +12,7 @@
 #include "ObjectTag.h"
 #include "PlayScene.h"
 #include "Scenes.h"
+#include "Math.h"
 
 class CPlayScene;
 class CQuadtree;

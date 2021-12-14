@@ -11,6 +11,7 @@ protected:
 	int damageOnCollision;
 public:
 	CEnemy();
+	static void SetTarget(CPlayable* object) { target = object; }
 	void DropItem();
 	void OnDestroy();
 };

@@ -8,6 +8,7 @@ private:
 	const float angularAmplitude = 30.0f;
 	const float angularFrequency = 0.2f;
 	float angular = 0;
+	float axisY;
 
 	void InitAnimations();
 	void InitColliders();
@@ -15,6 +16,7 @@ public:
 	CEyelet();
 	~CEyelet();
 
+	void SetInitAxisY(float y) { this->axisY = y; }
 	void Update(DWORD dt);
 	void Render();
 };

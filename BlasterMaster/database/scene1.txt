@@ -108,7 +108,7 @@ spr-hyperbeam-axisx	91	21	24	6	tex-player
 spr-jason-bullet	75	40	4	4	tex-player
 
 # === ENEMY BULLET ===
-spr-ballcarry-bomb	117	20	6	24	tex-enemies
+spr-ballcarry-bomb	47	514	10	10	tex-enemies
 
 # ===== ITEMS ========
 spr-power-item	255	109	16	16	tex-items
