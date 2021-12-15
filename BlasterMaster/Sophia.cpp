@@ -129,7 +129,7 @@ void CSophia::Update(DWORD dt)
 			}
 		}
 
-		if (inputHandler->OnKeyDown(PlayerKeySet::SHOOTING_KEY))
+		if (inputHandler->OnKeyDown(DIK_C))
 		{
 			stateDirection->Shooting();
 		}
@@ -188,6 +188,10 @@ void CSophia::Render()
 	middle->Render();
 	cabin->Render();
 	gun->Render();
+}
+
+void CSophia::OnOverlapped(CCollider2D* selfCollider, CGameObject* object)
+{
 }
 
 void CSophia::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)

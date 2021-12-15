@@ -83,6 +83,7 @@ public:
 	virtual void PhysicsUpdate(std::vector<CGameObject*>* coObjects);
 	virtual void Update(DWORD dt) = 0;
 	virtual void Render() = 0;
+	virtual void OnOverlapped(CCollider2D* selfCollider, CGameObject* object);
 	virtual void OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 	virtual void OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 	virtual void OnDestroy();

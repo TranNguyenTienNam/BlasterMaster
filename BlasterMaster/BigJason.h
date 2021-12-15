@@ -22,6 +22,7 @@ enum BigJasonKeySet
 	MOVE_RIGHT = DIK_RIGHT,
 	MOVE_TOP = DIK_UP,
 	MOVE_DOWN = DIK_DOWN,
+	SHOOTING = DIK_C,
 };
 
 class CBigJason : public CPlayable
@@ -29,6 +30,8 @@ class CBigJason : public CPlayable
 private:
 	const float WALK_SPEED = 0.1f;
 	const Vector2 IDLE_SIZE = Vector2(20.0f, 12.0f);
+
+	int ny;
 
 	LPANIMATION animation;
 
@@ -40,6 +43,8 @@ public:
 	CBigJason();
 
 	void SetState(BigJasonState state);
+
+	void Shooting();
 
 	void Update(DWORD dt);
 	void Render();

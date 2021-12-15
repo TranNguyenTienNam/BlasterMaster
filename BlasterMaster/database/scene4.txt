@@ -47,12 +47,10 @@ spr-laserguard-0	128	717	17	18	tex-enemies
 spr-laserguard-1	146	717	17	18	tex-enemies
 
 # === PLAYER BULLET ===
-spr-hyperbeam-axisy	117	20	6	24	tex-player
-spr-hyperbeam-axisx	91	21	24	6	tex-player
-spr-jason-bullet	75	40	4	4	tex-player
+spr-bigjason-xbullet	234	107	8	6	tex-player
+spr-bigjason-ybullet	244	106	6	8	tex-player
 
 # === ENEMY BULLET ===
-spr-ballcarry-bomb	117	20	6	24	tex-enemies
 
 # ===== ITEMS ========
 spr-power-item	255	109	16	16	tex-items

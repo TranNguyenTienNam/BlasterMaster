@@ -1,15 +1,6 @@
 #include <algorithm>    
 #include "Collider2D.h"
 #include "Utils.h"
-#include "Sophia.h"
-#include "Jason.h"
-#include "Playable.h"
-#include "Enemy.h"
-#include "BallCarry.h"
-#include "Brick.h"
-#include "Interrupt.h"
-#include "AbstractItem.h"
-#include "NeowormLarva.h"
 
 void CCollider2D::SweptAABB(
 	RectF movingRect, RectF staticRect,
@@ -198,8 +189,6 @@ void CCollider2D::FilterCollision(
 
 		if (c->isDeleted == true) continue;
 		if (c->co->IsTrigger() == true) continue;
-
-		if (dynamic_cast<CNeowormLarva*>(object) && dynamic_cast<CPlayable*>(c->obj)) DebugOut(L"???\n");
 
 		if (c->t < min_tx && c->nx != 0 && filterX == true) {
 			min_tx = c->t; min_ix = i;
@@ -459,21 +448,26 @@ void CCollider2D::DealWithOverlappedCase(std::vector<CGameObject*>* coObjects)
 		if (coO->IsEnabled() == false) continue;
 		if (coO->GetColliders().size() == 0) continue;
 
-		auto selfTag = object->GetTag();
-		auto otherTag = coO->GetTag();
-		if ((TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::Enemy) ||
-			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::Enemy) ||
-			(selfTag == ObjectTag::Enemy && otherTag == ObjectTag::EnemyBullet) ||
-			(otherTag == ObjectTag::Enemy && selfTag == ObjectTag::EnemyBullet))
-			continue;
-
 		auto coOther = coO->GetColliders().at(0);
 		if (coOther->isTrigger == true) continue;
 
 		auto bbOther = coOther->GetBoundingBox();
 		auto bbSelf = GetBoundingBox();
 
-		if (bbSelf.Overlap(bbOther) && dynamic_cast<CBrick*>(coO))
+		auto selfTag = object->GetTag();
+		auto otherTag = coO->GetTag();
+		if ((TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::Enemy) ||
+			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::Enemy) ||
+			(TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::EnemyBullet) ||
+			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::EnemyBullet) ||
+			(selfTag == ObjectTag::Enemy && otherTag == ObjectTag::EnemyBullet) ||
+			(otherTag == ObjectTag::Enemy && selfTag == ObjectTag::EnemyBullet))
+		{
+			if (bbSelf.Overlap(bbOther)) object->OnOverlapped(this, coO);
+			continue;
+		}
+
+		if (bbSelf.Overlap(bbOther) && otherTag == ObjectTag::Platform)
 			overlappedObjects.emplace_back(coO);
 	}
 

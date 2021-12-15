@@ -46,6 +46,23 @@ void CNeowormLarva::Render()
 	sprites.at("Larva")->Draw(transform.position, nx, layer_index);
 }
 
+void CNeowormLarva::OnOverlapped(CCollider2D* selfCollider, CGameObject* object)
+{
+	if (hasHatched == true) return;
+
+	if (dynamic_cast<CPlayable*>(object))
+	{
+		auto neoworm = Instantiate<CNeoworm>(transform.position);
+		neoworm->SetVelocity(Vector2(nx * 0.05f, 0.08f));		// TODO: Set direction forward to player
+
+		Instantiate<CBigExplosion>(transform.position);
+		hasHatched = true;
+
+		isDestroyed = true;
+		isEnabled = false;
+	}
+}
+
 void CNeowormLarva::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
 {
 	if (hasHatched == true) return;

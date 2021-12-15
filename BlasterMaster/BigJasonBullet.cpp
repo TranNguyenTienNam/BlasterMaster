@@ -1,16 +1,16 @@
-#include "HyperBeam.h"
+#include "BigJasonBullet.h"
 #include "Enemy.h"
 #include "Brick.h"
 #include "SmallExplosion.h"
 
-void CHyperBeam::InitSprites()
+void CBigJasonBullet::InitSprites()
 {
 	auto sprites = CGame::GetInstance()->GetService<CSprites>();
-	AddSprite(HYPERBEAM_X, sprites->Get("spr-hyperbeam-axisx"));
-	AddSprite(HYPERBEAM_Y, sprites->Get("spr-hyperbeam-axisy"));
+	AddSprite(BULLET_X, sprites->Get("spr-bigjason-xbullet"));
+	AddSprite(BULLET_Y, sprites->Get("spr-bigjason-ybullet"));
 }
 
-CHyperBeam::CHyperBeam()
+CBigJasonBullet::CBigJasonBullet()
 {
 	InitSprites();
 
@@ -25,23 +25,23 @@ CHyperBeam::CHyperBeam()
 	tag = ObjectTag::PlayerBullet;
 }
 
-CHyperBeam::~CHyperBeam()
+CBigJasonBullet::~CBigJasonBullet()
 {
 }
 
-void CHyperBeam::Update(DWORD dt)
+void CBigJasonBullet::Update(DWORD dt)
 {
 	if (velocity.x != 0) colliders.at(0)->SetBoxSize(BOX_X);
 	else if (velocity.y != 0) colliders.at(0)->SetBoxSize(BOX_Y);
 }
 
-void CHyperBeam::Render()
+void CBigJasonBullet::Render()
 {
-	if (velocity.x != 0) sprites.at(HYPERBEAM_X)->Draw(transform.position, -nx, layer_index);
-	else if (velocity.y != 0) sprites.at(HYPERBEAM_Y)->Draw(transform.position, 1, layer_index);
+	if (velocity.x != 0) sprites.at(BULLET_X)->Draw(transform.position, -nx, layer_index);
+	else if (velocity.y != 0) sprites.at(BULLET_Y)->Draw(transform.position, 1, layer_index);
 }
 
-void CHyperBeam::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
+void CBigJasonBullet::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
 {
 	auto other = collision->obj;
 	if (dynamic_cast<CEnemy*>(other))

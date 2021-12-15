@@ -11,14 +11,14 @@ CGameObject::CGameObject()
 
 CGameObject::~CGameObject()
 {
-	/*for (auto co : colliders)
+	for (auto co : colliders)
 	{
 		delete co;
 		co = nullptr;
 	}
 	colliders.clear();
 
-	delete ownerQuadtree;*/
+	delete ownerQuadtree;
 }
 
 void CGameObject::AddSprite(std::string stateName, LPSPRITE sprite)
@@ -35,6 +35,10 @@ void CGameObject::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 {
 	for (auto co : colliders)
 		if (co != nullptr) co->PhysicsUpdate(coObjects);
+}
+
+void CGameObject::OnOverlapped(CCollider2D* selfCollider, CGameObject* object)
+{
 }
 
 void CGameObject::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)

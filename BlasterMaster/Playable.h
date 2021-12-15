@@ -10,10 +10,12 @@ enum PlayerKeySet
 	MOVE_LEFT_KEY = DIK_LEFT,
 	MOVE_RIGHT_KEY = DIK_RIGHT,
 	JUMPING_KEY = DIK_X,
-	SHOOTING_KEY = DIK_Z,
+	SHOOTING_KEY = DIK_C,
 	SWITCH_CHARACTER_KEY = DIK_LSHIFT,
 	SOPHIA_UPWARD_KEY = DIK_UP
 };
+
+// I don't know why when I hold left and up key as the same time, I can't press Z key
 
 class CPlayable : public CGameObject
 {
@@ -23,14 +25,19 @@ protected:
 	static DWORD switchDelay;
 	static DWORD lastTimeSwitch;
 
+	const int maxPower = 8;
+
 	bool controllable;
 	bool untouchable;
 	bool onGround;
+
 	int power;			// HP
 
 	DWORD untouchalbeTime = 5000;
 	DWORD lastTimeTakeDamage;
 public:
+	CPlayable();
 	bool IsInvincible() { return this->untouchable; }
 	void SetControllable(bool value) { this->controllable = value; }
+	void TakeDamage(int damage);
 };

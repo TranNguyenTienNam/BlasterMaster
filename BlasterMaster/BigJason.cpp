@@ -1,6 +1,7 @@
 #include "BigJason.h"
 #include "Animations.h"
 #include "Enemy.h"
+#include "BigJasonBullet.h"
 
 void CBigJason::InitAnimations()
 {
@@ -43,9 +44,11 @@ void CBigJason::SetState(BigJasonState state)
 	switch (currentState)
 	{
 	case BigJasonState::IDLE_FRONT:
+		ny = -1;
 		animation = animations.at("Idle-Front");
 		break;
 	case BigJasonState::IDLE_BACK:
+		ny = 1;
 		animation = animations.at("Idle-Back");
 		break;
 	case BigJasonState::IDLE_LEFT:
@@ -57,12 +60,14 @@ void CBigJason::SetState(BigJasonState state)
 		animation = animations.at("Idle-Left");
 		break;
 	case BigJasonState::WALK_FRONT:
+		ny = -1;
 		velocity.y = -WALK_SPEED;
 		if (lastState != BigJasonState::WALK_LEFT &&
 			lastState != BigJasonState::WALK_RIGHT)
 			animation = animations.at("Walk-Front");
 		break;
 	case BigJasonState::WALK_BACK:
+		ny = 1;
 		velocity.y = WALK_SPEED;
 		if (lastState != BigJasonState::WALK_LEFT &&
 			lastState != BigJasonState::WALK_RIGHT)
@@ -90,6 +95,22 @@ void CBigJason::SetState(BigJasonState state)
 	}
 
 	lastState = currentState;
+}
+
+void CBigJason::Shooting()
+{
+	auto bullet = Instantiate<CBigJasonBullet>(transform.position);
+
+	if (currentState == BigJasonState::IDLE_LEFT || currentState == BigJasonState::WALK_LEFT ||
+		currentState == BigJasonState::IDLE_RIGHT || currentState == BigJasonState::WALK_RIGHT)
+	{
+		bullet->SetVelocity(Vector2(nx * bullet->GetSpeed(), 0.0f));
+	}
+	else if (currentState == BigJasonState::IDLE_FRONT || currentState == BigJasonState::WALK_FRONT ||
+		currentState == BigJasonState::IDLE_BACK || currentState == BigJasonState::WALK_BACK)
+	{
+		bullet->SetVelocity(Vector2(0.0f, ny * bullet->GetSpeed()));
+	}
 }
 
 void CBigJason::Update(DWORD dt)
@@ -122,6 +143,11 @@ void CBigJason::Update(DWORD dt)
 	else
 	{
 		velocity.y = 0;
+	}
+
+	if (inputHandler->OnKeyDown(BigJasonKeySet::SHOOTING))
+	{
+		Shooting();
 	}
 
 	if (velocity == VectorZero())

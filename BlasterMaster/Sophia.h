@@ -46,6 +46,7 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 
+	void OnOverlapped(CCollider2D* selfCollider, CGameObject* object);
 	void OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 	void OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 };

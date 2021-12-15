@@ -5,9 +5,9 @@
 #include "Utils.h"
 #include "Sophia.h"
 #include "Camera.h"
-#include "Neoworm.h"
 #include "PlayScene.h"
 #include "Scenes.h"
+#include "JasonBullet.h"
 
 void CJason::InitAnimations()
 {
@@ -122,7 +122,8 @@ void CJason::Update(DWORD dt)
 
 	if (inputHandler->OnKeyDown(PlayerKeySet::SHOOTING_KEY))
 	{
-		Instantiate<CNeoworm>(transform.position); // TODO: Replace neoworm by jason's bullet
+		auto bullet = Instantiate<CJasonBullet>(transform.position);
+		bullet->SetVelocity(Vector2(nx * bullet->GetSpeed(), 0.0f));
 	}
 
 	/*DWORD now = GetTickCount();
@@ -134,7 +135,7 @@ void CJason::Update(DWORD dt)
 
 void CJason::Render()
 {
-	animation->Render(transform.position, -nx, layer_index + 1, D3DCOLOR_ARGB(255, 124, 255, 124));
+	animation->Render(transform.position, -nx, layer_index + 1);
 }
 
 void CJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)

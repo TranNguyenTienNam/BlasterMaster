@@ -282,6 +282,12 @@
     <ClCompile Include="NeowormLarva.cpp">
       <Filter>Game Source\Game Object\Bullet\Enemy Bullet</Filter>
     </ClCompile>
+    <ClCompile Include="JasonBullet.cpp">
+      <Filter>Game Source\Game Object\Bullet\Player Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="BigJasonBullet.cpp">
+      <Filter>Game Source\Game Object\Bullet\Player Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -466,6 +472,12 @@
     </ClInclude>
     <ClInclude Include="NeowormLarva.h">
       <Filter>Game Source\Game Object\Bullet\Enemy Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="JasonBullet.h">
+      <Filter>Game Source\Game Object\Bullet\Player Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="BigJasonBullet.h">
+      <Filter>Game Source\Game Object\Bullet\Player Bullet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
