@@ -369,19 +369,79 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 	fclose(fp);
 }
 
+void CPlayScene::PreSwitchingSection(std::vector<CGameObject*> objects, LPMAPBACKGROUND mapBackGround)
+{
+	// Translate object's position and push into backup vector
+	for (auto obj : objects)
+	{
+		auto pos = obj->GetPosition();
+		pos += Vector2(1376, 304); // TODO: Temp, get translation property of portal
+		obj->SetPosition(pos);
+
+		AddGameObject(obj);
+		gameObjects_switching.emplace_back(obj);
+	}
+
+	map_switching = mapBackGround;
+	auto posMap = map_switching->GetPosition();
+	posMap += Vector2(1376, 304); // TODO: Temp, get translation property of portal
+	map_switching->SetPosition(posMap);
+
+	CGame::GetInstance()->GetService<CCamera>()->SetBoundless(true);
+}
+
+void CPlayScene::AfterSwitchingSection()
+{
+	state = PlaySceneState::FreePlaying;
+
+	for (auto obj : gameObjects_switching)
+	{
+		obj->SetEnable(false);
+		obj->SetDestroyed();
+	}
+
+	delete map_switching;
+	map_switching = nullptr;
+
+	CGame::GetInstance()->GetService<CCamera>()->SetBoundless(false);
+}
+
+void CPlayScene::HandlingInstantiateRequest()
+{
+	for (auto obj : requests)
+	{
+		if (obj->IsEnabled() == true)
+		{
+			AddGameObject(obj);
+		}
+	}
+
+	requests.clear();
+}
+
 void CPlayScene::Update(DWORD dt)
 {
 	DebugOut(L"[CODE] Update %d\n", updates.size());
+
+	HandlingInstantiateRequest();
+
 	auto mainCam = CGame::GetInstance()->GetService<CCamera>();
 	mainCam->Update();
 
+	DebugOut(L"[QUADTREE UPDATE]\n");
+
 	updates.clear();
 	quadtree->Update(gameObjects);
-	//quadtree->Update(gameObjects_switching);
+
+	DebugOut(L"[RETRIEVE]\n");
 	quadtree->Retrieve(updates, mainCam->GetBoundingBox());
+
+	DebugOut(L"[PHYSICS]\n");
 
 	for (auto obj : updates)
 		if (obj->IsEnabled() == true) obj->PhysicsUpdate(&updates);
+
+	DebugOut(L"[UPDATE]\n");
 
 	for (auto obj : updates)
 		if (obj->IsEnabled() == true) obj->Update(dt);
@@ -440,51 +500,20 @@ void CPlayScene::Clean()
 		{
 			quadtree->RemoveGameObjectFromLeaf(obj);
 			delete obj;
+			obj = nullptr;
 		}
 	}
-}
-
-void CPlayScene::PreSwitchingSection(std::vector<CGameObject*> objects, LPMAPBACKGROUND mapBackGround)
-{
-	// Translate object's position and push into backup vector
-	for (auto obj : objects)
-	{
-		auto pos = obj->GetPosition();
-		pos += Vector2(1376, 304); // TODO: Temp, get translation property of portal
-		obj->SetPosition(pos);
-
-		AddGameObject(obj);
-		gameObjects_switching.emplace_back(obj);
-	}
-
-	map_switching = mapBackGround;
-	auto posMap = map_switching->GetPosition();
-	posMap += Vector2(1376, 304); // TODO: Temp, get translation property of portal
-	map_switching->SetPosition(posMap);
-
-	CGame::GetInstance()->GetService<CCamera>()->SetBoundless(true);
-}
-
-void CPlayScene::AfterSwitchingSection()
-{
-	state = PlaySceneState::FreePlaying;
-
-	for (auto obj : gameObjects_switching)
-	{
-		obj->SetEnable(false);
-		obj->SetDestroyed();
-	}
-
-	delete map_switching;
-	map_switching = nullptr;
-
-	CGame::GetInstance()->GetService<CCamera>()->SetBoundless(false);
 }
 
 void CPlayScene::AddGameObject(CGameObject* object)
 {
 	gameObjects.push_back(object);
 	quadtree->Insert(object);
+}
+
+void CPlayScene::RequestInstantiate(CGameObject* object)
+{
+	requests.emplace_back(object);
 }
 
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)

@@ -1,11 +1,6 @@
 #include "Neoworm.h"
 #include "Animations.h"
-
-void CNeoworm::InitSprites()
-{
-	auto sprites = CGame::GetInstance()->GetService<CSprites>();
-	AddSprite("Larva", sprites->Get("spr-neoworm-larva"));
-}
+#include "Brick.h"
 
 void CNeoworm::InitAnimations()
 {
@@ -25,7 +20,6 @@ void CNeoworm::InitColliders()
 
 CNeoworm::CNeoworm()
 {
-	InitSprites();
 	InitAnimations();
 	InitColliders();
 }
@@ -36,9 +30,20 @@ CNeoworm::~CNeoworm()
 
 void CNeoworm::Update(DWORD dt)
 {
+	velocity.y += -0.00026f * dt;
 }
 
 void CNeoworm::Render()
 {
 	animations.at("Move")->Render(transform.position, nx, layer_index);
+}
+
+void CNeoworm::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
+{
+	auto other = collision->obj;
+	if (dynamic_cast<CBrick*>(other) && collision->nx != 0)
+	{
+		nx = collision->nx;
+		velocity.x = nx * MOVE_SPEED;
+	}
 }

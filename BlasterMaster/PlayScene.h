@@ -30,6 +30,7 @@ protected:
 
 	LPMAPBACKGROUND map;								// current scene
 	std::vector<CGameObject*> gameObjects;				//
+	std::vector<CGameObject*> requests, destroyed;
 	
 	LPMAPBACKGROUND map_switching;						// TODO: last scene, maybe both vector?
 	std::vector<CGameObject*> gameObjects_switching;	//
@@ -50,12 +51,14 @@ public:
 	~CPlayScene();
 
 	virtual void Load();
+	virtual void PreSwitchingSection(std::vector<CGameObject*> objects, LPMAPBACKGROUND mapBackGround);
+	virtual void AfterSwitchingSection();
+
+	virtual void HandlingInstantiateRequest();
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
 	virtual void Clean();
-	virtual void PreSwitchingSection(std::vector<CGameObject*> objects, LPMAPBACKGROUND mapBackGround);
-	virtual void AfterSwitchingSection();
 
 	void SetState(PlaySceneState _state) { this->state = _state; }
 	LPMAPBACKGROUND GetMapBackground() { return this->map; }
@@ -63,6 +66,7 @@ public:
 	void SetPlayer(CGameObject* object) { this->player = object; }
 	std::vector<CGameObject*> GetGameObjects() { return this->gameObjects; }
 	void AddGameObject(CGameObject* object);
+	void RequestInstantiate(CGameObject* object);
 };
 
 template<typename T>

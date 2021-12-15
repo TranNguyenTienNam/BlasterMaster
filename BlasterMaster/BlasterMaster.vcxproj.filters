@@ -276,6 +276,12 @@
     <ClCompile Include="SmallExplosion.cpp">
       <Filter>Game Source\Game Object\VFX</Filter>
     </ClCompile>
+    <ClCompile Include="BigExplosion.cpp">
+      <Filter>Game Source\Game Object\VFX</Filter>
+    </ClCompile>
+    <ClCompile Include="NeowormLarva.cpp">
+      <Filter>Game Source\Game Object\Bullet\Enemy Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -454,6 +460,12 @@
     </ClInclude>
     <ClInclude Include="SmallExplosion.h">
       <Filter>Game Source\Game Object\VFX</Filter>
+    </ClInclude>
+    <ClInclude Include="BigExplosion.h">
+      <Filter>Game Source\Game Object\VFX</Filter>
+    </ClInclude>
+    <ClInclude Include="NeowormLarva.h">
+      <Filter>Game Source\Game Object\Bullet\Enemy Bullet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

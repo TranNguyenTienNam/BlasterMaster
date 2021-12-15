@@ -50,7 +50,7 @@ CSophia::CSophia()
 
 void CSophia::Update(DWORD dt)
 {
-	//DebugOut(L"sophia pos %f %f v %f %f\n", transform.position.x, transform.position.y, velocity.x, velocity.y);
+	DebugOut(L"sophia size %d\n", colliders.size());
 
 	velocity.x += acceleration.x * dt;
 	if (colliders.at(0)->IsDynamic() == true)

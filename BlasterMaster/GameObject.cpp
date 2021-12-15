@@ -6,11 +6,16 @@ CGameObject::CGameObject()
 	transform.position = VectorZero();
 	velocity = VectorZero();
 	acceleration = VectorZero();
+	colliders.clear();
 }
 
 CGameObject::~CGameObject()
 {
-	for (auto co : colliders) delete co;
+	for (auto co : colliders)
+	{
+		delete co;
+		co = nullptr;
+	}
 	colliders.clear();
 
 	delete ownerQuadtree;

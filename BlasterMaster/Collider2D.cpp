@@ -9,6 +9,7 @@
 #include "Brick.h"
 #include "Interrupt.h"
 #include "AbstractItem.h"
+#include "NeowormLarva.h"
 
 void CCollider2D::SweptAABB(
 	RectF movingRect, RectF staticRect,
@@ -152,6 +153,7 @@ void CCollider2D::CalcPotentialCollisions(
 	{
 		if (object == coObjects->at(i)) continue;
 		if (coObjects->at(i)->IsEnabled() == false) continue;
+		if (coObjects->at(i)->GetColliders().size() == 0) continue;
 
 		// TODO: Filter by object tag
 		auto selfTag = object->GetTag();
@@ -194,6 +196,8 @@ void CCollider2D::FilterCollision(
 
 		if (c->isDeleted == true) continue;
 		if (c->co->IsTrigger() == true) continue;
+
+		if (dynamic_cast<CNeowormLarva*>(object) && dynamic_cast<CPlayable*>(c->obj)) DebugOut(L"???\n");
 
 		if (c->t < min_tx && c->nx != 0 && filterX == true) {
 			min_tx = c->t; min_ix = i;
@@ -365,6 +369,9 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 
 	for (UINT i = 0; i < coEvents.size(); i++)
 	{
+		if (object == coObjects->at(i)) continue;
+		if (coEvents.at(i)->obj->IsEnabled() == false) continue;
+
 		if (coEvents[i]->co->IsTrigger() == true)
 		{
 			if (isTrigger == false) object->OnCollisionEnter(this, coEvents[i]);

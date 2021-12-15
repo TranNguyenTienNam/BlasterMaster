@@ -16,16 +16,15 @@ void CQuadtree::Update(std::vector<CGameObject*> gameObjects)
 	for (const auto& object : gameObjects)
 	{
 		if (object->IsEnabled() == false) continue;
+		if (object->GetQuadtree() == nullptr)
+		{
+			object->SetEnable(false);
+			object->SetDestroyed();
+			continue;
+		}
 
 		for (auto co : object->GetColliders())
 		{
-			if (object->GetQuadtree() == nullptr)
-			{
-				object->SetEnable(false);
-				object->SetDestroyed();
-				continue;
-			}
-
 			if (co->IsDynamic() == true)
 			{
 				if (object->GetQuadtree()->m_rect.Contain(object->GetPosition()) == false)

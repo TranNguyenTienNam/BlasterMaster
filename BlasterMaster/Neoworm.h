@@ -4,9 +4,9 @@
 class CNeoworm : public CEnemy
 {
 private:
-	const Vector2 DEFAULT_SIZE = Vector2(9.0f, 9.0f);
+	const Vector2 DEFAULT_SIZE = Vector2(18.0f, 10.0f);
+	const float MOVE_SPEED = 0.02f;
 
-	void InitSprites();
 	void InitAnimations();
 	void InitColliders();
 public:
@@ -15,4 +15,6 @@ public:
 
 	void Update(DWORD dt);
 	void Render();
+
+	void OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 };

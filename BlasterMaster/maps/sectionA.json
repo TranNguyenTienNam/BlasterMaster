@@ -1101,24 +1101,6 @@
                  "y":257
                 }, 
                 {
-                 "gid":495,
-                 "height":10,
-                 "id":94,
-                 "name":"neoworm",
-                 "properties":[
-                        {
-                         "name":"nx",
-                         "type":"int",
-                         "value":-1
-                        }],
-                 "rotation":0,
-                 "type":"enemy",
-                 "visible":true,
-                 "width":18,
-                 "x":144,
-                 "y":208
-                }, 
-                {
                  "height":16,
                  "id":95,
                  "name":"jason",
