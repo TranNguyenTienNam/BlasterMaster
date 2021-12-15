@@ -3,11 +3,13 @@
 
 CAnimation::CAnimation()
 {
+	currentFrame = -1;
 }
 
 CAnimation::CAnimation(const CAnimation& anim)
 {
 	this->frames = anim.frames;
+	currentFrame = -1;
 }
 
 void CAnimation::Add(std::string id, DWORD time)
@@ -20,6 +22,8 @@ void CAnimation::Add(std::string id, DWORD time)
 
 void CAnimation::Render(Vector2 position, int nx, int layer_index, D3DCOLOR color)
 {
+	if (isLooped == false && isFinished == true) return;
+
 	DWORD now = GetTickCount();
 
 	if (isReversed == false)
@@ -37,11 +41,10 @@ void CAnimation::Render(Vector2 position, int nx, int layer_index, D3DCOLOR colo
 				if (isPaused == false) currentFrame++;
 				lastFrameTime = now;
 
-				if (currentFrame == frames.size() - 1 && isLooped == false) isFinished = true;
-
 				if (currentFrame == frames.size())
 				{
 					if (isLooped == true) currentFrame = 0;
+					else isFinished = true;
 				}
 			}
 		}
@@ -61,15 +64,15 @@ void CAnimation::Render(Vector2 position, int nx, int layer_index, D3DCOLOR colo
 				if (isPaused == false) currentFrame--;
 				lastFrameTime = now;
 
-				if (currentFrame == 0 && isLooped == false) isFinished = true;
-
 				if (currentFrame == -1)
 				{
 					if (isLooped == true) currentFrame = frames.size() - 1;
+					else isFinished = true;
 				}
 			}
 		}
 	}
 
-	frames[currentFrame]->GetSprite()->Draw(position, nx, layer_index, color);
+	if (isFinished == false)
+		frames[currentFrame]->GetSprite()->Draw(position, nx, layer_index, color);
 }
