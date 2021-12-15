@@ -483,6 +483,57 @@ void CCollider2D::DealWithOverlappedCase(std::vector<CGameObject*>* coObjects)
 		if (bbSelf.Overlap(bbOther) == false) continue;
 
 		float deltaX = 0, deltaY = 0;
+		
+		/*float deltaX_pushRight = 0, deltaX_pushLeft = 0;
+		float deltaY_pushTop = 0, deltaY_pushBottom = 0;
+
+		if (bbSelf.left < bbOther.right && bbSelf.left > bbOther.left)
+		{
+			deltaX_pushRight = bbOther.right - bbSelf.left + BLOCK_PUSH_FACTOR;
+		}
+
+		if (bbSelf.right > bbOther.left && bbSelf.right < bbOther.right)
+		{
+			deltaX_pushLeft = -1 * (bbSelf.right - bbOther.left + BLOCK_PUSH_FACTOR);
+		}
+
+		if (deltaX_pushRight != 0 && deltaX_pushLeft != 0)
+		{
+			if (abs(deltaX_pushRight) < abs(deltaX_pushLeft))
+			{
+				deltaX = deltaX_pushRight;
+			}
+			else deltaX = deltaX_pushLeft;
+		}
+		else
+		{
+			if (deltaX_pushRight != 0) deltaX = deltaX_pushRight;
+			else if (deltaX_pushLeft != 0) deltaX = deltaX_pushLeft;
+		}
+
+		if (bbSelf.bottom < bbOther.top && bbSelf.bottom > bbOther.bottom)
+		{
+			deltaY_pushTop = bbOther.top - bbSelf.bottom + BLOCK_PUSH_FACTOR;
+		}
+
+		if (bbSelf.top > bbOther.bottom && bbSelf.top < bbOther.top)
+		{
+			deltaY_pushBottom = -1 * (bbSelf.top - bbOther.bottom + BLOCK_PUSH_FACTOR);
+		}
+
+		if (deltaY_pushTop != 0 && deltaY_pushBottom != 0)
+		{
+			if (abs(deltaY_pushTop) < abs(deltaY_pushBottom))
+			{
+				deltaY = deltaY_pushTop;
+			}
+			else deltaY = deltaY_pushBottom;
+		}
+		else
+		{
+			if (deltaY_pushTop != 0) deltaY = deltaY_pushTop;
+			else if (deltaY_pushBottom != 0) deltaY = deltaY_pushBottom;
+		}*/
 
 		if (bbSelf.left < bbOther.right && bbSelf.left > bbOther.left)
 		{

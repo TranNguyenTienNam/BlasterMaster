@@ -11,14 +11,14 @@ CGameObject::CGameObject()
 
 CGameObject::~CGameObject()
 {
-	for (auto co : colliders)
+	/*for (auto co : colliders)
 	{
 		delete co;
 		co = nullptr;
 	}
 	colliders.clear();
 
-	delete ownerQuadtree;
+	delete ownerQuadtree;*/
 }
 
 void CGameObject::AddSprite(std::string stateName, LPSPRITE sprite)

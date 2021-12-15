@@ -408,15 +408,15 @@ void CPlayScene::AfterSwitchingSection()
 
 void CPlayScene::HandlingInstantiateRequest()
 {
-	for (auto obj : requests)
+	if (instantiateds.size() > 0)
 	{
-		if (obj->IsEnabled() == true)
+		for (auto obj : instantiateds)
 		{
 			AddGameObject(obj);
 		}
-	}
 
-	requests.clear();
+		instantiateds.clear();
+	}
 }
 
 void CPlayScene::Update(DWORD dt)
@@ -498,7 +498,12 @@ void CPlayScene::Clean()
 	{
 		if (obj->IsDestroyed() == true)
 		{
+			auto index = find(gameObjects.begin(), gameObjects.end(), obj);
+			if (index != gameObjects.end())
+				gameObjects.erase(index);
+
 			quadtree->RemoveGameObjectFromLeaf(obj);
+
 			delete obj;
 			obj = nullptr;
 		}
@@ -513,7 +518,7 @@ void CPlayScene::AddGameObject(CGameObject* object)
 
 void CPlayScene::RequestInstantiate(CGameObject* object)
 {
-	requests.emplace_back(object);
+	instantiateds.emplace_back(object);
 }
 
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)

@@ -30,7 +30,7 @@ protected:
 
 	LPMAPBACKGROUND map;								// current scene
 	std::vector<CGameObject*> gameObjects;				//
-	std::vector<CGameObject*> requests, destroyed;
+	std::vector<CGameObject*> instantiateds, destroyeds;
 	
 	LPMAPBACKGROUND map_switching;						// TODO: last scene, maybe both vector?
 	std::vector<CGameObject*> gameObjects_switching;	//
@@ -75,7 +75,7 @@ inline T* Instantiate(Vector2 position)
 	CGameObject* newObject = new T;
 	newObject->SetPosition(position);
 	auto current_scene = (CPlayScene*)CGame::GetInstance()->GetService<CScenes>()->GetCurrentScene();
-	current_scene->AddGameObject(newObject);
+	current_scene->RequestInstantiate(newObject);
 	return (T*)newObject;
 }
 
