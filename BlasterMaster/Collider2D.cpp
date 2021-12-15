@@ -160,7 +160,9 @@ void CCollider2D::CalcPotentialCollisions(
 		auto otherTag = coObjects->at(i)->GetTag();
 		if ((selfTag == otherTag) || 
 			(selfTag == ObjectTag::Enemy && otherTag == ObjectTag::EnemyBullet) ||
-			(otherTag == ObjectTag::Enemy && selfTag == ObjectTag::EnemyBullet)) continue;
+			(otherTag == ObjectTag::Enemy && selfTag == ObjectTag::EnemyBullet) ||
+			(TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::PlayerBullet) ||
+			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::PlayerBullet)) continue;
 
 		for (auto co : coObjects->at(i)->GetColliders())
 		{
@@ -390,8 +392,8 @@ void CCollider2D::PushingHandling(LPCOLLISIONEVENT& coEvent, bool isOnlyAxis, fl
 	// Collide with none trigger but dont need to push
 	auto selfTag = object->GetTag();
 	auto otherTag = coEvent->obj->GetTag();
-	if ((selfTag == ObjectTag::Player && otherTag == ObjectTag::Enemy) ||
-		(otherTag == ObjectTag::Player && selfTag == ObjectTag::Enemy) || 
+	if ((TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::Enemy) ||
+		(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::Enemy) ||
 		(selfTag == otherTag))
 	{
 		pos.x += dx;
@@ -459,8 +461,8 @@ void CCollider2D::DealWithOverlappedCase(std::vector<CGameObject*>* coObjects)
 
 		auto selfTag = object->GetTag();
 		auto otherTag = coO->GetTag();
-		if ((selfTag == ObjectTag::Player && otherTag == ObjectTag::Enemy) ||
-			(otherTag == ObjectTag::Player && selfTag == ObjectTag::Enemy) ||
+		if ((TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::Enemy) ||
+			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::Enemy) ||
 			(selfTag == ObjectTag::Enemy && otherTag == ObjectTag::EnemyBullet) ||
 			(otherTag == ObjectTag::Enemy && selfTag == ObjectTag::EnemyBullet))
 			continue;

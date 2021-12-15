@@ -1,5 +1,6 @@
 #include "Portal.h"
 #include "Playable.h"
+#include "Sophia.h"
 
 CPortal::CPortal(float w, float h, int scene_id)
 {
@@ -30,7 +31,7 @@ void CPortal::Render()
 void CPortal::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
 {
 	auto other = collision->obj;
-	if (dynamic_cast<CPlayable*>(other))
+	if (dynamic_cast<CSophia*>(other))
 	{
 		CGame::GetInstance()->GetService<CScenes>()->SwitchScene(scene_id);
 	}

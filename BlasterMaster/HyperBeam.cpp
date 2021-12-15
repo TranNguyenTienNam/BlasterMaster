@@ -21,6 +21,8 @@ CHyperBeam::CHyperBeam()
 	collider->SetDynamic(true);
 	collider->SetTrigger(true);
 	colliders.push_back(collider);
+
+	tag = ObjectTag::PlayerBullet;
 }
 
 CHyperBeam::~CHyperBeam()
@@ -48,14 +50,14 @@ void CHyperBeam::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* coll
 	auto other = collision->obj;
 	if (dynamic_cast<CEnemy*>(other))
 	{
-		((CEnemy*)other)->OnDestroy();
-		other->SetDestroyed();
-		other->SetEnable(false);
+		((CEnemy*)other)->OnDestroy(); // TODO: Move to enemy collision enter function to apply hp
+		isEnabled = false;
+		isDestroyed = true;
 	}
 	else if (dynamic_cast<CBrick*>(other))
 	{
-		SetDestroyed();
-		SetEnable(false);
+		isEnabled = false;
+		isDestroyed = true;
 
 		Instantiate<CSmallExplosion>(transform.position);
 	}

@@ -42,7 +42,7 @@ CSophia::CSophia()
 	stateDirection->SetOwner(this);
 
 	// Player's settings
-	tag = ObjectTag::Player;
+	tag = ObjectTag::Sophia;
 	controllable = true;
 	untouchable = false;
 	sophia = this;
@@ -50,8 +50,6 @@ CSophia::CSophia()
 
 void CSophia::Update(DWORD dt)
 {
-	DebugOut(L"sophia size %d\n", colliders.size());
-
 	velocity.x += acceleration.x * dt;
 	if (colliders.at(0)->IsDynamic() == true)
 		velocity.y += GRAVITY * dt;

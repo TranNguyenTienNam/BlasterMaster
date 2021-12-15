@@ -5848,7 +5848,7 @@
                         {
                          "name":"TranslationY",
                          "type":"int",
-                         "value":-256
+                         "value":-304
                         }],
                  "rotation":0,
                  "type":"portal",

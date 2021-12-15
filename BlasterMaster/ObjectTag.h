@@ -3,6 +3,9 @@
 enum class ObjectTag
 {
 	Player,
+	Sophia,
+	Jason,
+	BigJason,
 
 	Enemy,
 	Eyelet,
@@ -19,5 +22,7 @@ enum class ObjectTag
 class TagUtils
 {
 	// Get groups of object tag for purposes
+public:
+	static bool PlayerTag(ObjectTag tag);
 };
 

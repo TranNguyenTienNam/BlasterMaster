@@ -2,6 +2,7 @@
 #include "PowerItem.h"
 #include "HoverItem.h"
 #include "Math.h"
+#include "BigExplosion.h"
 
 CPlayable* CEnemy::target = nullptr;
 
@@ -22,4 +23,9 @@ void CEnemy::DropItem()
 void CEnemy::OnDestroy()
 {
 	DropItem();
+
+	isEnabled = false;
+	isDestroyed = true;
+
+	Instantiate<CBigExplosion>(transform.position);
 }

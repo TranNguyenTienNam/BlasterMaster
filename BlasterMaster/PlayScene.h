@@ -51,7 +51,8 @@ public:
 	~CPlayScene();
 
 	virtual void Load();
-	virtual void PreSwitchingSection(std::vector<CGameObject*> objects, LPMAPBACKGROUND mapBackGround);
+	virtual void PreSwitchingSection(std::vector<CGameObject*> objects, 
+		LPMAPBACKGROUND mapBackGround, Vector2 translation);
 	virtual void AfterSwitchingSection();
 
 	virtual void HandlingInstantiateRequest();
@@ -64,7 +65,7 @@ public:
 	LPMAPBACKGROUND GetMapBackground() { return this->map; }
 	CGameObject* GetPlayer() { return player; }
 	void SetPlayer(CGameObject* object) { this->player = object; }
-	std::vector<CGameObject*> GetGameObjects() { return this->gameObjects; }
+	std::vector<CGameObject*> GetUpdateObjects() { return this->updates; }
 	void AddGameObject(CGameObject* object);
 	void RequestInstantiate(CGameObject* object);
 };

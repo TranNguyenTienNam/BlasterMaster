@@ -369,22 +369,22 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 	fclose(fp);
 }
 
-void CPlayScene::PreSwitchingSection(std::vector<CGameObject*> objects, LPMAPBACKGROUND mapBackGround)
+void CPlayScene::PreSwitchingSection(std::vector<CGameObject*> objects, 
+	LPMAPBACKGROUND mapBackGround, Vector2 translation)
 {
 	// Translate object's position and push into backup vector
 	for (auto obj : objects)
 	{
 		auto pos = obj->GetPosition();
-		pos += Vector2(1376, 304); // TODO: Temp, get translation property of portal
+		pos += translation;
 		obj->SetPosition(pos);
 
-		AddGameObject(obj);
 		gameObjects_switching.emplace_back(obj);
 	}
 
 	map_switching = mapBackGround;
 	auto posMap = map_switching->GetPosition();
-	posMap += Vector2(1376, 304); // TODO: Temp, get translation property of portal
+	posMap += translation;
 	map_switching->SetPosition(posMap);
 
 	CGame::GetInstance()->GetService<CCamera>()->SetBoundless(true);
@@ -428,20 +428,15 @@ void CPlayScene::Update(DWORD dt)
 	auto mainCam = CGame::GetInstance()->GetService<CCamera>();
 	mainCam->Update();
 
-	DebugOut(L"[QUADTREE UPDATE]\n");
-
 	updates.clear();
 	quadtree->Update(gameObjects);
-
-	DebugOut(L"[RETRIEVE]\n");
 	quadtree->Retrieve(updates, mainCam->GetBoundingBox());
 
-	DebugOut(L"[PHYSICS]\n");
+	// TODO: When switching section, add update object of last scene into
+	// update object of current scene
 
 	for (auto obj : updates)
 		if (obj->IsEnabled() == true) obj->PhysicsUpdate(&updates);
-
-	DebugOut(L"[UPDATE]\n");
 
 	for (auto obj : updates)
 		if (obj->IsEnabled() == true) obj->Update(dt);

@@ -30,7 +30,7 @@ CBigJason::CBigJason()
 	InitColliders();
 
 	// Player's settings
-	tag = ObjectTag::Player;
+	tag = ObjectTag::BigJason;
 	controllable = true;
 	SetState(BigJasonState::IDLE_FRONT);
 	lastState = currentState;
