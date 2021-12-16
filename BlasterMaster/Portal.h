@@ -1,10 +1,10 @@
 #pragma once
-
 #include "GameObject.h"
 
 /*
 	Object that triggers scene switching
 */
+
 class CPortal : public CGameObject
 {
 	Vector2 translation;	// translation position of game object and background when switch section

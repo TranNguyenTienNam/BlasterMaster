@@ -75,11 +75,22 @@ void CScenes::SwitchScene(int scene_id)
 	game->GetService<CSprites>()->Clear();
 	game->GetService<CAnimations>()->Clear();
 
+	int last_scene = current_scene;
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];
 
 	game->GetService<CInputHandler>()->SetKeyHandler(s->GetKeyEventHandler());
 	s->Load();
+
+	auto portals = ((CPlayScene*)s)->GetPortalList();
+	for (auto portal : portals)
+	{
+		if (portal.first == last_scene)
+		{
+			auto portalPos = ((CGameObject*)(portal.second))->GetPosition() + Vector2(0.0f, -32.0f);
+			((CPlayScene*)s)->GetPlayer()->SetPosition(portalPos);
+		}
+	}
 }
 
 void CScenes::SwitchSection(int scene_id, Vector2 translation)

@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <unordered_map>
 
 #include "Game.h"
 #include "Textures.h"
@@ -13,6 +14,7 @@
 const int CELL_SIZE = 128;
 
 class CGameObject;
+class CPortal;
 class CQuadtree;
 
 enum class PlaySceneState
@@ -27,18 +29,19 @@ protected:
 	PlaySceneState state;
 
 	CGameObject* player;
+	std::unordered_map<int, CPortal*> portals;
 
 	LPMAPSPRITE background;								// current scene
 	LPMAPSPRITE foreground;
 	std::vector<CGameObject*> gameObjects;				//
 	std::vector<CGameObject*> instantiateds, destroyeds;
-	
-	LPMAPSPRITE background_switching;						// TODO: last scene, maybe both vector?
-	LPMAPSPRITE foreground_switching;
-	std::vector<CGameObject*> gameObjects_switching;	//
 
 	std::vector<CGameObject*> updates;
 	CQuadtree* quadtree;					// Quadtree for space partitioning
+	
+	LPMAPSPRITE background_switching;
+	LPMAPSPRITE foreground_switching;
+	std::vector<CGameObject*> gameObjects_switching;	
 
 	float m_mapWidth;
 	float m_mapHeight;
@@ -66,8 +69,10 @@ public:
 	void SetState(PlaySceneState _state) { this->state = _state; }
 	LPMAPSPRITE GetMapBackground() { return this->background; }
 	CGameObject* GetPlayer() { return player; }
+	std::unordered_map<int, CPortal*> GetPortalList(){ return this->portals; }
 	void SetPlayer(CGameObject* object) { this->player = object; }
 	std::vector<CGameObject*> GetUpdateObjects() { return this->updates; }
+	
 	void AddGameObject(CGameObject* object);
 	void RequestInstantiate(CGameObject* object);
 };

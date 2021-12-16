@@ -340,6 +340,9 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 
 					obj = new CPortal(width, height, sceneID);
 					((CPortal*)obj)->SetTranslation(Vector2(translationX, translationY));
+
+					portals.emplace(make_pair(sceneID, (CPortal*)obj));
+
 					DebugOut(L"[INFO] Portal object created!\n");
 				}
 				else if (strcmp(object_name, "miniportal") == 0)
