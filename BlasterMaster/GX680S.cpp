@@ -22,7 +22,7 @@ CGX680S::CGX680S()
 	InitAnimations();
 	InitColliders();
 
-	tag = ObjectTag::Enemy;
+	scrollingMap = false;
 }
 
 CGX680S::~CGX680S()

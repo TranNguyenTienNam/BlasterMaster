@@ -21,6 +21,8 @@ CLaserGuard::CLaserGuard()
 {
 	InitAnimations();
 	InitColliders();
+
+	scrollingMap = false;
 }
 
 CLaserGuard::~CLaserGuard()

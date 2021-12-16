@@ -165,6 +165,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Firework.cpp" />
     <ClCompile Include="HoverItem.cpp" />
     <ClCompile Include="HyperBeam.cpp" />
     <ClCompile Include="JasonBullet.cpp" />
@@ -175,6 +176,7 @@
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="PowerItem.cpp" />
+    <ClCompile Include="RandomExplosion.cpp" />
     <ClCompile Include="Scenes.cpp" />
     <ClCompile Include="SmallExplosion.cpp" />
     <ClCompile Include="SophiaMoveRightState.cpp" />
@@ -229,6 +231,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Firework.h" />
     <ClInclude Include="HoverItem.h" />
     <ClInclude Include="HyperBeam.h" />
     <ClInclude Include="JasonBullet.h" />
@@ -239,6 +242,7 @@
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PowerItem.h" />
+    <ClInclude Include="RandomExplosion.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Scenes.h" />
     <ClInclude Include="SmallExplosion.h" />

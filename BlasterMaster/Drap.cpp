@@ -22,6 +22,8 @@ CDrap::CDrap()
 {
 	InitAnimations();
 	InitColliders();
+
+	scrollingMap = false;
 }
 
 CDrap::~CDrap()

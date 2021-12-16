@@ -3,6 +3,7 @@
 #include "HoverItem.h"
 #include "Math.h"
 #include "BigExplosion.h"
+#include "Firework.h"
 
 CPlayable* CEnemy::target = nullptr;
 
@@ -28,7 +29,8 @@ void CEnemy::OnDestroy()
 	isEnabled = false;
 	isDestroyed = true;
 
-	Instantiate<CBigExplosion>(transform.position);
+	if (scrollingMap == true) Instantiate<CBigExplosion>(transform.position);
+	else Instantiate<CFirework>(transform.position);
 }
 
 void CEnemy::TakeDamage(int damage)

@@ -21,6 +21,8 @@ CGX680::CGX680()
 {
 	InitAnimations();
 	InitColliders();
+
+	scrollingMap = false;
 }
 
 CGX680::~CGX680()

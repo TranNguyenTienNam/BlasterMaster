@@ -1,10 +1,10 @@
 #pragma once
 #include "VisualEffect.h"
-class CBigExplosion : public CVisualEffect
+class CFirework : public CVisualEffect
 {
 protected:
 	void InitAnimations();
 public:
-	CBigExplosion();
+	CFirework();
 };
 

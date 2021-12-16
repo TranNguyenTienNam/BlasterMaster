@@ -1,7 +1,7 @@
 #include "BigJasonBullet.h"
 #include "Enemy.h"
 #include "Brick.h"
-#include "SmallExplosion.h"
+#include "RandomExplosion.h"
 
 void CBigJasonBullet::InitSprites()
 {
@@ -47,6 +47,8 @@ void CBigJasonBullet::Initialize(Vector2 direction)
 		colliders.at(0)->SetBoxSize(BOX_Y);
 		axisX = transform.position.x;
 	}
+
+	angular = CMath::Random(0, 360);
 }
 
 void CBigJasonBullet::Update(DWORD dt)
@@ -84,6 +86,6 @@ void CBigJasonBullet::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent*
 		isEnabled = false;
 		isDestroyed = true;
 
-		Instantiate<CSmallExplosion>(transform.position);
+		Instantiate<CRandomExplosion>(transform.position);
 	}
 }

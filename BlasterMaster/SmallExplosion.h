@@ -6,7 +6,5 @@ protected:
 	void InitAnimations();
 public:
 	CSmallExplosion();
-	virtual void Update(DWORD dt);
-	virtual void Render();
 };
 

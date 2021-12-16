@@ -9,6 +9,7 @@ protected:
 
 	const int maxHP = 2;
 
+	bool scrollingMap = true;
 	int hp;
 	int damageOnCollision = 1;
 public:
