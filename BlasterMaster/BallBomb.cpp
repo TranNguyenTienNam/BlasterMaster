@@ -1,6 +1,7 @@
 #include "BallBomb.h"
 #include "Brick.h"
 #include "Playable.h"
+#include "BigExplosion.h"
 
 void CBallBomb::InitSprites()
 {
@@ -20,6 +21,10 @@ void CBallBomb::InitColliders()
 
 void CBallBomb::Explosion()
 {
+	isEnabled = false;
+	isDestroyed = true;
+
+	Instantiate<CBigExplosion>(transform.position);
 }
 
 CBallBomb::CBallBomb()
@@ -33,6 +38,7 @@ CBallBomb::CBallBomb()
 	bouncingPush = 0.08f;
 
 	velocity.y = 0.12f;
+	initTime = GetTickCount();
 }
 
 CBallBomb::~CBallBomb()
@@ -43,7 +49,11 @@ void CBallBomb::Update(DWORD dt)
 {
 	velocity.y += -0.00026f * dt;
 
-	// TODO: VFX explosion
+	DWORD now = GetTickCount();
+	if (now - initTime > aliveDuration)
+	{
+		Explosion();
+	}
 }
 
 void CBallBomb::Render()
