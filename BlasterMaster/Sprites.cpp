@@ -37,7 +37,7 @@ void CSprites::Clear()
 	sprites.clear();
 }
 
-CMapBackground::CMapBackground(int w, int h, LPDIRECT3DTEXTURE9 tex)
+CMapSprite::CMapSprite(int w, int h, LPDIRECT3DTEXTURE9 tex)
 {
 	this->width = w;
 	this->height = h;
@@ -45,7 +45,7 @@ CMapBackground::CMapBackground(int w, int h, LPDIRECT3DTEXTURE9 tex)
 	this->position = VectorZero();
 }
 
-void CMapBackground::Draw(int nx, int layer_index, D3DCOLOR color)
+void CMapSprite::Draw(int nx, int layer_index, D3DCOLOR color)
 {
 	CGame::GetInstance()->Draw(position, nx, layer_index, texture, 0, 0, width, height, color);
 }

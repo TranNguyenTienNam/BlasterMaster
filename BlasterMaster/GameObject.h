@@ -60,7 +60,7 @@ public:
 	ObjectTag GetTag() { return this->tag; }
 
 	int GetDirection() { return this->nx; }
-	void SetDirection(int value) { this->nx = value; }
+	virtual void SetDirection(int value) { this->nx = value; }
 	void SetPosition(Vector2 pos) { this->transform.position = pos; }
 	Vector2 GetPosition() { return this->transform.position; }
 	void SetVelocity(Vector2 v) { this->velocity = v; }

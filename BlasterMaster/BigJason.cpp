@@ -104,12 +104,12 @@ void CBigJason::Shooting()
 	if (currentState == BigJasonState::IDLE_LEFT || currentState == BigJasonState::WALK_LEFT ||
 		currentState == BigJasonState::IDLE_RIGHT || currentState == BigJasonState::WALK_RIGHT)
 	{
-		bullet->SetVelocity(Vector2(nx * bullet->GetSpeed(), 0.0f));
+		bullet->Initialize(Vector2(nx, 0.0f));
 	}
 	else if (currentState == BigJasonState::IDLE_FRONT || currentState == BigJasonState::WALK_FRONT ||
 		currentState == BigJasonState::IDLE_BACK || currentState == BigJasonState::WALK_BACK)
 	{
-		bullet->SetVelocity(Vector2(0.0f, ny * bullet->GetSpeed()));
+		bullet->Initialize(Vector2(0.0f, ny));
 	}
 }
 

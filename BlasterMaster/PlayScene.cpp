@@ -212,7 +212,7 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 
 	for (auto& prop : properties)
 	{
-		if (strcmp(prop["name"].GetString(), "Image Path") == 0)
+		if (strcmp(prop["name"].GetString(), "Background") == 0)
 		{
 			std::string image_path = prop["value"].GetString();
 			std::string map_name = image_path;
@@ -224,8 +224,23 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 			textures->Add(texID, ToWSTR(image_path).c_str(), D3DCOLOR_XRGB(0, 0, 0));
 			auto texmap = textures->Get(texID);
 
-			map = new CMapBackground(m_mapWidth, m_mapHeight, texmap);
-			map->SetPosition(Vector2(m_mapWidth / 2, m_mapHeight / 2));
+			background = new CMapSprite(m_mapWidth, m_mapHeight, texmap);
+			background->SetPosition(Vector2(m_mapWidth / 2, m_mapHeight / 2));
+		}
+		else if (strcmp(prop["name"].GetString(), "Foreground") == 0)
+		{
+			std::string image_path = prop["value"].GetString();
+			std::string map_name = image_path;
+			map_name.erase(map_name.end() - 4, map_name.end());
+			map_name.erase(map_name.begin(), map_name.begin() + 5);
+
+			std::string texID = "tex-" + map_name;
+			auto textures = game->GetService<CTextures>();
+			textures->Add(texID, ToWSTR(image_path).c_str(), D3DCOLOR_XRGB(0, 0, 0));
+			auto texmap = textures->Get(texID);
+
+			foreground = new CMapSprite(m_mapWidth, m_mapHeight, texmap);
+			foreground->SetPosition(Vector2(m_mapWidth / 2, m_mapHeight / 2));
 		}
 	}
 
@@ -370,7 +385,7 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 }
 
 void CPlayScene::PreSwitchingSection(std::vector<CGameObject*> objects, 
-	LPMAPBACKGROUND mapBackGround, Vector2 translation)
+	LPMAPSPRITE mapBackGround, Vector2 translation)
 {
 	// Translate object's position and push into backup vector
 	for (auto obj : objects)
@@ -382,10 +397,10 @@ void CPlayScene::PreSwitchingSection(std::vector<CGameObject*> objects,
 		gameObjects_switching.emplace_back(obj);
 	}
 
-	map_switching = mapBackGround;
-	auto posMap = map_switching->GetPosition();
+	background_switching = mapBackGround;
+	auto posMap = background_switching->GetPosition();
 	posMap += translation;
-	map_switching->SetPosition(posMap);
+	background_switching->SetPosition(posMap);
 
 	CGame::GetInstance()->GetService<CCamera>()->SetBoundless(true);
 }
@@ -400,8 +415,8 @@ void CPlayScene::AfterSwitchingSection()
 		obj->SetDestroyed();
 	}
 
-	delete map_switching;
-	map_switching = nullptr;
+	delete background_switching;
+	background_switching = nullptr;
 
 	CGame::GetInstance()->GetService<CCamera>()->SetBoundless(false);
 }
@@ -444,11 +459,14 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
-	if (map != nullptr)
-		map->Draw(1, 1);
+	if (background != nullptr)
+		background->Draw(1, 1);
 
-	if (map_switching != nullptr) 
-		map_switching->Draw(1, 1);
+	if (foreground != nullptr)
+		foreground->Draw(1, 2);
+
+	if (background_switching != nullptr)
+		background_switching->Draw(1, 1);
 
 	for (auto obj : updates)
 		if (obj->IsEnabled() == true) obj->Render();
@@ -465,8 +483,11 @@ void CPlayScene::Render()
 */
 void CPlayScene::Unload()
 { 
-	delete map;
-	map = nullptr;
+	delete background;
+	background = nullptr;
+
+	delete foreground;
+	foreground = nullptr;
 
 	for (auto obj : gameObjects)
 	{

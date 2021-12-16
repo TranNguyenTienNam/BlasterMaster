@@ -29,10 +29,38 @@ CBigJasonBullet::~CBigJasonBullet()
 {
 }
 
+void CBigJasonBullet::SetLevel(int jasonHP)
+{
+}
+
+void CBigJasonBullet::Initialize(Vector2 direction)
+{
+	velocity = direction * speed;
+
+	if (velocity.x != 0)
+	{
+		colliders.at(0)->SetBoxSize(BOX_X);
+		axisY = transform.position.y;
+	}
+	else if (velocity.y != 0)
+	{
+		colliders.at(0)->SetBoxSize(BOX_Y);
+		axisX = transform.position.x;
+	}
+}
+
 void CBigJasonBullet::Update(DWORD dt)
 {
-	if (velocity.x != 0) colliders.at(0)->SetBoxSize(BOX_X);
-	else if (velocity.y != 0) colliders.at(0)->SetBoxSize(BOX_Y);
+	angular += angularFrequency * dt;
+
+	if (velocity.x != 0)
+	{
+		transform.position.y = axisY + angularAmplitude * sin(angular * CMath::PI / 180);
+	}
+	else if (velocity.y != 0)
+	{
+		transform.position.x = axisX + angularAmplitude * sin(angular * CMath::PI / 180);
+	}
 }
 
 void CBigJasonBullet::Render()

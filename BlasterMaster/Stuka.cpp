@@ -4,7 +4,7 @@
 void CStuka::InitAnimations()
 {
 	auto animations = CGame::GetInstance()->GetService<CAnimations>();
-	AddAnimation("Stuka", animations->Get("ani-stuka"));
+	AddAnimation("Stuka", animations->Clone("ani-stuka"));
 }
 
 void CStuka::InitColliders()
@@ -14,6 +14,7 @@ void CStuka::InitColliders()
 	collider->SetOffset(VectorZero());
 	collider->SetBoxSize(DEFAULT_SIZE);
 	collider->SetDynamic(true);
+	collider->SetTrigger(true);
 	colliders.push_back(collider);
 }
 
@@ -27,11 +28,21 @@ CStuka::~CStuka()
 {
 }
 
+void CStuka::SetDirection(int nx)
+{
+	velocity.x = nx * MOVE_SPEED;
+	if (nx > 0)
+	{
+		animations.at("Stuka")->SetIsReversed(true);
+	}
+}
+
 void CStuka::Update(DWORD dt)
 {
+	
 }
 
 void CStuka::Render()
 {
-	animations.at("Stuka")->Render(transform.position, nx, layer_index);
+	animations.at("Stuka")->Render(transform.position, 1, layer_index);
 }
