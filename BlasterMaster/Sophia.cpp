@@ -50,6 +50,8 @@ CSophia::CSophia()
 
 void CSophia::Update(DWORD dt)
 {
+	DebugOut(L"sophia %f %f\n", transform.position.x, transform.position.y);
+
 	velocity.x += acceleration.x * dt;
 	if (colliders.at(0)->IsDynamic() == true)
 		velocity.y += GRAVITY * dt;
@@ -211,6 +213,10 @@ void CSophia::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* colli
 
 			// TODO: is pushed in the direction of the enemy's movement
 		}
+	}
+	else if (dynamic_cast<CPortal*>(other))
+	{
+		CGame::GetInstance()->GetService<CScenes>()->SwitchScene(((CPortal*)other)->GetSceneId());
 	}
 }
 

@@ -1,5 +1,5 @@
 #include "MiniPortal.h"
-#include "Playable.h"
+#include "Jason.h"
 
 CMiniPortal::CMiniPortal(float w, float h, int scene_id)
 {
@@ -7,7 +7,7 @@ CMiniPortal::CMiniPortal(float w, float h, int scene_id)
 	width = w;
 	height = h;
 
-	tag = ObjectTag::Portal;
+	tag = ObjectTag::MiniPortal;
 
 	auto collider = new CCollider2D;
 	collider->SetGameObject(this);
@@ -29,8 +29,7 @@ void CMiniPortal::Render()
 
 void CMiniPortal::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
 {
-	auto other = collision->obj;
-	if (dynamic_cast<CPlayable*>(other))
+	if (dynamic_cast<CJason*>(collision->obj))
 	{
 		CGame::GetInstance()->GetService<CScenes>()->SwitchScene(scene_id);
 	}

@@ -1,6 +1,8 @@
 #include <algorithm>    
 #include "Collider2D.h"
 #include "Utils.h"
+#include "Sophia.h"
+#include "GX680.h"
 
 void CCollider2D::SweptAABB(
 	RectF movingRect, RectF staticRect,
@@ -190,6 +192,14 @@ void CCollider2D::FilterCollision(
 		if (c->isDeleted == true) continue;
 		if (c->co->IsTrigger() == true) continue;
 
+		auto selfTag = object->GetTag();
+		auto otherTag = coEvents[i]->obj->GetTag();
+		if ((TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::Enemy) ||
+			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::Enemy))
+		{
+			continue;
+		}
+
 		if (c->t < min_tx && c->nx != 0 && filterX == true) {
 			min_tx = c->t; min_ix = i;
 		}
@@ -208,8 +218,6 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 	// Reduce the number of check collision if game object is not enabled, is nullptr, static
 	if (object == nullptr || isDynamic == false) return;
 
-	DealWithOverlappedCase(coObjects);
-
 	auto dt = CGame::GetDeltaTime();
 	auto pos = object->GetPosition();
 	auto velocity = object->GetVelocity();
@@ -221,11 +229,13 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 	coEventX = NULL;
 	coEventY = NULL;
 
-	CalcPotentialCollisions(coObjects, coEvents); // TODO: Is it necessary to get a vector contains trigger objects?
+	float min_t = 1.0f;
+
+	CalcPotentialCollisions(coObjects, coEvents);
 
 	if (coEvents.size() == 0)
 	{
-		/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"size 0\n");*/
+		if (dynamic_cast<CGX680*>(object)) DebugOut(L"size 0\n");
 
 		pos.x += dx;
 		pos.y += dy;
@@ -241,7 +251,9 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 			// was collision on Y first ?
 			if (coEventY->t < coEventX->t)
 			{
-				/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"Y first\n");*/
+				//if (dynamic_cast<CSophia*>(object)) DebugOut(L"Y first\n");
+
+				min_t = coEventY->t;
 
 				PushingHandling(coEventY, false, 1);
 
@@ -283,7 +295,9 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 			// collision on X first
 			else
 			{
-				/*if (dynamic_cast<CSophia*>(object)) DebugOut(L"X first\n");*/
+				//if (dynamic_cast<CSophia*>(object)) DebugOut(L"X first\n");
+
+				min_t = coEventX->t;
 
 				PushingHandling(coEventX, false, 1);
 
@@ -329,6 +343,8 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 			{
 				//if (dynamic_cast<CSophia*>(object)) DebugOut(L"X only\n");
 
+				min_t = coEventX->t;
+
 				PushingHandling(coEventX, true, 1);
 
 				if (isTrigger == false) object->OnCollisionEnter(this, coEventX);
@@ -339,6 +355,8 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 				if (coEventY != NULL)
 				{
 					//if (dynamic_cast<CSophia*>(object)) DebugOut(L"Y only\n");
+
+					min_t = coEventY->t;
 
 					PushingHandling(coEventY, true, 1);
 
@@ -360,15 +378,21 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 
 	for (UINT i = 0; i < coEvents.size(); i++)
 	{
-		if (object == coObjects->at(i)) continue;
-		if (coEvents.at(i)->obj->IsEnabled() == false) continue;
+		if (coEvents[i]->t > min_t) continue;
 
-		if (coEvents[i]->co->IsTrigger() == true)
+		auto selfTag = object->GetTag();
+		auto otherTag = coEvents[i]->obj->GetTag();
+
+		if ((coEvents[i]->co->IsTrigger() == true) ||
+			(TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::Enemy) ||
+			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::Enemy))
 		{
 			if (isTrigger == false) object->OnCollisionEnter(this, coEvents[i]);
 			else object->OnTriggerEnter(this, coEvents[i]);
 		}
 	}
+
+	DealWithOverlappedCase(coObjects);
 
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
@@ -377,19 +401,6 @@ void CCollider2D::PushingHandling(LPCOLLISIONEVENT& coEvent, bool isOnlyAxis, fl
 {
 	auto pos = object->GetPosition();
 	auto velocity = object->GetVelocity();
-
-	// Collide with none trigger but dont need to push
-	auto selfTag = object->GetTag();
-	auto otherTag = coEvent->obj->GetTag();
-	if ((TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::Enemy) ||
-		(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::Enemy) ||
-		(selfTag == otherTag))
-	{
-		pos.x += dx;
-		pos.y += dy;
-		object->SetPosition(pos);
-		return;
-	}
 
 	if (isOnlyAxis == true)
 	{
@@ -461,7 +472,9 @@ void CCollider2D::DealWithOverlappedCase(std::vector<CGameObject*>* coObjects)
 			(TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::EnemyBullet) ||
 			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::EnemyBullet) ||
 			(selfTag == ObjectTag::Enemy && otherTag == ObjectTag::EnemyBullet) ||
-			(otherTag == ObjectTag::Enemy && selfTag == ObjectTag::EnemyBullet))
+			(otherTag == ObjectTag::Enemy && selfTag == ObjectTag::EnemyBullet) ||
+			(selfTag == ObjectTag::MiniPortal && otherTag == ObjectTag::Jason) ||
+			(otherTag == ObjectTag::MiniPortal && selfTag == ObjectTag::Jason))
 		{
 			if (bbSelf.Overlap(bbOther)) object->OnOverlapped(this, coO);
 			continue;

@@ -17,6 +17,7 @@ enum class ObjectTag
 
 	Platform,
 	Portal,
+	MiniPortal,
 };
 
 class TagUtils

@@ -134,13 +134,10 @@ void CQuadtree::Insert(CGameObject* gameObject)
 		m_inNodes.clear();
 		m_inNodes.shrink_to_fit();
 	}
-
-	//DebugOut(L"rect %f %f %f %f level %d size %d\n", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom, m_level, m_inNodes.size());
 }
 
 void CQuadtree::Retrieve(std::vector<CGameObject*>& container, const RectF& rect)
 {
-	/*DebugOut(L"Rect %f %f %f %f level %d\n", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom, m_level);*/
 	if (m_subNodes[0] != nullptr)
 	{
 		if (m_subNodes[0]->m_rect.Overlap(rect)) m_subNodes[0]->Retrieve(container, rect);

@@ -23,13 +23,11 @@ CGX680S::CGX680S()
 	InitColliders();
 
 	scrollingMap = false;
+	state = GX680State::FreeMotion;
+	lastTimeChangeDirection = GetTickCount();
 }
 
 CGX680S::~CGX680S()
-{
-}
-
-void CGX680S::Update(DWORD dt)
 {
 }
 

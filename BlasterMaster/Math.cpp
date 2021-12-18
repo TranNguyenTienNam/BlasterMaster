@@ -11,3 +11,24 @@ float CMath::CalcDistance(Vector2 pos1, Vector2 pos2)
 {
 	return sqrt((pow(pos1.x - pos2.x, 2) + pow(pos1.y - pos2.y, 2)));
 }
+
+
+float CMath::CalcLength(Vector2 v)
+{
+	return sqrt(pow(v.x, 2) + pow(v.y, 2));
+}
+
+
+Vector2 CMath::Normalize(Vector2 v)
+{
+	Vector2 result = VectorZero();
+	float length = CalcLength(v);
+
+	if (length != 0)
+	{
+		result.x = v.x / length;
+		result.y = v.y / length;
+	}
+
+	return result;
+}

@@ -292,7 +292,7 @@
       <Filter>Game Source\Game Object\VFX</Filter>
     </ClCompile>
     <ClCompile Include="RandomExplosion.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game Source\Game Object\VFX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -489,7 +489,7 @@
       <Filter>Game Source\Game Object\VFX</Filter>
     </ClInclude>
     <ClInclude Include="RandomExplosion.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game Source\Game Object\VFX</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
