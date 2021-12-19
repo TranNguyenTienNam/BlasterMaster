@@ -12,6 +12,7 @@ public:
 	void Render();
 	int GetSceneId() { return scene_id; }
 
+	void OnOverlapped(CCollider2D* selfCollider, CGameObject* other);
 	void OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 };
 

@@ -235,7 +235,7 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 
 	if (coEvents.size() == 0)
 	{
-		if (dynamic_cast<CGX680*>(object)) DebugOut(L"size 0\n");
+		//if (dynamic_cast<CGX680*>(object)) DebugOut(L"size 0\n");
 
 		pos.x += dx;
 		pos.y += dy;
@@ -449,7 +449,7 @@ void CCollider2D::PushingHandling(LPCOLLISIONEVENT& coEvent, bool isOnlyAxis, fl
 
 void CCollider2D::DealWithOverlappedCase(std::vector<CGameObject*>* coObjects)
 {
-	if (isTrigger == true) return;
+	//if (isTrigger == true) return;
 
 	std::vector<CGameObject*> overlappedObjects;
 
@@ -480,7 +480,7 @@ void CCollider2D::DealWithOverlappedCase(std::vector<CGameObject*>* coObjects)
 			continue;
 		}
 
-		if (bbSelf.Overlap(bbOther) && otherTag == ObjectTag::Platform)
+		if (bbSelf.Overlap(bbOther) && isTrigger == false && otherTag == ObjectTag::Platform)
 			overlappedObjects.emplace_back(coO);
 	}
 

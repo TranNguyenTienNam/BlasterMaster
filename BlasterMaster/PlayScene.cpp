@@ -352,7 +352,7 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 					((CPortal*)obj)->SetTranslation(Vector2(translationX, translationY));
 					((CPortal*)obj)->SetDestination(Vector2(destinationX, destinationY));
 
-					portals.emplace(make_pair(sceneID, (CPortal*)obj));
+					portals.emplace(make_pair(sceneID, obj));
 
 					DebugOut(L"[INFO] Portal object created!\n");
 				}
@@ -370,6 +370,9 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 					}
 
 					obj = new CMiniPortal(width, height, sceneID);
+
+					portals.emplace(make_pair(sceneID, obj));
+
 					DebugOut(L"[INFO] Mini Portal object created!\n");
 				}
 				else
@@ -401,14 +404,14 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 void CPlayScene::PreSwitchingSection(CPlayScene* lastScene, Vector2 translation)
 {
 	// Translate object's position and push into backup vector
-	for (auto obj : lastScene->GetUpdateObjects())
+	/*for (auto obj : lastScene->GetUpdateObjects())
 	{
 		auto pos = obj->GetPosition();
 		pos += translation;
 		obj->SetPosition(pos);
 
 		gameObjects_switching.emplace_back(obj);
-	}
+	}*/
 
 	background_switching = new CMapSprite(*lastScene->GetMapBackground());
 	auto posMap = background_switching->GetPosition();
@@ -437,11 +440,11 @@ void CPlayScene::AfterSwitchingSection()
 {
 	state = PlaySceneState::FreePlaying;
 
-	for (auto obj : gameObjects_switching)
+	/*for (auto obj : gameObjects_switching)
 	{
 		obj->SetEnable(false);
 		obj->SetDestroyed();
-	}
+	}*/
 
 	delete background_switching;
 	background_switching = nullptr;

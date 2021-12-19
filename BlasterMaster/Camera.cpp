@@ -42,7 +42,6 @@ RectF CCamera::GetBoundingBox()
 
 void CCamera::PreSwitchingUpdate(Vector2 destination, Vector2 translation)
 {
-	// Calc velocity to translate from last rect to next rect based on switching duration
 	position += translation;
 
 	if (destination.y < position.y)
@@ -131,9 +130,6 @@ void CCamera::UpdateFreePlaying()
 
 void CCamera::UpdateSwitching()
 {
-	DebugOut(L"Update camera %f %f\n", position.x, position.y);
-	DebugOut(L"Update camera %f %f\n", boundary_blocking, boundary_stopping);
-	DebugOut(L"Update camera %f\n", velocitySwitching.x);
 	position += velocitySwitching * CGame::GetDeltaTime();
 
 	auto currentScene = (CPlayScene*)CGame::GetInstance()->GetService<CScenes>()->GetCurrentScene();

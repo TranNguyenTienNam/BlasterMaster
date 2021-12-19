@@ -1,5 +1,6 @@
 #include "MiniPortal.h"
 #include "Jason.h"
+#include "BigJason.h"
 
 CMiniPortal::CMiniPortal(float w, float h, int scene_id)
 {
@@ -27,9 +28,19 @@ void CMiniPortal::Render()
 	colliders.at(0)->RenderBoundingBox();
 }
 
+void CMiniPortal::OnOverlapped(CCollider2D* selfCollider, CGameObject* other)
+{
+	auto inputHandler = CGame::GetInstance()->GetService<CInputHandler>();
+
+	if (dynamic_cast<CJason*>(other) && inputHandler->OnKeyDown(DIK_DOWN))
+	{
+		CGame::GetInstance()->GetService<CScenes>()->SwitchScene(scene_id);
+	}
+}
+
 void CMiniPortal::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
 {
-	if (dynamic_cast<CJason*>(collision->obj))
+	if (dynamic_cast<CBigJason*>(collision->obj))
 	{
 		CGame::GetInstance()->GetService<CScenes>()->SwitchScene(scene_id);
 	}

@@ -77,10 +77,20 @@ void CScenes::SwitchScene(int scene_id)
 
 	last_scene = current_scene;
 	current_scene = scene_id;
-	LPSCENE s = scenes[scene_id];
+	auto s = (CPlayScene*)scenes[scene_id];
 
 	game->GetService<CInputHandler>()->SetKeyHandler(s->GetKeyEventHandler());
 	s->Load();
+
+	for (auto portal : s->GetPortalList())
+	{
+		if (portal.first == last_scene)
+		{
+			auto portalPos = ((CGameObject*)(portal.second))->GetPosition() + Vector2(0.0f, -32.0f);
+			s->GetPlayer()->SetPosition(portalPos);
+			break;
+		}
+	}
 }
 
 void CScenes::SwitchSection(int scene_id, Vector2 translation)
@@ -89,15 +99,14 @@ void CScenes::SwitchSection(int scene_id, Vector2 translation)
 
 	auto game = CGame::GetInstance();
 
-	// Step 1: Translate position of last objects and camera's boundary
-
-	// Step 2: Load new scene and 
 	last_scene = current_scene;
 	current_scene = scene_id;
 	auto s = (CPlayScene*)scenes[scene_id];
 	game->GetService<CInputHandler>()->SetKeyHandler(s->GetKeyEventHandler());
+
 	s->SetState(PlaySceneState::Switching);
 	s->Load();
 	s->PreSwitchingSection((CPlayScene*)scenes[last_scene], translation);
+
 	scenes[last_scene]->Unload();
 }

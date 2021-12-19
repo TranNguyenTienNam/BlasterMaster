@@ -14,7 +14,6 @@
 const int CELL_SIZE = 128;
 
 class CGameObject;
-class CPortal;
 class CQuadtree;
 
 enum class PlaySceneState
@@ -29,7 +28,7 @@ protected:
 	PlaySceneState state;
 
 	CGameObject* player;
-	std::unordered_map<int, CPortal*> portals;
+	std::unordered_map<int, CGameObject*> portals;
 
 	LPMAPSPRITE background;								// current scene
 	LPMAPSPRITE foreground;
@@ -68,7 +67,7 @@ public:
 	void SetState(PlaySceneState _state) { this->state = _state; }
 	LPMAPSPRITE GetMapBackground() { return this->background; }
 	CGameObject* GetPlayer() { return player; }
-	std::unordered_map<int, CPortal*> GetPortalList(){ return this->portals; }
+	std::unordered_map<int, CGameObject*> GetPortalList(){ return this->portals; }
 	void SetPlayer(CGameObject* object) { this->player = object; }
 	std::vector<CGameObject*> GetUpdateObjects() { return this->updates; }
 	

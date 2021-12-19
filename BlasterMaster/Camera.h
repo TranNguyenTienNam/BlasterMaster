@@ -33,6 +33,7 @@ public:
 	CCamera();
 	~CCamera();
 	Vector2 WorldToScreenPoint(Vector2 pos);
+
 	Vector2 GetPosition() { return this->position; }
 	void SetPosition(Vector2 pos) { this->position = pos; }
 	RectF GetBoundingBox();
