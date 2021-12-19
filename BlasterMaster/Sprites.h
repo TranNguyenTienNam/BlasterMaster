@@ -44,6 +44,7 @@ protected:
 	LPDIRECT3DTEXTURE9 texture;
 public:
 	CMapSprite(int witdh, int height, LPDIRECT3DTEXTURE9 texture);
+	CMapSprite(const CMapSprite& spr);
 	Vector2 GetPosition() { return this->position; }
 	void SetPosition(Vector2 pos) { this->position = pos; }
 	void Draw(int nx, int layer_index, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));

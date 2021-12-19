@@ -45,6 +45,14 @@ CMapSprite::CMapSprite(int w, int h, LPDIRECT3DTEXTURE9 tex)
 	this->position = VectorZero();
 }
 
+CMapSprite::CMapSprite(const CMapSprite& spr)
+{
+	this->width = spr.width;
+	this->height = spr.height;
+	this->texture = spr.texture;
+	this->position = spr.position;
+}
+
 void CMapSprite::Draw(int nx, int layer_index, D3DCOLOR color)
 {
 	CGame::GetInstance()->Draw(position, nx, layer_index, texture, 0, 0, width, height, color);

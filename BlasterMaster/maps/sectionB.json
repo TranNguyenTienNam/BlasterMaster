@@ -5848,6 +5848,16 @@
                  "name":"portal",
                  "properties":[
                         {
+                         "name":"DestinationX",
+                         "type":"int",
+                         "value":1120
+                        }, 
+                        {
+                         "name":"DestinationY",
+                         "type":"int",
+                         "value":528
+                        }, 
+                        {
                          "name":"SceneID",
                          "type":"int",
                          "value":1
@@ -5875,6 +5885,16 @@
                  "name":"portal",
                  "properties":[
                         {
+                         "name":"DestinationX",
+                         "type":"int",
+                         "value":1120
+                        }, 
+                        {
+                         "name":"DestinationY",
+                         "type":"int",
+                         "value":272
+                        }, 
+                        {
                          "name":"SceneID",
                          "type":"int",
                          "value":3
@@ -5895,24 +5915,6 @@
                  "width":16,
                  "x":1312,
                  "y":368
-                }, 
-                {
-                 "gid":328,
-                 "height":17,
-                 "id":517,
-                 "name":"ballcarry",
-                 "properties":[
-                        {
-                         "name":"nx",
-                         "type":"float",
-                         "value":1
-                        }],
-                 "rotation":0,
-                 "type":"enemy",
-                 "visible":true,
-                 "width":18,
-                 "x":1072,
-                 "y":206
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -5921,7 +5923,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":518,
+ "nextobjectid":519,
  "orientation":"orthogonal",
  "properties":[
         {

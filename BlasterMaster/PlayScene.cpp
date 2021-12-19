@@ -319,6 +319,8 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 				{
 					int translationX = 0;
 					int translationY = 0;
+					int destinationX = 0;
+					int destinationY = 0;
 					int sceneID = 0;
 
 					auto props = object["properties"].GetArray();
@@ -336,10 +338,19 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 						{
 							sceneID = prop["value"].GetInt();
 						}
+						else if (strcmp(prop["name"].GetString(), "DestinationX") == 0)
+						{
+							destinationX = prop["value"].GetInt();
+						}
+						else if (strcmp(prop["name"].GetString(), "DestinationY") == 0)
+						{
+							destinationY = prop["value"].GetInt();
+						}
 					}
 
 					obj = new CPortal(width, height, sceneID);
 					((CPortal*)obj)->SetTranslation(Vector2(translationX, translationY));
+					((CPortal*)obj)->SetDestination(Vector2(destinationX, destinationY));
 
 					portals.emplace(make_pair(sceneID, (CPortal*)obj));
 
@@ -387,11 +398,10 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 	fclose(fp);
 }
 
-void CPlayScene::PreSwitchingSection(std::vector<CGameObject*> objects, 
-	LPMAPSPRITE mapBackGround, Vector2 translation)
+void CPlayScene::PreSwitchingSection(CPlayScene* lastScene, Vector2 translation)
 {
 	// Translate object's position and push into backup vector
-	for (auto obj : objects)
+	for (auto obj : lastScene->GetUpdateObjects())
 	{
 		auto pos = obj->GetPosition();
 		pos += translation;
@@ -400,12 +410,27 @@ void CPlayScene::PreSwitchingSection(std::vector<CGameObject*> objects,
 		gameObjects_switching.emplace_back(obj);
 	}
 
-	background_switching = mapBackGround;
+	background_switching = new CMapSprite(*lastScene->GetMapBackground());
 	auto posMap = background_switching->GetPosition();
 	posMap += translation;
 	background_switching->SetPosition(posMap);
 
-	CGame::GetInstance()->GetService<CCamera>()->SetBoundless(true);
+	auto mainCam = CGame::GetInstance()->GetService<CCamera>();
+
+	int lastSceneID = CGame::GetInstance()->GetService<CScenes>()->GetLastSceneID();
+	for (auto portal : portals)
+	{
+		if (portal.first == lastSceneID)
+		{
+			auto portalPos = ((CGameObject*)(portal.second))->GetPosition() + Vector2(0.0f, -32.0f);
+			auto destination = ((CPortal*)(portal.second))->GetDestination();
+			player->SetPosition(portalPos);
+			player->SetEnable(false);
+
+			mainCam->PreSwitchingUpdate(destination, translation);
+			break;
+		}
+	}
 }
 
 void CPlayScene::AfterSwitchingSection()
@@ -421,7 +446,7 @@ void CPlayScene::AfterSwitchingSection()
 	delete background_switching;
 	background_switching = nullptr;
 
-	CGame::GetInstance()->GetService<CCamera>()->SetBoundless(false);
+	player->SetEnable(true);
 }
 
 void CPlayScene::HandlingInstantiateRequest()
@@ -458,6 +483,8 @@ void CPlayScene::Update(DWORD dt)
 
 	for (auto obj : updates)
 		if (obj->IsEnabled() == true) obj->Update(dt);
+
+
 }
 
 void CPlayScene::Render()
@@ -498,6 +525,8 @@ void CPlayScene::Unload()
 		obj->SetEnable(false);
 	}
 	gameObjects.clear();
+
+	portals.clear();
 
 	player = NULL;
 	

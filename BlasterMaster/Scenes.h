@@ -16,10 +16,12 @@ class CScenes : public CService
 {
 protected:
 	std::unordered_map<int, LPSCENE> scenes;
+	int last_scene;
 	int current_scene;
 public:
 	void _ParseSection_SETTINGS(std::string line);
 	void _ParseSection_SCENES(std::string line);
+	int GetLastSceneID() { return last_scene; }
 	int GetCurrentSceneID() { return current_scene; }
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	void Load(LPCWSTR gameFile);

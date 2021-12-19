@@ -646,6 +646,16 @@
                  "name":"portal",
                  "properties":[
                         {
+                         "name":"DestinationX",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"DestinationY",
+                         "type":"int",
+                         "value":224
+                        }, 
+                        {
                          "name":"SceneID",
                          "type":"int",
                          "value":2
@@ -691,7 +701,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":60,
+ "nextobjectid":61,
  "orientation":"orthogonal",
  "properties":[
         {

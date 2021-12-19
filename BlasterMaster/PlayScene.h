@@ -56,8 +56,7 @@ public:
 	~CPlayScene();
 
 	virtual void Load();
-	virtual void PreSwitchingSection(std::vector<CGameObject*> objects, 
-		LPMAPSPRITE mapBackGround, Vector2 translation);
+	virtual void PreSwitchingSection(CPlayScene* lastScene, Vector2 translation);
 	virtual void AfterSwitchingSection();
 
 	virtual void HandlingInstantiateRequest();

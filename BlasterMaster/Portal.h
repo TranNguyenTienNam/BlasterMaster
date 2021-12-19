@@ -12,9 +12,13 @@ class CPortal : public CGameObject
 
 	int width;
 	int height;
+	Vector2 destination;
 public:
 	CPortal(float w, float h, int scene_id);
+	Vector2 GetTranslation() { return this->translation; }
 	void SetTranslation(Vector2 trans) { this->translation = trans; }
+	Vector2 GetDestination() { return this->destination; }
+	void SetDestination(Vector2 position) { this->destination = position; }
 	void Update(DWORD dt);
 	void Render();
 	int GetSceneId() { return scene_id; }
