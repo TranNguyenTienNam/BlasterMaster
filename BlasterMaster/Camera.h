@@ -7,7 +7,9 @@ class CGameObject;
 
 enum class CameraState
 {
-	FreePlaying,
+	FreePlaying_Scrolling,
+	FreePlaying_TopDown,
+
 	Switching_BlockTop,
 	Switching_BlockBottom,
 	Switching_NoneBlock,

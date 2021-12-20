@@ -5935,6 +5935,11 @@
          "name":"Foreground",
          "type":"string",
          "value":"maps\/sectionB_foreground.png"
+        }, 
+        {
+         "name":"IsTopDown",
+         "type":"bool",
+         "value":false
         }],
  "renderorder":"right-down",
  "tiledversion":"1.7.2",

@@ -244,6 +244,10 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 			foreground = new CMapSprite(m_mapWidth, m_mapHeight, texmap);
 			foreground->SetPosition(Vector2(m_mapWidth / 2, m_mapHeight / 2));
 		}
+		else if (strcmp(prop["name"].GetString(), "IsTopDown") == 0)
+		{
+			isTopDownView = prop["value"].GetBool();
+		}
 	}
 
 	// Insert platform objects
@@ -302,7 +306,7 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 
 					DebugOut(L"[INFO] BIG JASON object created!\n");
 				}
-				/*else if (strcmp(object_name, "interrupt") == 0) obj = new CInterrupt;
+				else if (strcmp(object_name, "interrupt") == 0) obj = new CInterrupt;
 				else if (strcmp(object_name, "neoworm") == 0) obj = new CNeoworm;
 				else if (strcmp(object_name, "ballbot") == 0) obj = new CBallbot;
 				else if (strcmp(object_name, "stuka") == 0) obj = new CStuka;
@@ -315,7 +319,7 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 				else if (strcmp(object_name, "drap") == 0) obj = new CDrap;
 				else if (strcmp(object_name, "gx680") == 0) obj = new CGX680;
 				else if (strcmp(object_name, "gx680s") == 0) obj = new CGX680S;
-				else if (strcmp(object_name, "laserguard") == 0) obj = new CLaserGuard;*/
+				else if (strcmp(object_name, "laserguard") == 0) obj = new CLaserGuard;
 				else if (strcmp(object_name, "brick") == 0) obj = new CBrick;
 				else if (strcmp(object_name, "portal") == 0)
 				{
@@ -393,7 +397,11 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 					}
 				}
 
-				obj->SetPosition(Vector2(x + width / 2, m_mapHeight - y + height / 2));
+				// [ATTENTION] For Tiled, offset of objects which are added without sprite 
+				// (ex: Portal, Player,...) is top-left corner. Offset of the others is 
+				// bottom-left corner.
+				auto initPos = obj->GetPosition();
+				obj->SetPosition(initPos + Vector2(x + width / 2, m_mapHeight - y + height / 2));
 
 				AddGameObject(obj);
 			}
@@ -431,13 +439,21 @@ void CPlayScene::PreSwitchingSection(CPlayScene* lastScene, Vector2 translation)
 	{
 		if (portal.first == lastSceneID)
 		{
-			auto portalPos = ((CGameObject*)(portal.second))->GetPosition() + Vector2(0.0f, -32.0f);
+			auto portalPos = ((CGameObject*)(portal.second))->GetPosition();
 			auto destination = ((CPortal*)(portal.second))->GetDestination();
 			player->SetPosition(portalPos);
 			player->SetEnable(false);
 
 			// TODO: Need a bool member (isTopdown?) of scene to choose function
-			mainCam->PreUpdateSwitchingTopdownSection(destination, translation);
+			if (isTopDownView == true)
+			{
+				mainCam->PreUpdateSwitchingTopdownSection(destination, translation);
+			}
+			else
+			{
+
+				mainCam->PreUpdateSwitchingScrollingSection(destination, translation);
+			}
 			break;
 		}
 	}

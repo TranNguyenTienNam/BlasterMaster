@@ -86,7 +86,7 @@ void CScenes::SwitchScene(int scene_id)
 	{
 		if (portal.first == last_scene)
 		{
-			auto portalPos = ((CGameObject*)(portal.second))->GetPosition() + Vector2(0.0f, -32.0f);
+			auto portalPos = ((CGameObject*)(portal.second))->GetPosition();
 			s->GetPlayer()->SetPosition(portalPos);
 			break;
 		}

@@ -44,6 +44,7 @@ protected:
 
 	std::vector<CGameObject*> HUDs;
 
+	bool isTopDownView;
 	float m_mapWidth;
 	float m_mapHeight;
 

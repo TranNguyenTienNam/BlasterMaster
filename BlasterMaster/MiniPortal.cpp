@@ -8,11 +8,13 @@ CMiniPortal::CMiniPortal(float w, float h, int scene_id)
 	width = w;
 	height = h;
 
+	transform.position = Vector2(0.0f, -height);
+
 	tag = ObjectTag::MiniPortal;
 
 	auto collider = new CCollider2D;
 	collider->SetGameObject(this);
-	collider->SetOffset(Vector2(0.0f, -height)); // TODO: ?????? Portal pos
+	collider->SetOffset(VectorZero());
 	collider->SetBoxSize(Vector2(w, h));
 	collider->SetTrigger(true);
 	collider->SetDynamic(true);

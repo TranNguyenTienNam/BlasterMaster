@@ -10,9 +10,11 @@ CPortal::CPortal(float w, float h, int scene_id)
 
 	tag = ObjectTag::Portal;
 
+	transform.position = Vector2(0.0f, -height);
+
 	auto collider = new CCollider2D;
 	collider->SetGameObject(this);
-	collider->SetOffset(Vector2(0.0f, -height)); // TODO: ?????? Portal pos
+	collider->SetOffset(VectorZero());
 	collider->SetBoxSize(Vector2(w, h));
 	collider->SetTrigger(true);
 	colliders.push_back(collider);
