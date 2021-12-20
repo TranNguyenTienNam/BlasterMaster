@@ -30,17 +30,19 @@ protected:
 	CGameObject* player;
 	std::unordered_map<int, CGameObject*> portals;
 
-	LPMAPSPRITE background;								// current scene
+	LPMAPSPRITE background;								
 	LPMAPSPRITE foreground;
-	std::vector<CGameObject*> gameObjects;				//
+	std::vector<CGameObject*> gameObjects;
 	std::vector<CGameObject*> instantiateds, destroyeds;
 
 	std::vector<CGameObject*> updates;
 	CQuadtree* quadtree;					// Quadtree for space partitioning
 	
 	LPMAPSPRITE background_switching;
-	LPMAPSPRITE foreground_switching;
-	std::vector<CGameObject*> gameObjects_switching;	
+	LPMAPSPRITE foreground_switching;					// Unnessary
+	std::vector<CGameObject*> gameObjects_switching;	//
+
+	std::vector<CGameObject*> HUDs;
 
 	float m_mapWidth;
 	float m_mapHeight;

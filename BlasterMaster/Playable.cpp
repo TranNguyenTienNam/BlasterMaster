@@ -11,13 +11,18 @@ CPlayable::CPlayable()
 	power = maxPower;
 }
 
-void CPlayable::TakeDamage(int damage)
+void CPlayable::AffectPowerAttribute(int value)
 {
-	power -= damage;
+	power += value;
 	if (power <= 0)
 	{
 		power = 0;
 		isEnabled = false;
 		isDestroyed = true;
+	}
+
+	if (power >= maxPower)
+	{
+		power = maxPower;
 	}
 }

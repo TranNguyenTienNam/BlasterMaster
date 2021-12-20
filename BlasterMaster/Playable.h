@@ -33,11 +33,13 @@ protected:
 
 	int power;			// HP
 
-	DWORD untouchalbeTime = 5000;
+	DWORD untouchalbeTime = 3000;
 	DWORD lastTimeTakeDamage;
 public:
 	CPlayable();
 	bool IsInvincible() { return this->untouchable; }
 	void SetControllable(bool value) { this->controllable = value; }
-	void TakeDamage(int damage);
+
+	int GetPower() { return this->power; }
+	void AffectPowerAttribute(int value);
 };

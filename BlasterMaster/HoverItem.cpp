@@ -13,7 +13,7 @@ CHoverItem::CHoverItem()
 	dropRate = 50;
 }
 
-void CHoverItem::GetEffect()
+void CHoverItem::GetEffect(CPlayable* picker)
 {
 	DebugOut(L"Player picked a hover item up!!!\n");
 }

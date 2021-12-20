@@ -17,6 +17,8 @@ public:
 	static void SetTarget(CPlayable* object) { target = object; }
 	void DropItem();
 	void OnDestroy();
+
+	int GetDamageOnCollision() { return this->damageOnCollision * -1; }
 	void TakeDamage(int damage);
 };
 

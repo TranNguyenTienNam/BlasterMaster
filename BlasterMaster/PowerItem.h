@@ -7,7 +7,7 @@ private:
 	void InitSprites();
 public:
 	CPowerItem();
-	void GetEffect();
+	void GetEffect(CPlayable* picker);
 	void Render();
 };
 

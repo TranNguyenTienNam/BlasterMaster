@@ -8,6 +8,7 @@
 #include "PlayScene.h"
 #include "Scenes.h"
 #include "JasonBullet.h"
+#include "Enemy.h"
 
 void CJason::InitAnimations()
 {
@@ -126,11 +127,11 @@ void CJason::Update(DWORD dt)
 		bullet->SetVelocity(Vector2(nx * bullet->GetSpeed(), 0.0f));
 	}
 
-	/*DWORD now = GetTickCount();
+	DWORD now = GetTickCount();
 	if (now - lastTimeTakeDamage > untouchalbeTime && untouchable == true)
 	{
 		untouchable = false;
-	}*/
+	}
 }
 
 void CJason::Render()
@@ -166,13 +167,18 @@ void CJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collis
 			}
 		}
 	}
-	/*else if (dynamic_cast<CEnemy*>(other))
+	else if (dynamic_cast<CEnemy*>(other))
 	{
 		DebugOut(L"Collide with enemy\n");
-		lastTimeTakeDamage = GetTickCount();
-		selfCollider->SetTrigger(true);
-		if (untouchable == false) untouchable = true;
-	}*/
+		if (untouchable == false)
+		{
+			lastTimeTakeDamage = GetTickCount();
+			untouchable = true;
+
+			// TODO: is pushed in the direction of the enemy's movement
+			AffectPowerAttribute(((CEnemy*)other)->GetDamageOnCollision());
+		}
+	}
 }
 
 void CJason::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)

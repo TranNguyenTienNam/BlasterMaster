@@ -177,6 +177,12 @@ void CBigJason::Update(DWORD dt)
 			velocity /= sqrt(2);
 		}
 	}
+
+	DWORD now = GetTickCount();
+	if (now - lastTimeTakeDamage > untouchalbeTime && untouchable == true)
+	{
+		untouchable = false;
+	}
 }
 
 void CBigJason::Render()
@@ -193,7 +199,15 @@ void CBigJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* col
 	auto other = collision->obj;
 	if (dynamic_cast<CEnemy*>(other))
 	{
+		if (untouchable == false)
+		{
+			DebugOut(L"Collide with enemy, power %d\n", power);
 
+			lastTimeTakeDamage = GetTickCount();
+			untouchable = true;
+
+			AffectPowerAttribute(((CEnemy*)other)->GetDamageOnCollision());
+		}
 	}
 }
 

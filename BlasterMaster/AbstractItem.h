@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "Playable.h"
 
 class CAbstractItem : public CGameObject
 {
@@ -16,7 +16,7 @@ protected:
 public:
 	CAbstractItem();
 	static int GetDropRate() { return dropRate; }
-	virtual void GetEffect();
+	virtual void GetEffect(CPlayable* picker);
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	void OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision);

@@ -7,7 +7,7 @@ private:
 	void InitSprites();
 public:
 	CHoverItem();
-	void GetEffect();
+	void GetEffect(CPlayable* picker);
 	void Render();
 };
 

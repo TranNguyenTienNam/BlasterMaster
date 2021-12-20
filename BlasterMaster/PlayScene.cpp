@@ -29,6 +29,8 @@
 #include "GX680.h"
 #include "GX680S.h"
 #include "LaserGuard.h"
+
+#include "HealthBar.h"
 #pragma endregion
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
@@ -398,6 +400,10 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 		}
 	}
 
+	// Init HUD
+	auto healthBar = new CHealthBar;
+	HUDs.push_back(healthBar);
+
 	fclose(fp);
 }
 
@@ -486,8 +492,6 @@ void CPlayScene::Update(DWORD dt)
 
 	for (auto obj : updates)
 		if (obj->IsEnabled() == true) obj->Update(dt);
-
-
 }
 
 void CPlayScene::Render()
@@ -503,6 +507,11 @@ void CPlayScene::Render()
 
 	for (auto obj : updates)
 		if (obj->IsEnabled() == true) obj->Render();
+
+	for (auto hud : HUDs)
+	{
+		hud->Render();
+	}
 
 	// RENDERING GIZMO
 	/*for (auto obj : updates)
@@ -531,6 +540,13 @@ void CPlayScene::Unload()
 
 	portals.clear();
 
+	for (auto hud : HUDs)
+	{
+		hud->SetDestroyed();
+		hud->SetEnable(false);
+	}
+	HUDs.clear();
+
 	player = NULL;
 	
 	if (quadtree != nullptr)
@@ -557,6 +573,15 @@ void CPlayScene::Clean()
 
 			delete obj;
 			obj = nullptr;
+		}
+	}
+
+	for (auto hud : HUDs)
+	{
+		if (hud->IsDestroyed() == true)
+		{
+			delete hud;
+			hud = nullptr;
 		}
 	}
 }

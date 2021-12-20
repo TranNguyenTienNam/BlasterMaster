@@ -449,8 +449,6 @@ void CCollider2D::PushingHandling(LPCOLLISIONEVENT& coEvent, bool isOnlyAxis, fl
 
 void CCollider2D::DealWithOverlappedCase(std::vector<CGameObject*>* coObjects)
 {
-	//if (isTrigger == true) return;
-
 	std::vector<CGameObject*> overlappedObjects;
 
 	for (auto coO : *coObjects)

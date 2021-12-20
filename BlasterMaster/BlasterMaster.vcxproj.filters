@@ -100,6 +100,9 @@
     <Filter Include="Game Source\Game Object\Player\Big Jason">
       <UniqueIdentifier>{85381c3e-32cf-4d57-a651-8a3ce1e66371}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Source\Game Object\Canvas">
+      <UniqueIdentifier>{76e56c47-8df1-4274-a6f4-ba9b2c8e49f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -293,6 +296,9 @@
     </ClCompile>
     <ClCompile Include="RandomExplosion.cpp">
       <Filter>Game Source\Game Object\VFX</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthBar.cpp">
+      <Filter>Game Source\Game Object\Canvas</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -490,6 +496,9 @@
     </ClInclude>
     <ClInclude Include="RandomExplosion.h">
       <Filter>Game Source\Game Object\VFX</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthBar.h">
+      <Filter>Game Source\Game Object\Canvas</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

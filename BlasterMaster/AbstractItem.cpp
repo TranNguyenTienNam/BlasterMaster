@@ -1,5 +1,4 @@
 #include "AbstractItem.h"
-#include "Playable.h"
 
 int CAbstractItem::dropRate = 100;
 
@@ -18,7 +17,7 @@ CAbstractItem::CAbstractItem()
 	flickeringDuration = (aliveDuration - preWarningDuration) / flickeringTimes;
 }
 
-void CAbstractItem::GetEffect()
+void CAbstractItem::GetEffect(CPlayable* picker)
 {
 }
 
@@ -45,10 +44,11 @@ void CAbstractItem::Render()
 
 void CAbstractItem::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
 {
-	if (dynamic_cast<CPlayable*>(collision->obj))
+	auto other = collision->obj;
+	if (dynamic_cast<CPlayable*>(other))
 	{
 		// TODO: Set collider of all items is static, then move SetDestroyed and SetEnable function into GetEffect
-		GetEffect();
+		GetEffect((CPlayable*)other);
 		SetDestroyed();
 		SetEnable(false);
 	}

@@ -4,6 +4,7 @@ tex-player	textures\player.png	41	255	4
 tex-tileset	textures\tileset.png	0	0	0
 tex-enemies	textures\enemies.png	41	255	4
 tex-items	textures\items.png	0	0	0
+tex-healthbar	textures\healthbar.png	41	255	4
 tex-bbox	textures\bbox.png	0	0	0
 tex-green-bbox	textures\green-bbox.png	0	0	0
 
@@ -104,6 +105,18 @@ spr-explosion-0	140	101	7	8	tex-player
 spr-explosion-1	149	97	16	13	tex-player
 spr-explosion-2	166	97	16	16	tex-player
 spr-explosion-3	183	93	24	24	tex-player
+
+# ===== HUD ==========
+# Health Bar
+spr-healthbar-0	64	0	8	48	tex-healthbar
+spr-healthbar-1	56	0	8	48	tex-healthbar
+spr-healthbar-2	48	0	8	48	tex-healthbar
+spr-healthbar-3	40	0	8	48	tex-healthbar
+spr-healthbar-4	32	0	8	48	tex-healthbar
+spr-healthbar-5	24	0	8	48	tex-healthbar
+spr-healthbar-6	16	0	8	48	tex-healthbar
+spr-healthbar-7	8	0	8	48	tex-healthbar
+spr-healthbar-8	0	0	8	48	tex-healthbar
 
 # ani_id		sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]

@@ -178,7 +178,6 @@ void CSophia::Update(DWORD dt)
 	if (now - lastTimeTakeDamage > untouchalbeTime && untouchable == true)
 	{
 		untouchable = false;
-		tag = ObjectTag::Player;
 	}
 }
 
@@ -212,6 +211,7 @@ void CSophia::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* colli
 			untouchable = true;
 
 			// TODO: is pushed in the direction of the enemy's movement
+			AffectPowerAttribute(((CEnemy*)other)->GetDamageOnCollision());
 		}
 	}
 	else if (dynamic_cast<CPortal*>(other))

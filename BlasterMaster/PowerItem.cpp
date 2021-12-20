@@ -11,9 +11,10 @@ CPowerItem::CPowerItem()
 	InitSprites();
 }
 
-void CPowerItem::GetEffect()
+void CPowerItem::GetEffect(CPlayable* picker)
 {
 	DebugOut(L"Player picked a power item up!!!\n");
+	picker->AffectPowerAttribute(1);
 }
 
 void CPowerItem::Render()
