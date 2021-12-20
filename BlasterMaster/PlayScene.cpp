@@ -302,7 +302,7 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 
 					DebugOut(L"[INFO] BIG JASON object created!\n");
 				}
-				else if (strcmp(object_name, "interrupt") == 0) obj = new CInterrupt;
+				/*else if (strcmp(object_name, "interrupt") == 0) obj = new CInterrupt;
 				else if (strcmp(object_name, "neoworm") == 0) obj = new CNeoworm;
 				else if (strcmp(object_name, "ballbot") == 0) obj = new CBallbot;
 				else if (strcmp(object_name, "stuka") == 0) obj = new CStuka;
@@ -315,7 +315,7 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 				else if (strcmp(object_name, "drap") == 0) obj = new CDrap;
 				else if (strcmp(object_name, "gx680") == 0) obj = new CGX680;
 				else if (strcmp(object_name, "gx680s") == 0) obj = new CGX680S;
-				else if (strcmp(object_name, "laserguard") == 0) obj = new CLaserGuard;
+				else if (strcmp(object_name, "laserguard") == 0) obj = new CLaserGuard;*/
 				else if (strcmp(object_name, "brick") == 0) obj = new CBrick;
 				else if (strcmp(object_name, "portal") == 0)
 				{
@@ -436,7 +436,8 @@ void CPlayScene::PreSwitchingSection(CPlayScene* lastScene, Vector2 translation)
 			player->SetPosition(portalPos);
 			player->SetEnable(false);
 
-			mainCam->PreSwitchingUpdate(destination, translation);
+			// TODO: Need a bool member (isTopdown?) of scene to choose function
+			mainCam->PreUpdateSwitchingTopdownSection(destination, translation);
 			break;
 		}
 	}

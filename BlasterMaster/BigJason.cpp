@@ -2,6 +2,7 @@
 #include "Animations.h"
 #include "Enemy.h"
 #include "BigJasonBullet.h"
+#include "Portal.h"
 
 void CBigJason::InitAnimations()
 {
@@ -208,6 +209,11 @@ void CBigJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* col
 
 			AffectPowerAttribute(((CEnemy*)other)->GetDamageOnCollision());
 		}
+	}
+	else if (dynamic_cast<CPortal*>(other))
+	{
+		auto portal = (CPortal*)other;
+		CGame::GetInstance()->GetService<CScenes>()->SwitchSection(portal->GetSceneId(), portal->GetTranslation());
 	}
 }
 

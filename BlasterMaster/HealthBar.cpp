@@ -31,6 +31,7 @@ void CHealthBar::Update(DWORD dt)
 
 void CHealthBar::Render()
 {
+	// TODO: If target is nullptr?
 	auto camPos = mainCam->GetPosition();
 	int power = target->GetPower();
 	std::string sprID = "Power-" + std::to_string(power);

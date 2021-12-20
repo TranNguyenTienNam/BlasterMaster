@@ -13,7 +13,6 @@ CPowerItem::CPowerItem()
 
 void CPowerItem::GetEffect(CPlayable* picker)
 {
-	DebugOut(L"Player picked a power item up!!!\n");
 	picker->AffectPowerAttribute(1);
 }
 

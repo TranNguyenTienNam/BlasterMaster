@@ -1,8 +1,11 @@
 [SETTINGS]
-start	4
+start	7
 #scene list
 [SCENES]
-1	database\scene1.txt
-2	database\scene2.txt
-3	database\scene3.txt
-4	database\scene4.txt
+1	database\sectionA.txt
+2	database\sectionB.txt
+3	database\sectionC.txt
+4	database\topdown1.txt
+5	database\topdown2.txt
+6	database\topdown3.txt
+7	database\topdown4.txt

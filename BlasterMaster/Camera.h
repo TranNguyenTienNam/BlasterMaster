@@ -11,6 +11,9 @@ enum class CameraState
 	Switching_BlockTop,
 	Switching_BlockBottom,
 	Switching_NoneBlock,
+
+	Switching_StopTop,
+	Switching_StopBottom,
 };
 
 class CCamera : public CService
@@ -43,8 +46,10 @@ public:
 	CGameObject* GetTarget() { return this->target; }
 	void SetTarget(CGameObject* target) { this->target = target; }
 
-	void PreSwitchingUpdate(Vector2 destination, Vector2 translation);
+	void PreUpdateSwitchingScrollingSection(Vector2 destination, Vector2 translation);
+	void PreUpdateSwitchingTopdownSection(Vector2 destination, Vector2 translation);
 	void Update();
 	void UpdateFreePlaying();
-	void UpdateSwitching();
+	void UpdateSwitchingScrollingSection();
+	void UpdateSwitchingTopdownSection();
 };
