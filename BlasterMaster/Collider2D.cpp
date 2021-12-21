@@ -148,7 +148,6 @@ void CCollider2D::CalcPotentialCollisions(
 		if (coObjects->at(i)->IsEnabled() == false) continue;
 		if (coObjects->at(i)->GetColliders().size() == 0) continue;
 
-		// TODO: Filter by object tag
 		auto selfTag = object->GetTag();
 		auto otherTag = coObjects->at(i)->GetTag();
 		if ((selfTag == otherTag) || 

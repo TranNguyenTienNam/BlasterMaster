@@ -11,14 +11,18 @@ CPlayable::CPlayable()
 	power = maxPower;
 }
 
+void CPlayable::OnDead()
+{
+
+}
+
 void CPlayable::AffectPowerAttribute(int value)
 {
 	power += value;
 	if (power <= 0)
 	{
 		power = 0;
-		isEnabled = false;
-		isDestroyed = true;
+		OnDead();
 	}
 
 	if (power >= maxPower)

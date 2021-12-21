@@ -23,6 +23,7 @@ public:
 	void Add(std::string id, DWORD time);
 	void Render(Vector2 position, int nx, int layer_index, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
 
+	int GetCurrentFrame() { return this->currentFrame; }
 	void SetIsLooped(bool value) { this->isLooped = value; }
 	void SetIsPaused(bool value) { this->isPaused = value; }
 	void SetIsReversed(bool value) { this->isReversed = value; }

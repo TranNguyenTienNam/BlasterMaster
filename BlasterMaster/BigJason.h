@@ -48,6 +48,7 @@ public:
 
 	void Update(DWORD dt);
 	void Render();
+	void OnDead();
 
 	void OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 	void OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision);

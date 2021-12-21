@@ -139,6 +139,11 @@ void CJason::Render()
 	animation->Render(transform.position, -nx, layer_index + 1);
 }
 
+void CJason::OnDead()
+{
+	DebugOut(L"[JASON] On Dead\n");
+}
+
 void CJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
 {
 	auto other = collision->obj;

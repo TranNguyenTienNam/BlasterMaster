@@ -100,7 +100,7 @@ ani-bigjason-walk-front	spr-bigjason-idle-front	100	spr-bigjason-walk-front-0	10
 ani-bigjason-walk-back	spr-bigjason-idle-back	100	spr-bigjason-walk-back-0	100	spr-bigjason-idle-back	100	spr-bigjason-walk-back-1	100
 ani-bigjason-walk-left	spr-bigjason-idle-left	100	spr-bigjason-walk-left-0	100	spr-bigjason-idle-left	100	spr-bigjason-walk-left-1	100
 # dead
-ani-bigjason-dead	spr-bigjason-fall-0	100	spr-bigjason-fall-1	100	spr-bigjason-fall-2	100	spr-bigjason-fall-3	100	spr-bigjason-fall-4	100
+ani-bigjason-dead	spr-bigjason-idle-front	100	spr-bigjason-idle-left	100	spr-bigjason-idle-back	100	spr-bigjason-idle-left	100	spr-bigjason-idle-front	100	spr-bigjason-idle-left	100	spr-bigjason-idle-back	100	spr-bigjason-idle-left	100	spr-bigjason-fall-0	100	spr-bigjason-fall-1	100	spr-bigjason-fall-2	100	spr-bigjason-fall-3	100	spr-bigjason-fall-4	500
 
 # === DRAP ===========
 ani-drap	spr-drap-0	150	spr-drap-1	150	spr-drap-2	150	spr-drap-3	150

@@ -6,14 +6,15 @@
 
 void CBigJason::InitAnimations()
 {
-	auto animations = CGame::GetInstance()->GetService<CAnimations>();
-	AddAnimation("Idle-Front", animations->Get("ani-bigjason-idle-front"));
-	AddAnimation("Idle-Back", animations->Get("ani-bigjason-idle-back"));
-	AddAnimation("Idle-Left", animations->Get("ani-bigjason-idle-left"));
-	AddAnimation("Walk-Front", animations->Get("ani-bigjason-walk-front"));
-	AddAnimation("Walk-Back", animations->Get("ani-bigjason-walk-back"));
-	AddAnimation("Walk-Left", animations->Get("ani-bigjason-walk-left"));
-	AddAnimation("Dead", animations->Get("ani-bigjason-dead"));
+	auto animation_manager = CGame::GetInstance()->GetService<CAnimations>();
+	AddAnimation("Idle-Front", animation_manager->Get("ani-bigjason-idle-front"));
+	AddAnimation("Idle-Back", animation_manager->Get("ani-bigjason-idle-back"));
+	AddAnimation("Idle-Left", animation_manager->Get("ani-bigjason-idle-left"));
+	AddAnimation("Walk-Front", animation_manager->Get("ani-bigjason-walk-front"));
+	AddAnimation("Walk-Back", animation_manager->Get("ani-bigjason-walk-back"));
+	AddAnimation("Walk-Left", animation_manager->Get("ani-bigjason-walk-left"));
+	AddAnimation("Dead", animation_manager->Get("ani-bigjason-dead"));
+	animations.at("Dead")->SetIsLooped(false);
 }
 
 void CBigJason::InitColliders()
@@ -89,7 +90,9 @@ void CBigJason::SetState(BigJasonState state)
 			animation = animations.at("Walk-Left");
 		break;
 	case BigJasonState::DEAD:
-		// TODO: Set dead anim here!!!
+		velocity = VectorZero();
+		controllable = false;
+		animation = animations.at("Dead");
 		break;
 	default:
 		break;
@@ -116,7 +119,25 @@ void CBigJason::Shooting()
 
 void CBigJason::Update(DWORD dt)
 {
-	if (controllable == false) return;
+	if (controllable == false)
+	{
+		int currentFrame = animation->GetCurrentFrame();
+		if (currentFrame == 3 || currentFrame == 7)
+		{
+			nx = 1;
+		}
+		else
+		{
+			nx = -1;
+		}
+
+		if (animation->IsFinished() == true)
+		{
+			isEnabled = false;
+			isDestroyed = true;
+		}
+		return;
+	}
 
 	auto inputHandler = CGame::GetInstance()->GetService<CInputHandler>();
 	
@@ -193,6 +214,11 @@ void CBigJason::Render()
 		animation->Render(transform.position, 1, layer_index);
 	else
 		animation->Render(transform.position, -nx, layer_index);
+}
+
+void CBigJason::OnDead()
+{
+	SetState(BigJasonState::DEAD);
 }
 
 void CBigJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)

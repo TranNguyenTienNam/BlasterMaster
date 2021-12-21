@@ -191,6 +191,14 @@ void CSophia::Render()
 	gun->Render();
 }
 
+void CSophia::OnDead()
+{
+	DebugOut(L"[SOPHIA] On Dead\n");
+	isEnabled = false;
+	isDestroyed = true;
+	// TODO: Instantiate VFX
+}
+
 void CSophia::OnOverlapped(CCollider2D* selfCollider, CGameObject* object)
 {
 }

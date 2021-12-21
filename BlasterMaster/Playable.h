@@ -25,7 +25,7 @@ protected:
 	static DWORD switchDelay;
 	static DWORD lastTimeSwitch;
 
-	const int maxPower = 8;
+	const int maxPower = 1;
 
 	bool controllable;
 	bool untouchable;
@@ -39,6 +39,7 @@ public:
 	CPlayable();
 	bool IsInvincible() { return this->untouchable; }
 	void SetControllable(bool value) { this->controllable = value; }
+	virtual void OnDead();
 
 	int GetPower() { return this->power; }
 	void AffectPowerAttribute(int value);

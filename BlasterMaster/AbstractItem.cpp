@@ -47,7 +47,6 @@ void CAbstractItem::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* c
 	auto other = collision->obj;
 	if (dynamic_cast<CPlayable*>(other))
 	{
-		// TODO: Set collider of all items is static, then move SetDestroyed and SetEnable function into GetEffect
 		GetEffect((CPlayable*)other);
 		SetDestroyed();
 		SetEnable(false);
