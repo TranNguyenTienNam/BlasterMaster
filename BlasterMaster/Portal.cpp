@@ -17,6 +17,7 @@ CPortal::CPortal(float w, float h, int scene_id)
 	collider->SetOffset(VectorZero());
 	collider->SetBoxSize(Vector2(w, h));
 	collider->SetTrigger(true);
+	collider->SetDynamic(true);
 	colliders.push_back(collider);
 }
 
@@ -27,4 +28,12 @@ void CPortal::Update(DWORD dt)
 void CPortal::Render()
 {
 	colliders.at(0)->RenderBoundingBox();
+}
+
+void CPortal::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
+{
+	if (dynamic_cast<CPlayable*>(collision->obj))
+	{
+		CGame::GetInstance()->GetService<CScenes>()->SwitchSection(scene_id, translation);
+	}
 }

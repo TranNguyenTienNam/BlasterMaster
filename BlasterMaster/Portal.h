@@ -19,7 +19,10 @@ public:
 	void SetTranslation(Vector2 trans) { this->translation = trans; }
 	Vector2 GetDestination() { return this->destination; }
 	void SetDestination(Vector2 position) { this->destination = position; }
+	int GetSceneId() { return scene_id; }
+
 	void Update(DWORD dt);
 	void Render();
-	int GetSceneId() { return scene_id; }
+
+	void OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 };

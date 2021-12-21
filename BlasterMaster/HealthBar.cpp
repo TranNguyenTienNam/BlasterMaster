@@ -34,6 +34,7 @@ void CHealthBar::Render()
 	// TODO: If target is nullptr?
 	auto camPos = mainCam->GetPosition();
 	int power = target->GetPower();
+	if (power < 0) power = 0;
 	std::string sprID = "Power-" + std::to_string(power);
 
 	sprites.at(sprID)->Draw(camPos + offset, 1, 2);

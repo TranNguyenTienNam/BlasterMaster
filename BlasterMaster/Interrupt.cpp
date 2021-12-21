@@ -22,8 +22,7 @@ void CInterrupt::DetectedTarger()
 {
 	auto targetPos = target->GetPosition();
 	auto distance = CMath::CalcDistance(transform.position, targetPos);
-	if (targetPos.x < transform.position.x + rangeTrigger &&
-		targetPos.x > transform.position.x - rangeTrigger &&
+	if (abs(targetPos.x - transform.position.x) < rangeTrigger &&
 		targetPos.y < transform.position.y && distance < distanceTrigger)
 	{
 		SetState(InterruptState::Openning);

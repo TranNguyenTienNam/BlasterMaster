@@ -1,5 +1,6 @@
 #include "LaserGuard.h"
 #include "Animations.h"
+#include "Brick.h"
 
 void CLaserGuard::InitAnimations()
 {
@@ -23,6 +24,8 @@ CLaserGuard::CLaserGuard()
 	InitColliders();
 
 	scrollingMap = false;
+
+	velocity.x = MOVE_SPEED;
 }
 
 CLaserGuard::~CLaserGuard()
@@ -36,4 +39,13 @@ void CLaserGuard::Update(DWORD dt)
 void CLaserGuard::Render()
 {
 	animations.at("LaserGuard")->Render(transform.position, 1, layer_index);
+}
+
+void CLaserGuard::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
+{
+	auto other = collision->obj;
+	if (dynamic_cast<CBrick*>(other))
+	{
+		velocity.x = collision->nx * MOVE_SPEED;
+	}
 }

@@ -214,11 +214,6 @@ void CSophia::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* colli
 			AffectPowerAttribute(((CEnemy*)other)->GetDamageOnCollision());
 		}
 	}
-	else if (dynamic_cast<CPortal*>(other))
-	{
-		auto portal = (CPortal*)other;
-		CGame::GetInstance()->GetService<CScenes>()->SwitchSection(portal->GetSceneId(), portal->GetTranslation());
-	}
 }
 
 void CSophia::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)

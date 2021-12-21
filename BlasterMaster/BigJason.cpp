@@ -210,11 +210,6 @@ void CBigJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* col
 			AffectPowerAttribute(((CEnemy*)other)->GetDamageOnCollision());
 		}
 	}
-	else if (dynamic_cast<CPortal*>(other))
-	{
-		auto portal = (CPortal*)other;
-		CGame::GetInstance()->GetService<CScenes>()->SwitchSection(portal->GetSceneId(), portal->GetTranslation());
-	}
 }
 
 void CBigJason::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
