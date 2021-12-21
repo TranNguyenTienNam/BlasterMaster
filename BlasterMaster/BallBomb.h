@@ -1,7 +1,7 @@
 #pragma once
-#include "GameObject.h"
+#include "Bullet.h"
 
-class CBallBomb : public CGameObject
+class CBallBomb : public CBullet
 {
 private:
 	const Vector2 DEFAULT_SIZE = Vector2(10.0f, 10.0f);

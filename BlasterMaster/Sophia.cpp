@@ -158,7 +158,7 @@ void CSophia::Update(DWORD dt)
 			jason->SetPosition(transform.position);
 			jason->SetControllable(true);
 			jason->SetDirection(nx);
-			jason->SetState(JasonState::JASON_JUMPING);
+			jason->SetState(JasonState::JUMPING);
 		}
 	}
 #pragma endregion

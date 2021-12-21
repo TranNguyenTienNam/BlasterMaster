@@ -12,10 +12,12 @@
 
 void CJason::InitAnimations()
 {
-	auto animations = CGame::GetInstance()->GetService<CAnimations>();
-	AddAnimation("Idle", animations->Get("ani-jason-idle"));
-	AddAnimation("Walk", animations->Get("ani-jason-walk"));
-	AddAnimation("Jump", animations->Get("ani-jason-jump"));
+	auto animation_manager = CGame::GetInstance()->GetService<CAnimations>();
+	AddAnimation("Idle", animation_manager->Get("ani-jason-idle"));
+	AddAnimation("Walk", animation_manager->Get("ani-jason-walk"));
+	AddAnimation("Jump", animation_manager->Get("ani-jason-jump"));
+	AddAnimation("Dead", animation_manager->Get("ani-jason-die"));
+	animations.at("Dead")->SetIsLooped(false);
 }
 
 void CJason::InitColliders()
@@ -39,32 +41,39 @@ CJason::CJason()
 	onGround = false;
 	controllable = false;
 	jason = this;
-	SetState(JasonState::JASON_IDLE);
+	SetState(JasonState::IDLE);
 }
 
 void CJason::SetState(JasonState state)
 {
 	switch (state)
 	{
-	case JasonState::JASON_IDLE:
+	case JasonState::IDLE:
 		velocity.x = 0.0f;
 		/*acceleration.x = 0.0f;*/
 		if (onGround == true) animation = animations.at("Idle");
 		break;
-	case JasonState::JASON_MOVING_LEFT:
+	case JasonState::MOVING_LEFT:
 		acceleration.x = -WALK_ACCELERATION;
 		nx = -1;
 		if (onGround == true && velocity.x != 0) animation = animations.at("Walk");
 		break;
-	case JasonState::JASON_MOVING_RIGHT:
+	case JasonState::MOVING_RIGHT:
 		acceleration.x = WALK_ACCELERATION;
 		nx = 1;
 		if (onGround == true && velocity.x != 0) animation = animations.at("Walk");
 		break;
-	case JasonState::JASON_JUMPING:
+	case JasonState::JUMPING:
 		onGround = false;
 		velocity.y = JUMP_SPEED;
 		animation = animations.at("Jump");
+		break;
+	case JasonState::DEAD:
+		nx = -1;
+		velocity = VectorZero();
+		acceleration = VectorZero();
+		controllable = false;
+		animation = animations.at("Dead");
 		break;
 	default:
 		break;
@@ -79,11 +88,16 @@ void CJason::Update(DWORD dt)
 	velocity.x += acceleration.x * dt;
 
 	// TODO: Limit velocity
-	/*if (velocity.x > JASON_WALKING_SPEED) velocity.x = JASON_WALKING_SPEED;
-	else if (velocity.x < -JASON_WALKING_SPEED) velocity.x = -JASON_WALKING_SPEED;*/
+	/*if (velocity.x > WALKING_SPEED) velocity.x = WALKING_SPEED;
+	else if (velocity.x < -WALKING_SPEED) velocity.x = -WALKING_SPEED;*/
 
 	if (controllable == false)
 	{
+		if (animation->IsFinished() == true)
+		{
+			isEnabled = false;
+			isDestroyed = true;
+		}
 		return;
 	}
 
@@ -91,20 +105,20 @@ void CJason::Update(DWORD dt)
 
 	if (inputHandler->IsKeyDown(PlayerKeySet::MOVE_RIGHT_KEY))
 	{
-		SetState(JasonState::JASON_MOVING_RIGHT);
+		SetState(JasonState::MOVING_RIGHT);
 	}
 	else if (inputHandler->IsKeyDown(PlayerKeySet::MOVE_LEFT_KEY))
 	{
-		SetState(JasonState::JASON_MOVING_LEFT);
+		SetState(JasonState::MOVING_LEFT);
 	}
 	else
 	{
-		SetState(JasonState::JASON_IDLE);
+		SetState(JasonState::IDLE);
 	}
 
 	if (inputHandler->OnKeyDown(PlayerKeySet::JUMPING_KEY) && onGround == true)
 	{
-		SetState(JasonState::JASON_JUMPING);
+		SetState(JasonState::JUMPING);
 	}
 
 	if (inputHandler->OnKeyDown(PlayerKeySet::SWITCH_CHARACTER_KEY) &&
@@ -118,7 +132,7 @@ void CJason::Update(DWORD dt)
 		velocity.x = 0;
 		acceleration.x = 0;
 		nx = sophia->GetDirection();
-		SetState(JasonState::JASON_JUMPING);
+		SetState(JasonState::JUMPING);
 	}
 
 	if (inputHandler->OnKeyDown(PlayerKeySet::SHOOTING_KEY))
@@ -142,6 +156,7 @@ void CJason::Render()
 void CJason::OnDead()
 {
 	DebugOut(L"[JASON] On Dead\n");
+	SetState(JasonState::DEAD);
 }
 
 void CJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
@@ -153,7 +168,6 @@ void CJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collis
 		if (onGround == false && collision->ny == 1) onGround = true;
 		// TODO: Collise with wall, then hold idle state
 	}
-	
 	else if (dynamic_cast<CSophia*>(other))
 	{
 		if (controllable == false && velocity.y < 0)
@@ -174,7 +188,6 @@ void CJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collis
 	}
 	else if (dynamic_cast<CEnemy*>(other))
 	{
-		DebugOut(L"Collide with enemy\n");
 		if (untouchable == false)
 		{
 			lastTimeTakeDamage = GetTickCount();

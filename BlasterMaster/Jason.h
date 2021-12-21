@@ -3,10 +3,11 @@
 
 enum class JasonState
 {
-	JASON_IDLE,
-	JASON_MOVING_LEFT,
-	JASON_MOVING_RIGHT,
-	JASON_JUMPING
+	IDLE,
+	MOVING_LEFT,
+	MOVING_RIGHT,
+	JUMPING,
+	DEAD,
 };
 
 class CPlayable;

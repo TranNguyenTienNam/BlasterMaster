@@ -70,8 +70,8 @@ public:
 	void SetState(PlaySceneState _state) { this->state = _state; }
 	LPMAPSPRITE GetMapBackground() { return this->background; }
 	CGameObject* GetPlayer() { return player; }
-	std::unordered_map<int, CGameObject*> GetPortalList(){ return this->portals; }
-	void SetPlayer(CGameObject* object) { this->player = object; }
+	void SetPlayer(CGameObject* object);
+	std::unordered_map<int, CGameObject*> GetPortalList() { return this->portals; }
 	std::vector<CGameObject*> GetUpdateObjects() { return this->updates; }
 	
 	void AddGameObject(CGameObject* object);

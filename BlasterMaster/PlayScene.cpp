@@ -603,6 +603,16 @@ void CPlayScene::Clean()
 	}
 }
 
+void CPlayScene::SetPlayer(CGameObject* object)
+{
+	player = object;
+	CEnemy::SetTarget((CPlayable*)object);
+	for (auto hud : HUDs)
+	{
+		dynamic_cast<CHealthBar*>(hud)->SetOwner((CPlayable*)object);
+	}
+}
+
 void CPlayScene::AddGameObject(CGameObject* object)
 {
 	gameObjects.push_back(object);

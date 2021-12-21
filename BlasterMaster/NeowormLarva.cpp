@@ -60,6 +60,11 @@ void CNeowormLarva::OnOverlapped(CCollider2D* selfCollider, CGameObject* object)
 
 		isDestroyed = true;
 		isEnabled = false;
+
+		if (dynamic_cast<CPlayable*>(object))
+		{
+			((CPlayable*)object)->AffectPowerAttribute(-damage);
+		}
 	}
 }
 

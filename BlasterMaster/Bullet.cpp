@@ -1,4 +1,5 @@
 #include "Bullet.h"
+#include "Playable.h"
 
 CBullet::CBullet()
 {

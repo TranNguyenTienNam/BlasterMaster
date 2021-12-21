@@ -53,6 +53,7 @@ spr-bigjason-xbullet	234	107	8	6	tex-player
 spr-bigjason-ybullet	244	106	6	8	tex-player
 
 # === ENEMY BULLET ===
+spr-gx680-bullet	210	304	8	8	tex-enemies
 
 # ===== ITEMS ========
 spr-power-item	255	109	16	16	tex-items

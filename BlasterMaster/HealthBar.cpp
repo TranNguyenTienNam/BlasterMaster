@@ -22,7 +22,7 @@ CHealthBar::CHealthBar()
 
 	offset = Vector2(16, -176);
 	mainCam = game->GetService<CCamera>();
-	target = (CPlayable*)((CPlayScene*)game->GetService<CScenes>()->GetCurrentScene())->GetPlayer();
+	owner = (CPlayable*)((CPlayScene*)game->GetService<CScenes>()->GetCurrentScene())->GetPlayer();
 }
 
 void CHealthBar::Update(DWORD dt)
@@ -31,9 +31,9 @@ void CHealthBar::Update(DWORD dt)
 
 void CHealthBar::Render()
 {
-	// TODO: If target is nullptr?
+	// TODO: If owner is nullptr?
 	auto camPos = mainCam->GetPosition();
-	int power = target->GetPower();
+	int power = owner->GetPower();
 	if (power < 0 || power > 8) power = 0;
 	std::string sprID = "Power-" + std::to_string(power);
 

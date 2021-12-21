@@ -11,6 +11,7 @@ public:
 	~CBullet();
 
 	float GetSpeed() { return this->speed; }
+	int GetDamage() { return this->damage; }
 	virtual void Update(DWORD dt);
 	virtual void Render();
 };

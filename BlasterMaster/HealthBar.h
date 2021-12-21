@@ -7,10 +7,11 @@ class CHealthBar : public CGameObject
 private:
 	Vector2 offset;
 	CCamera* mainCam;
-	CPlayable* target;
+	CPlayable* owner;
 	void InitSprites();
 public:
 	CHealthBar();
+	void SetOwner(CPlayable* object) { this->owner = object; }
 	void Update(DWORD dt);
 	void Render();
 };

@@ -128,11 +128,9 @@ ani-jason-walk	spr-jason-walk-jump	100	spr-jason-walk-0	100	spr-jason-walk-jump	
 # jump
 ani-jason-jump	spr-jason-walk-jump	100
 # die
-ani-jason-die	spr-jason-die-0	100	spr-jason-die-1	100	spr-jason-die-2	100	spr-jason-die-3	100
+ani-jason-die	spr-jason-die-0	100	spr-jason-die-3	100	spr-jason-die-2	100	spr-jason-die-1	100	spr-jason-die-0	100	spr-jason-die-3	100	spr-jason-die-2	100	spr-jason-die-1	100	spr-jason-die-4	100	spr-jason-lie	300
 # crouch
 ani-jason-crouch	spr-jason-crouch-0	100	spr-jason-crouch-1	100
-# lie
-ani-jason-lie	spr-jason-lie	100
 
 # ==== SOPHIA ========
 # wheel

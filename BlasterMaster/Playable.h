@@ -33,7 +33,7 @@ protected:
 
 	int power;			// HP
 
-	DWORD untouchalbeTime = 3000;
+	DWORD untouchalbeTime = 1000;
 	DWORD lastTimeTakeDamage;
 public:
 	CPlayable();

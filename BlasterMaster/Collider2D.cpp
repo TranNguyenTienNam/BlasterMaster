@@ -384,7 +384,9 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 
 		if ((coEvents[i]->co->IsTrigger() == true) ||
 			(TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::Enemy) ||
-			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::Enemy))
+			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::Enemy) ||
+			(TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::EnemyBullet) ||
+			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::EnemyBullet))
 		{
 			if (isTrigger == false) object->OnCollisionEnter(this, coEvents[i]);
 			else object->OnTriggerEnter(this, coEvents[i]);
