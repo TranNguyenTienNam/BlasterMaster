@@ -1,6 +1,7 @@
 #include "LaserGuard.h"
 #include "Animations.h"
 #include "Brick.h"
+#include "LaserBullet.h"
 
 void CLaserGuard::InitAnimations()
 {
@@ -26,6 +27,10 @@ CLaserGuard::CLaserGuard()
 	scrollingMap = false;
 
 	velocity.x = MOVE_SPEED;
+	lastTimeShooting = GetTickCount();
+
+	leftEdge = 9999999;
+	rightEdge = -9999999;
 }
 
 CLaserGuard::~CLaserGuard()
@@ -34,6 +39,27 @@ CLaserGuard::~CLaserGuard()
 
 void CLaserGuard::Update(DWORD dt)
 {
+	if (target == nullptr) return;
+
+	if (transform.position.x < leftEdge) leftEdge = transform.position.x;
+	if (transform.position.x > rightEdge) rightEdge = transform.position.x;
+
+	auto targetPos = target->GetPosition();
+	if (targetPos.y < transform.position.y && 
+		targetPos.x < rightEdge &&
+		targetPos.x > leftEdge)
+	{
+		DWORD now = GetTickCount();
+		if (now - lastTimeShooting > shootingDelay)
+		{
+			lastTimeShooting = now;
+
+			auto direction = CMath::Normalize(targetPos - transform.position);
+
+			auto bullet = Instantiate<CLaserBullet>(transform.position);
+			bullet->SetVelocity(direction * bullet->GetSpeed());
+		}
+	}	
 }
 
 void CLaserGuard::Render()
@@ -47,5 +73,14 @@ void CLaserGuard::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* c
 	if (dynamic_cast<CBrick*>(other))
 	{
 		velocity.x = collision->nx * MOVE_SPEED;
+		if (collision->nx == 1)
+		{
+			leftEdge = transform.position.x;
+		}
+
+		if (collision->nx == -1)
+		{
+			rightEdge = transform.position.x;
+		}
 	}
 }

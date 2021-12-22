@@ -229,8 +229,6 @@ void CBigJason::OnOverlapped(CCollider2D* selfCollider, CGameObject* object)
 		if (untouchable == false)
 		{
 			lastTimeTakeDamage = GetTickCount();
-			untouchable = true;
-
 			AffectPowerAttribute(((CEnemy*)object)->GetDamageOnCollision());
 		}
 	}
@@ -246,8 +244,6 @@ void CBigJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* col
 			DebugOut(L"Collide with enemy, power %d\n", power);
 
 			lastTimeTakeDamage = GetTickCount();
-			untouchable = true;
-
 			AffectPowerAttribute(((CEnemy*)other)->GetDamageOnCollision());
 		}
 	}

@@ -6,6 +6,9 @@ class CLaserGuard : public CEnemy
 private:
 	const Vector2 DEFAULT_SIZE = Vector2(17.0f, 18.0f);
 	const float MOVE_SPEED = 0.04f;
+	const DWORD shootingDelay = 3000;
+	float leftEdge, rightEdge;
+	DWORD lastTimeShooting;
 
 	void InitAnimations();
 	void InitColliders();

@@ -637,6 +637,18 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_3:
 		CGame::GetInstance()->GetService<CScenes>()->SwitchScene(3);
 		break;
+	case DIK_4:
+		CGame::GetInstance()->GetService<CScenes>()->SwitchScene(4);
+		break;
+	case DIK_5:
+		CGame::GetInstance()->GetService<CScenes>()->SwitchScene(5);
+		break;
+	case DIK_6:
+		CGame::GetInstance()->GetService<CScenes>()->SwitchScene(6);
+		break;
+	case DIK_7:
+		CGame::GetInstance()->GetService<CScenes>()->SwitchScene(7);
+		break;
 	default:
 		break;
 	}

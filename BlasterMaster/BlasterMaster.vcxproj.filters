@@ -303,6 +303,9 @@
     <ClCompile Include="SophiaExplosion.cpp">
       <Filter>Game Source\Game Object\VFX</Filter>
     </ClCompile>
+    <ClCompile Include="LaserBullet.cpp">
+      <Filter>Game Source\Game Object\Bullet\Enemy Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -505,6 +508,9 @@
     </ClInclude>
     <ClInclude Include="SophiaExplosion.h">
       <Filter>Game Source\Game Object\VFX</Filter>
+    </ClInclude>
+    <ClInclude Include="LaserBullet.h">
+      <Filter>Game Source\Game Object\Bullet\Enemy Bullet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

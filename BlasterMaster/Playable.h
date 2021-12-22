@@ -25,7 +25,7 @@ protected:
 	static DWORD switchDelay;
 	static DWORD lastTimeSwitch;
 
-	const int maxPower = 1;
+	const int maxPower = 8;
 
 	bool controllable;
 	bool untouchable;

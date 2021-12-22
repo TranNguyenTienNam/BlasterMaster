@@ -170,6 +170,7 @@
     <ClCompile Include="HoverItem.cpp" />
     <ClCompile Include="HyperBeam.cpp" />
     <ClCompile Include="JasonBullet.cpp" />
+    <ClCompile Include="LaserBullet.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="MiniPortal.cpp" />
     <ClCompile Include="NeowormLarva.cpp" />
@@ -238,6 +239,7 @@
     <ClInclude Include="HoverItem.h" />
     <ClInclude Include="HyperBeam.h" />
     <ClInclude Include="JasonBullet.h" />
+    <ClInclude Include="LaserBullet.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="MiniPortal.h" />
     <ClInclude Include="NeowormLarva.h" />

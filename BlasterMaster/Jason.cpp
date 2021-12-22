@@ -167,7 +167,6 @@ void CJason::OnOverlapped(CCollider2D* selfCollider, CGameObject* object)
 		if (untouchable == false)
 		{
 			lastTimeTakeDamage = GetTickCount();
-			untouchable = true;
 
 			// TODO: is pushed in the direction of the enemy's movement
 			AffectPowerAttribute(((CEnemy*)object)->GetDamageOnCollision());
@@ -206,8 +205,6 @@ void CJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collis
 		if (untouchable == false)
 		{
 			lastTimeTakeDamage = GetTickCount();
-			untouchable = true;
-
 			// TODO: is pushed in the direction of the enemy's movement
 			AffectPowerAttribute(((CEnemy*)other)->GetDamageOnCollision());
 		}

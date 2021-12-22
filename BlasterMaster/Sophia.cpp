@@ -51,8 +51,6 @@ CSophia::CSophia()
 
 void CSophia::Update(DWORD dt)
 {
-	DebugOut(L"sophia %f %f\n", transform.position.x, transform.position.y);
-
 	velocity.x += acceleration.x * dt;
 	if (colliders.at(0)->IsDynamic() == true)
 		velocity.y += GRAVITY * dt;
@@ -207,8 +205,6 @@ void CSophia::OnOverlapped(CCollider2D* selfCollider, CGameObject* object)
 		if (untouchable == false)
 		{
 			lastTimeTakeDamage = GetTickCount();
-			untouchable = true;
-
 			// TODO: is pushed in the direction of the enemy's movement
 			AffectPowerAttribute(((CEnemy*)object)->GetDamageOnCollision());
 		}
@@ -228,8 +224,6 @@ void CSophia::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* colli
 		if (untouchable == false)
 		{
 			lastTimeTakeDamage = GetTickCount();
-			untouchable = true;
-
 			// TODO: is pushed in the direction of the enemy's movement
 			AffectPowerAttribute(((CEnemy*)other)->GetDamageOnCollision());
 		}

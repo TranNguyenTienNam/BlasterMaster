@@ -144,7 +144,6 @@ void CCamera::UpdateFreePlaying()
 	}
 	else
 	{
-		DebugOut(L"vpPlayer %f %f %f\n", vpPlayer.y, freezeBoundary.top, freezeBoundary.bottom);
 		// Freeze camera
 		if (vpPlayer.x <= freezeBoundary.left)
 			position.x = (int)(posTarget.x - freezeBoundary.left);
