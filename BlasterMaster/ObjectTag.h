@@ -16,6 +16,8 @@ enum class ObjectTag
 	EnemyBullet,
 
 	Platform,
+	HarmPlatform,
+
 	Portal,
 	MiniPortal,
 };

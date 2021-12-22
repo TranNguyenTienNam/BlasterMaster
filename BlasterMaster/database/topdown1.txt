@@ -2,6 +2,7 @@
 [TEXTURES]
 tex-player	textures\player.png	41	255	4
 tex-tileset	textures\tileset.png	0	0	0
+tex-indoor	textures\indoor.png	0	0	0
 tex-enemies	textures\enemies.png	41	255	4
 tex-items	textures\items.png	0	0	0
 tex-healthbar	textures\healthbar.png	41	255	4
@@ -60,6 +61,9 @@ spr-laser-bullet	0	0	8	16	tex-bbox
 spr-power-item	255	109	16	16	tex-items
 spr-hover-item	105	109	16	16	tex-items
 spr-gun-item	5	59	16	16	tex-items
+
+# ==== PLATFORMS =====
+spr-breakable-brick	153	255	16	16	tex-indoor
 
 # ===== VFX ==========
 spr-enemy-destroy-0	313	106	8	8	tex-player

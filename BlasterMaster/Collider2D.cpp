@@ -386,7 +386,9 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 			(TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::Enemy) ||
 			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::Enemy) ||
 			(TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::EnemyBullet) ||
-			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::EnemyBullet))
+			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::EnemyBullet) ||
+			(selfTag == ObjectTag::BigJason && otherTag == ObjectTag::HarmPlatform) ||
+			(selfTag == ObjectTag::Enemy && otherTag == ObjectTag::HarmPlatform))
 		{
 			if (isTrigger == false) object->OnCollisionEnter(this, coEvents[i]);
 			else object->OnTriggerEnter(this, coEvents[i]);
@@ -459,7 +461,6 @@ void CCollider2D::DealWithOverlappedCase(std::vector<CGameObject*>* coObjects)
 		if (coO->GetColliders().size() == 0) continue;
 
 		auto coOther = coO->GetColliders().at(0);
-		if (coOther->isTrigger == true) continue;
 
 		auto bbOther = coOther->GetBoundingBox();
 		auto bbSelf = GetBoundingBox();
@@ -473,7 +474,9 @@ void CCollider2D::DealWithOverlappedCase(std::vector<CGameObject*>* coObjects)
 			(selfTag == ObjectTag::Enemy && otherTag == ObjectTag::EnemyBullet) ||
 			(otherTag == ObjectTag::Enemy && selfTag == ObjectTag::EnemyBullet) ||
 			(selfTag == ObjectTag::MiniPortal && otherTag == ObjectTag::Jason) ||
-			(otherTag == ObjectTag::MiniPortal && selfTag == ObjectTag::Jason))
+			(otherTag == ObjectTag::MiniPortal && selfTag == ObjectTag::Jason) ||
+			(selfTag == ObjectTag::BigJason && otherTag == ObjectTag::HarmPlatform) ||
+			(selfTag == ObjectTag::Enemy && otherTag == ObjectTag::HarmPlatform))
 		{
 			if (bbSelf.Overlap(bbOther)) object->OnOverlapped(this, coO);
 			continue;

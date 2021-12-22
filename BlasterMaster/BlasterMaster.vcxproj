@@ -214,6 +214,7 @@
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Stuka.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="Thorn.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="SophiaUpwardState.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -285,6 +286,7 @@
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Stuka.h" />
     <ClInclude Include="Textures.h" />
+    <ClInclude Include="Thorn.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="SophiaUpwardState.h" />
     <ClInclude Include="Utils.h" />

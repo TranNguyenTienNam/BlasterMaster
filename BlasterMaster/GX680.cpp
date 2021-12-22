@@ -2,6 +2,7 @@
 #include "Animations.h"
 #include "Brick.h"
 #include "GX680Bullet.h"
+#include "Thorn.h"
 
 void CGX680::InitAnimations()
 {
@@ -136,5 +137,9 @@ void CGX680::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collis
 		}
 
 		velocity = CMath::Normalize(Vector2(rand() * signX, rand() * signY)) * MOVE_SPEED;
+	}
+	else if (dynamic_cast<CThorn*>(other))
+	{
+		TakeDamage(((CThorn*)other)->GetDamage());
 	}
 }

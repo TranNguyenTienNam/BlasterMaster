@@ -202,12 +202,8 @@ void CSophia::OnOverlapped(CCollider2D* selfCollider, CGameObject* object)
 {
 	if (dynamic_cast<CEnemy*>(object))
 	{
-		if (untouchable == false)
-		{
-			lastTimeTakeDamage = GetTickCount();
-			// TODO: is pushed in the direction of the enemy's movement
-			AffectPowerAttribute(((CEnemy*)object)->GetDamageOnCollision());
-		}
+		// TODO: is pushed in the direction of the enemy's movement
+		AffectPowerAttribute(((CEnemy*)object)->GetDamageOnCollision());
 	}
 }
 
@@ -221,12 +217,8 @@ void CSophia::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* colli
 	}
 	else if (dynamic_cast<CEnemy*>(other))
 	{
-		if (untouchable == false)
-		{
-			lastTimeTakeDamage = GetTickCount();
-			// TODO: is pushed in the direction of the enemy's movement
-			AffectPowerAttribute(((CEnemy*)other)->GetDamageOnCollision());
-		}
+		// TODO: is pushed in the direction of the enemy's movement
+		AffectPowerAttribute(((CEnemy*)other)->GetDamageOnCollision());
 	}
 }
 

@@ -19,6 +19,8 @@
 #include "MiniPortal.h"
 
 #include "Brick.h"
+#include "Thorn.h"
+
 #include "Interrupt.h"
 #include "Neoworm.h"
 #include "Ballbot.h"
@@ -315,6 +317,7 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 				else if (strcmp(object_name, "gx680s") == 0) obj = new CGX680S;
 				else if (strcmp(object_name, "laserguard") == 0) obj = new CLaserGuard;
 				else if (strcmp(object_name, "brick") == 0) obj = new CBrick;
+				else if (strcmp(object_name, "thorn") == 0) obj = new CThorn;
 				else if (strcmp(object_name, "portal") == 0)
 				{
 					int translationX = 0;

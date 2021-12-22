@@ -103,6 +103,9 @@
     <Filter Include="Game Source\Game Object\Canvas">
       <UniqueIdentifier>{76e56c47-8df1-4274-a6f4-ba9b2c8e49f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Source\Game Object\Platform">
+      <UniqueIdentifier>{2f36ebcb-16a4-4cc3-96a7-919319cf5fe1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -307,6 +310,9 @@
       <Filter>Game Source\Game Object\Bullet\Enemy Bullet</Filter>
     </ClCompile>
     <ClCompile Include="GX680Bullet.cpp">
+      <Filter>Game Source\Game Object\Bullet\Enemy Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Thorn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -516,6 +522,9 @@
       <Filter>Game Source\Game Object\Bullet\Enemy Bullet</Filter>
     </ClInclude>
     <ClInclude Include="GX680Bullet.h">
+      <Filter>Game Source\Game Object\Bullet\Enemy Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Thorn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

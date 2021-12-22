@@ -21,7 +21,11 @@ void CPlayable::AffectPowerAttribute(int value)
 	if (untouchable == true && value < 0) return;
 
 	power += value;
-	if (value < 0) untouchable = true;
+	if (value < 0)
+	{
+		lastTimeTakeDamage = GetTickCount();
+		untouchable = true;
+	}
 
 	if (power <= 0)
 	{

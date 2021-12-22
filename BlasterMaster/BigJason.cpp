@@ -3,6 +3,7 @@
 #include "Enemy.h"
 #include "BigJasonBullet.h"
 #include "Portal.h"
+#include "Thorn.h"
 
 void CBigJason::InitAnimations()
 {
@@ -226,11 +227,11 @@ void CBigJason::OnOverlapped(CCollider2D* selfCollider, CGameObject* object)
 {
 	if (dynamic_cast<CEnemy*>(object))
 	{
-		if (untouchable == false)
-		{
-			lastTimeTakeDamage = GetTickCount();
-			AffectPowerAttribute(((CEnemy*)object)->GetDamageOnCollision());
-		}
+		AffectPowerAttribute(((CEnemy*)object)->GetDamageOnCollision());
+	}
+	else if (dynamic_cast<CThorn*>(object))
+	{
+		AffectPowerAttribute(((CThorn*)object)->GetDamage());
 	}
 }
 
@@ -239,13 +240,12 @@ void CBigJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* col
 	auto other = collision->obj;
 	if (dynamic_cast<CEnemy*>(other))
 	{
-		if (untouchable == false)
-		{
-			DebugOut(L"Collide with enemy, power %d\n", power);
-
-			lastTimeTakeDamage = GetTickCount();
-			AffectPowerAttribute(((CEnemy*)other)->GetDamageOnCollision());
-		}
+		DebugOut(L"Collide with enemy, power %d\n", power);
+		AffectPowerAttribute(((CEnemy*)other)->GetDamageOnCollision());
+	}
+	else if (dynamic_cast<CThorn*>(other))
+	{
+		AffectPowerAttribute(((CThorn*)other)->GetDamage());
 	}
 }
 
