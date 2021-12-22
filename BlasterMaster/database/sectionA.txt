@@ -124,6 +124,9 @@ spr-explosion-1	149	97	16	13	tex-player
 spr-explosion-2	166	97	16	16	tex-player
 spr-explosion-3	183	93	24	24	tex-player
 
+spr-sophia-explosion-0	159	3	45	40	tex-player
+spr-sophia-explosion-1	143	45	64	47	tex-player
+
 # ===== HUD ==========
 # Health Bar
 spr-healthbar-0	64	0	8	48	tex-healthbar
@@ -174,6 +177,7 @@ ani-ballcarry	spr-ballcarry-move-0	100	spr-ballcarry-move-1	100
 # ===== VFX ==========
 ani-big-explosion	spr-explosion-3	100	spr-explosion-2	100	spr-explosion-1	100	spr-explosion-0	100
 ani-small-explosion	spr-explosion-2	200	spr-explosion-1	100	spr-explosion-0	100
+ani-sophia-explosion	spr-sophia-explosion-0	100	spr-sophia-explosion-1	100
 
 [MAP]
 maps\sectionA.json

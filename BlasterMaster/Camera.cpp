@@ -29,13 +29,24 @@ Vector2 CCamera::WorldToScreenPoint(Vector2 pos)
 
 RectF CCamera::GetBoundingBox()
 {
-	Vector2 nextPos = position + target->GetVelocity() * CGame::GetDeltaTime();
-
 	RectF boundingBox;
-	boundingBox.left = min(position.x, nextPos.x);
-	boundingBox.top = max(position.y, nextPos.y);
-	boundingBox.right = max(position.x + bbSize.x, nextPos.x + bbSize.x);
-	boundingBox.bottom = min(position.y - bbSize.y, nextPos.y - bbSize.y);
+
+	if (target != nullptr)
+	{
+		Vector2 nextPos = position + target->GetVelocity() * CGame::GetDeltaTime();
+
+		boundingBox.left = min(position.x, nextPos.x);
+		boundingBox.top = max(position.y, nextPos.y);
+		boundingBox.right = max(position.x + bbSize.x, nextPos.x + bbSize.x);
+		boundingBox.bottom = min(position.y - bbSize.y, nextPos.y - bbSize.y);
+	}
+	else
+	{
+		boundingBox.left = position.x;
+		boundingBox.top = position.y;
+		boundingBox.right = position.x + bbSize.x;
+		boundingBox.bottom = position.y - bbSize.y;
+	}
 
 	return boundingBox;
 }
@@ -120,11 +131,13 @@ void CCamera::Update()
 
 void CCamera::UpdateFreePlaying()
 {
+	if (target == nullptr) return;
+
 	Vector2 posTarget = target->GetPosition();
 
 	Vector2 vpPlayer = WorldToScreenPoint(posTarget);
 
-	if (position == VectorInfinity() || state == CameraState::FreePlaying_Scrolling)
+	if (position == VectorInfinity() || state == CameraState::FreePlaying_TopDown)
 	{
 		position.x = (int)(posTarget.x - bbSize.x / 2);
 		position.y = (int)(posTarget.y + bbSize.y / 2);

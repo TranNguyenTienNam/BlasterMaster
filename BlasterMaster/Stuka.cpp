@@ -31,15 +31,52 @@ CStuka::~CStuka()
 void CStuka::SetDirection(int nx)
 {
 	velocity.x = nx * MOVE_SPEED;
-	if (nx > 0)
+	if (nx < 0)
 	{
 		animations.at("Stuka")->SetIsReversed(true);
 	}
 }
 
+void CStuka::FreeMoving()
+{
+	auto targetPos = target->GetPosition();
+
+	if (CMath::CalcDistance(targetPos, transform.position) < distanceTrigger)
+	{
+		state = StukaState::DetectedTarget;
+	}
+}
+
+void CStuka::DetectedTarget()
+{
+	auto targetPos = target->GetPosition();
+	if (CMath::CalcDistance(targetPos, transform.position) < distanceTrigger)
+	{
+		velocity = CMath::Normalize(targetPos - transform.position) * MOVE_SPEED;
+	}
+	else
+	{
+		state = StukaState::FreeMoving;
+		if (velocity.x < 0) velocity.x = -MOVE_SPEED;
+		else velocity.x = MOVE_SPEED;
+
+		velocity.y = 0;
+	}
+}
+
 void CStuka::Update(DWORD dt)
 {
-	
+	switch (state)
+	{
+	case StukaState::FreeMoving:
+		FreeMoving();
+		break;
+	case StukaState::DetectedTarget:
+		DetectedTarget();
+		break;
+	default:
+		break;
+	}
 }
 
 void CStuka::Render()

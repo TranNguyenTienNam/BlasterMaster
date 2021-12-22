@@ -265,7 +265,7 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 
 			for (auto& object : objects)
 			{
-				CGameObject* obj = NULL;
+				CGameObject* obj = nullptr;
 
 				int x = object["x"].GetInt();
 				int y = object["y"].GetInt();
@@ -278,31 +278,25 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 				if (strcmp(object_name, "jason") == 0) obj = new CJason;
 				else if (strcmp(object_name, "sophia") == 0)
 				{
-					if (player != NULL)
+					if (player != nullptr)
 					{
 						DebugOut(L"[ERROR] SOPHIA object was created before!\n");
 						continue;
 					}
 					obj = new CSophia;
-					player = (CSophia*)obj;
-					mainCam->SetTarget(player);
-
-					CEnemy::SetTarget((CPlayable*)obj);
+					SetPlayer(obj);
 
 					DebugOut(L"[INFO] SOPHIA created!\n");
 				}
 				else if (strcmp(object_name, "bigjason") == 0)
 				{
-					if (player != NULL)
+					if (player != nullptr)
 					{
 						DebugOut(L"[ERROR] BIG JASON object was created before!\n");
 						continue;
 					}
 					obj = new CBigJason;
-					player = (CBigJason*)obj;
-					mainCam->SetTarget(player);
-
-					CEnemy::SetTarget((CPlayable*)obj);
+					SetPlayer(obj);
 
 					DebugOut(L"[INFO] BIG JASON object created!\n");
 				}
@@ -444,7 +438,6 @@ void CPlayScene::PreSwitchingSection(CPlayScene* lastScene, Vector2 translation)
 			player->SetPosition(portalPos);
 			player->SetEnable(false);
 
-			// TODO: Need a bool member (isTopdown?) of scene to choose function
 			if (isTopDownView == true)
 			{
 				mainCam->PreUpdateSwitchingTopdownSection(destination, translation);
@@ -564,7 +557,7 @@ void CPlayScene::Unload()
 	}
 	HUDs.clear();
 
-	player = NULL;
+	player = nullptr;
 	
 	if (quadtree != nullptr)
 	{
@@ -588,6 +581,12 @@ void CPlayScene::Clean()
 
 			quadtree->RemoveGameObjectFromLeaf(obj);
 
+			if (obj == player)
+			{
+				player = nullptr;
+				CGame::GetInstance()->GetService<CCamera>()->SetTarget(nullptr);
+			}
+
 			delete obj;
 			obj = nullptr;
 		}
@@ -606,6 +605,7 @@ void CPlayScene::Clean()
 void CPlayScene::SetPlayer(CGameObject* object)
 {
 	player = object;
+	CGame::GetInstance()->GetService<CCamera>()->SetTarget(object);
 	CEnemy::SetTarget((CPlayable*)object);
 	for (auto hud : HUDs)
 	{

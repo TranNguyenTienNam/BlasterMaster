@@ -180,6 +180,7 @@
     <ClCompile Include="RandomExplosion.cpp" />
     <ClCompile Include="Scenes.cpp" />
     <ClCompile Include="SmallExplosion.cpp" />
+    <ClCompile Include="SophiaExplosion.cpp" />
     <ClCompile Include="SophiaMoveRightState.cpp" />
     <ClCompile Include="Collider2D.cpp" />
     <ClCompile Include="SophiaMoveLeftState.cpp" />
@@ -248,6 +249,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Scenes.h" />
     <ClInclude Include="SmallExplosion.h" />
+    <ClInclude Include="SophiaExplosion.h" />
     <ClInclude Include="SophiaMoveRightState.h" />
     <ClInclude Include="Collider2D.h" />
     <ClInclude Include="SophiaMoveLeftState.h" />

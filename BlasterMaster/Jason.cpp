@@ -91,15 +91,7 @@ void CJason::Update(DWORD dt)
 	/*if (velocity.x > WALKING_SPEED) velocity.x = WALKING_SPEED;
 	else if (velocity.x < -WALKING_SPEED) velocity.x = -WALKING_SPEED;*/
 
-	if (controllable == false)
-	{
-		if (animation->IsFinished() == true)
-		{
-			isEnabled = false;
-			isDestroyed = true;
-		}
-		return;
-	}
+	if (controllable == false) return;
 
 	auto inputHandler = CGame::GetInstance()->GetService<CInputHandler>();
 
@@ -150,6 +142,15 @@ void CJason::Update(DWORD dt)
 
 void CJason::Render()
 {
+	if (controllable == false)
+	{
+		if (animation->IsFinished() == true)
+		{
+			isEnabled = false;
+			isDestroyed = true;
+		}
+	}
+
 	animation->Render(transform.position, -nx, layer_index + 1);
 }
 
@@ -157,6 +158,21 @@ void CJason::OnDead()
 {
 	DebugOut(L"[JASON] On Dead\n");
 	SetState(JasonState::DEAD);
+}
+
+void CJason::OnOverlapped(CCollider2D* selfCollider, CGameObject* object)
+{
+	if (dynamic_cast<CEnemy*>(object))
+	{
+		if (untouchable == false)
+		{
+			lastTimeTakeDamage = GetTickCount();
+			untouchable = true;
+
+			// TODO: is pushed in the direction of the enemy's movement
+			AffectPowerAttribute(((CEnemy*)object)->GetDamageOnCollision());
+		}
+	}
 }
 
 void CJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
@@ -176,7 +192,6 @@ void CJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collis
 
 			auto game = CGame::GetInstance();
 			((CPlayScene*)game->GetService<CScenes>()->GetCurrentScene())->SetPlayer(sophia);
-			game->GetService<CCamera>()->SetTarget(sophia);
 
 			sophia->SetControllable(true);
 			for (auto co : sophia->GetColliders())

@@ -28,7 +28,7 @@ void CGX680::FreeMotion()
 		int signX = (rand() % 2 == 0) ? 1 : -1;
 		int signY = (rand() % 2 == 0) ? 1 : -1;
 
-		velocity = CMath::Normalize(Vector2(rand() * signX, rand() * signY)) * speed;
+		velocity = CMath::Normalize(Vector2(rand() * signX, rand() * signY)) * MOVE_SPEED;
 		lastTimeChangeDirection = now;
 	}
 
@@ -41,7 +41,12 @@ void CGX680::FreeMotion()
 void CGX680::DetectedTarget()
 {
 	auto targetPos = target->GetPosition();
-	velocity = CMath::Normalize(targetPos - transform.position) * speed;
+	velocity = CMath::Normalize(targetPos - transform.position) * MOVE_SPEED;
+
+	if (CMath::CalcDistance(targetPos, transform.position) > distanceTrigger)
+	{
+		state = GX680State::FreeMotion;
+	}
 }
 
 CGX680::CGX680()
@@ -103,6 +108,6 @@ void CGX680::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collis
 			signY = (rand() % 2 == 0) ? 1 : -1;
 		}
 
-		velocity = CMath::Normalize(Vector2(rand() * signX, rand() * signY)) * speed;
+		velocity = CMath::Normalize(Vector2(rand() * signX, rand() * signY)) * MOVE_SPEED;
 	}
 }

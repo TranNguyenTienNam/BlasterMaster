@@ -15,6 +15,7 @@
 #include "Enemy.h"
 #include "PlayScene.h"
 #include "Portal.h"
+#include "SophiaExplosion.h"
 
 void CSophia::InitColliders()
 {
@@ -152,7 +153,6 @@ void CSophia::Update(DWORD dt)
 			// Enable Jason, set jason's position, state is jumping
 			auto game = CGame::GetInstance();
 			((CPlayScene*)game->GetService<CScenes>()->GetCurrentScene())->SetPlayer(jason);
-			game->GetService<CCamera>()->SetTarget(jason);
 
 			jason->SetEnable(true);
 			jason->SetPosition(transform.position);
@@ -196,11 +196,23 @@ void CSophia::OnDead()
 	DebugOut(L"[SOPHIA] On Dead\n");
 	isEnabled = false;
 	isDestroyed = true;
-	// TODO: Instantiate VFX
+	
+	Instantiate<CSophiaExplosion>(transform.position);
 }
 
 void CSophia::OnOverlapped(CCollider2D* selfCollider, CGameObject* object)
 {
+	if (dynamic_cast<CEnemy*>(object))
+	{
+		if (untouchable == false)
+		{
+			lastTimeTakeDamage = GetTickCount();
+			untouchable = true;
+
+			// TODO: is pushed in the direction of the enemy's movement
+			AffectPowerAttribute(((CEnemy*)object)->GetDamageOnCollision());
+		}
+	}
 }
 
 void CSophia::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)

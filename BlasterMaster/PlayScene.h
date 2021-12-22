@@ -68,6 +68,7 @@ public:
 	virtual void Clean();
 
 	void SetState(PlaySceneState _state) { this->state = _state; }
+	bool IsTopDownView() { return this->isTopDownView; }
 	LPMAPSPRITE GetMapBackground() { return this->background; }
 	CGameObject* GetPlayer() { return player; }
 	void SetPlayer(CGameObject* object);

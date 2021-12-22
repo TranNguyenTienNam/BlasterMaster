@@ -119,25 +119,7 @@ void CBigJason::Shooting()
 
 void CBigJason::Update(DWORD dt)
 {
-	if (controllable == false)
-	{
-		int currentFrame = animation->GetCurrentFrame();
-		if (currentFrame == 3 || currentFrame == 7)
-		{
-			nx = 1;
-		}
-		else
-		{
-			nx = -1;
-		}
-
-		if (animation->IsFinished() == true)
-		{
-			isEnabled = false;
-			isDestroyed = true;
-		}
-		return;
-	}
+	if (controllable == false) return;
 
 	auto inputHandler = CGame::GetInstance()->GetService<CInputHandler>();
 	
@@ -209,6 +191,25 @@ void CBigJason::Update(DWORD dt)
 
 void CBigJason::Render()
 {
+	if (controllable == false)
+	{
+		int currentFrame = animation->GetCurrentFrame();
+		if (currentFrame == 3 || currentFrame == 7)
+		{
+			nx = 1;
+		}
+		else
+		{
+			nx = -1;
+		}
+
+		if (animation->IsFinished() == true)
+		{
+			isEnabled = false;
+			isDestroyed = true;
+		}
+	}
+
 	if (animation == animations.at("Idle-Front") || animation == animations.at("Idle-Back") ||
 		animation == animations.at("Walk-Front") || animation == animations.at("Walk-Back"))
 		animation->Render(transform.position, 1, layer_index);
@@ -219,6 +220,20 @@ void CBigJason::Render()
 void CBigJason::OnDead()
 {
 	SetState(BigJasonState::DEAD);
+}
+
+void CBigJason::OnOverlapped(CCollider2D* selfCollider, CGameObject* object)
+{
+	if (dynamic_cast<CEnemy*>(object))
+	{
+		if (untouchable == false)
+		{
+			lastTimeTakeDamage = GetTickCount();
+			untouchable = true;
+
+			AffectPowerAttribute(((CEnemy*)object)->GetDamageOnCollision());
+		}
+	}
 }
 
 void CBigJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)

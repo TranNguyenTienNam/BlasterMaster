@@ -47,6 +47,7 @@ public:
 	void GetBoundary(RectF boundary) { this->boundary = boundary; }
 	CGameObject* GetTarget() { return this->target; }
 	void SetTarget(CGameObject* target) { this->target = target; }
+	void SetState(CameraState state) { this->state = state; }
 
 	void PreUpdateSwitchingScrollingSection(Vector2 destination, Vector2 translation);
 	void PreUpdateSwitchingTopdownSection(Vector2 destination, Vector2 translation);

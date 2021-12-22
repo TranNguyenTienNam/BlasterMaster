@@ -91,6 +91,16 @@ void CScenes::SwitchScene(int scene_id)
 			break;
 		}
 	}
+
+	auto mainCam = game->GetService<CCamera>();
+	if (s->IsTopDownView() == true)
+	{
+		mainCam->SetState(CameraState::FreePlaying_TopDown);
+	}
+	else
+	{
+		mainCam->SetState(CameraState::FreePlaying_Scrolling);
+	}
 }
 
 void CScenes::SwitchSection(int scene_id, Vector2 translation)

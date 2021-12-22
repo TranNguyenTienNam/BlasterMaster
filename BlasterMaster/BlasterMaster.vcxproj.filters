@@ -300,6 +300,9 @@
     <ClCompile Include="HealthBar.cpp">
       <Filter>Game Source\Game Object\Canvas</Filter>
     </ClCompile>
+    <ClCompile Include="SophiaExplosion.cpp">
+      <Filter>Game Source\Game Object\VFX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -499,6 +502,9 @@
     </ClInclude>
     <ClInclude Include="HealthBar.h">
       <Filter>Game Source\Game Object\Canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="SophiaExplosion.h">
+      <Filter>Game Source\Game Object\VFX</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -83,5 +83,10 @@ void CNeowormLarva::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent*
 
 		isDestroyed = true;
 		isEnabled = false;
+
+		if (dynamic_cast<CPlayable*>(other))
+		{
+			((CPlayable*)other)->AffectPowerAttribute(-damage);
+		}
 	}
 }

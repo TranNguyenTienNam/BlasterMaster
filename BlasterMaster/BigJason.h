@@ -50,6 +50,7 @@ public:
 	void Render();
 	void OnDead();
 
+	void OnOverlapped(CCollider2D* selfCollider, CGameObject* object);
 	void OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 	void OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 };
