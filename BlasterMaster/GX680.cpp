@@ -1,6 +1,7 @@
 #include "GX680.h"
 #include "Animations.h"
 #include "Brick.h"
+#include "GX680Bullet.h"
 
 void CGX680::InitAnimations()
 {
@@ -48,6 +49,25 @@ void CGX680::DetectedTarget()
 	{
 		state = GX680State::FreeMotion;
 	}
+
+	DWORD now = GetTickCount();
+	if (now - lastTimeShooting > shootingDelay)
+	{
+		if (CMath::Random(1, 100) > shootingRate)
+		{
+			auto direction = CMath::Normalize(targetPos - transform.position);
+
+			auto bullet = Instantiate<CGX680Bullet>(transform.position);
+			bullet->SetVelocity(direction * bullet->GetSpeed());
+
+			shootingRate = 100;
+			lastTimeShooting = now;
+		}
+		else
+		{
+			shootingRate -= 0.02;
+		}
+	}
 }
 
 CGX680::CGX680()
@@ -58,6 +78,7 @@ CGX680::CGX680()
 	scrollingMap = false;
 	state = GX680State::FreeMotion;
 	lastTimeChangeDirection = GetTickCount();
+	shootingRate = 100;
 }
 
 CGX680::~CGX680()

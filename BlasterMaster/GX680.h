@@ -14,7 +14,11 @@ protected:
 	const float distanceTrigger = 70.0f;
 	const float MOVE_SPEED = 0.03f;
 	const DWORD changeDirectionDelay = 2000;
+	const DWORD shootingDelay = 5000;
 
+	float shootingRate;
+
+	DWORD lastTimeShooting;
 	DWORD lastTimeChangeDirection;
 
 	RectF operatingArea;
