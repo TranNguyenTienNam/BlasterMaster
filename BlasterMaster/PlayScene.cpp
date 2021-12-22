@@ -583,8 +583,7 @@ void CPlayScene::Clean()
 
 			if (obj == player)
 			{
-				player = nullptr;
-				CGame::GetInstance()->GetService<CCamera>()->SetTarget(nullptr);
+				SetPlayer(nullptr);
 			}
 
 			delete obj;

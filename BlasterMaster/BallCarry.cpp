@@ -89,6 +89,8 @@ void CBallCarry::Update(DWORD dt)
 {
 	velocity.y += -0.00026f * dt;
 
+	if (target == nullptr) return;
+
 	switch (state)
 	{
 	case BallCarryState::Sleeping:

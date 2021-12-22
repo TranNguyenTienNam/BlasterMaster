@@ -20,8 +20,6 @@ void CGX680::InitColliders()
 
 void CGX680::FreeMotion()
 {
-	auto targetPos = target->GetPosition();
-
 	DWORD now = GetTickCount();
 	if (now - lastTimeChangeDirection > changeDirectionDelay)
 	{
@@ -32,6 +30,9 @@ void CGX680::FreeMotion()
 		lastTimeChangeDirection = now;
 	}
 
+	if (target == nullptr) return;
+
+	auto targetPos = target->GetPosition();
 	if (CMath::CalcDistance(targetPos, transform.position) < distanceTrigger)
 	{
 		state = GX680State::DetectedTarget;
@@ -65,6 +66,11 @@ CGX680::~CGX680()
 
 void CGX680::Update(DWORD dt)
 {
+	if (target == nullptr)
+	{
+		state = GX680State::FreeMotion;
+	}
+
 	switch (state)
 	{
 	case GX680State::FreeMotion:

@@ -31,10 +31,11 @@ void CHealthBar::Update(DWORD dt)
 
 void CHealthBar::Render()
 {
-	// TODO: If owner is nullptr?
+	if (owner == nullptr) return;
+
 	auto camPos = mainCam->GetPosition();
 	int power = owner->GetPower();
-	if (power < 0 || power > 8) power = 0;
+	if (power < 0) power = 0;
 	std::string sprID = "Power-" + std::to_string(power);
 
 	sprites.at(sprID)->Draw(camPos + offset, 1, 2);

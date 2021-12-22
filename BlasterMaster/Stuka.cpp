@@ -66,6 +66,16 @@ void CStuka::DetectedTarget()
 
 void CStuka::Update(DWORD dt)
 {
+	if (target == nullptr)
+	{
+		state = StukaState::FreeMoving;
+		if (velocity.x < 0) velocity.x = -MOVE_SPEED;
+		else velocity.x = MOVE_SPEED;
+
+		velocity.y = 0;
+		return;
+	}
+
 	switch (state)
 	{
 	case StukaState::FreeMoving:

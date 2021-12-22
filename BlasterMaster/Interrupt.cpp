@@ -66,6 +66,8 @@ void CInterrupt::SetState(InterruptState _state)
 
 void CInterrupt::Update(DWORD dt)
 {
+	if (target == nullptr) return;
+
 	if (state == InterruptState::Sleeping)
 	{
 		DetectedTarger();

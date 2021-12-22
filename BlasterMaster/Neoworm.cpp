@@ -31,6 +31,8 @@ CNeoworm::~CNeoworm()
 void CNeoworm::Update(DWORD dt)
 {
 	velocity.y += -0.00026f * dt;
+
+	if (target == nullptr) return;
 }
 
 void CNeoworm::Render()

@@ -35,6 +35,8 @@ CDrap::~CDrap()
 
 void CDrap::Update(DWORD dt)
 {
+	if (target == nullptr) return;
+
 	auto targetPos = target->GetPosition();
 	if (abs(targetPos.y - transform.position.y) < rangeTrigger)
 	{
