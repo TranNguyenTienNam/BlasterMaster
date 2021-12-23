@@ -183,9 +183,6 @@
     <ClCompile Include="Collider2D.cpp">
       <Filter>Framework\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="Brick.cpp">
-      <Filter>Game Source\Game Object</Filter>
-    </ClCompile>
     <ClCompile Include="Ballbot.cpp">
       <Filter>Game Source\Game Object\Enemy\Scrolling</Filter>
     </ClCompile>
@@ -313,7 +310,16 @@
       <Filter>Game Source\Game Object\Bullet\Enemy Bullet</Filter>
     </ClCompile>
     <ClCompile Include="Thorn.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game Source\Game Object\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>Game Source\Game Object\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="BossTrigger.cpp">
+      <Filter>Game Source\Game Object\Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="BreakableBrick.cpp">
+      <Filter>Game Source\Game Object\Platform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -391,9 +397,6 @@
     </ClInclude>
     <ClInclude Include="Collider2D.h">
       <Filter>Framework\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Brick.h">
-      <Filter>Game Source\Game Object</Filter>
     </ClInclude>
     <ClInclude Include="BallCarry.h">
       <Filter>Game Source\Game Object\Enemy\Scrolling</Filter>
@@ -525,7 +528,16 @@
       <Filter>Game Source\Game Object\Bullet\Enemy Bullet</Filter>
     </ClInclude>
     <ClInclude Include="Thorn.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game Source\Game Object\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>Game Source\Game Object\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="BossTrigger.h">
+      <Filter>Game Source\Game Object\Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakableBrick.h">
+      <Filter>Game Source\Game Object\Platform</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

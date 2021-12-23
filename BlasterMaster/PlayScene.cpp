@@ -17,9 +17,11 @@
 
 #include "Portal.h"
 #include "MiniPortal.h"
+#include "BossTrigger.h"
 
 #include "Brick.h"
 #include "Thorn.h"
+#include "BreakableBrick.h"
 
 #include "Interrupt.h"
 #include "Neoworm.h"
@@ -317,6 +319,7 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 				else if (strcmp(object_name, "gx680s") == 0) obj = new CGX680S;
 				else if (strcmp(object_name, "laserguard") == 0) obj = new CLaserGuard;
 				else if (strcmp(object_name, "brick") == 0) obj = new CBrick;
+				else if (strcmp(object_name, "breakable-brick") == 0) obj = new CBreakableBrick;
 				else if (strcmp(object_name, "thorn") == 0) obj = new CThorn;
 				else if (strcmp(object_name, "portal") == 0)
 				{
@@ -377,6 +380,25 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 					portals.emplace(make_pair(sceneID, obj));
 
 					DebugOut(L"[INFO] Mini Portal object created!\n");
+				}
+				else if (strcmp(object_name, "boss-trigger") == 0)
+				{
+					int sceneID = 0;
+
+					auto props = object["properties"].GetArray();
+					for (auto& prop : props)
+					{
+						if (strcmp(prop["name"].GetString(), "SceneID") == 0)
+						{
+							sceneID = prop["value"].GetInt();
+						}
+					}
+
+					obj = new CBossTrigger(width, height, sceneID);
+
+					portals.emplace(make_pair(sceneID, obj));
+
+					DebugOut(L"[INFO] Boss Trigger object created!\n");
 				}
 				else
 				{
@@ -512,14 +534,14 @@ void CPlayScene::Render()
 	if (background != nullptr)
 		background->Draw(1, 1);
 
-	if (foreground != nullptr)
-		foreground->Draw(1, 2);
-
 	if (background_switching != nullptr)
 		background_switching->Draw(1, 1);
 
 	for (auto obj : updates)
 		if (obj->IsEnabled() == true) obj->Render();
+
+	if (foreground != nullptr)
+		foreground->Draw(1, 2);
 
 	for (auto hud : HUDs)
 	{

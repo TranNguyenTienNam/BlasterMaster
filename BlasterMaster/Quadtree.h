@@ -2,7 +2,7 @@
 #include <memory>
 #include "GameObject.h"
 
-#define NODE_CAPACITY 25
+#define NODE_CAPACITY 10
 #define NODE_MAX_DEPTH 6
 
 class CQuadtree

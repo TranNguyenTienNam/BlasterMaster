@@ -38,6 +38,8 @@ CBigJason::CBigJason()
 	controllable = true;
 	SetState(BigJasonState::IDLE_FRONT);
 	lastState = currentState;
+
+	layer_index = 2;
 }
 
 void CBigJason::SetState(BigJasonState state)

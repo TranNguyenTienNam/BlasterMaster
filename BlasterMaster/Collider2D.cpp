@@ -476,7 +476,8 @@ void CCollider2D::DealWithOverlappedCase(std::vector<CGameObject*>* coObjects)
 			(selfTag == ObjectTag::MiniPortal && otherTag == ObjectTag::Jason) ||
 			(otherTag == ObjectTag::MiniPortal && selfTag == ObjectTag::Jason) ||
 			(selfTag == ObjectTag::BigJason && otherTag == ObjectTag::HarmPlatform) ||
-			(selfTag == ObjectTag::Enemy && otherTag == ObjectTag::HarmPlatform))
+			(selfTag == ObjectTag::Enemy && otherTag == ObjectTag::HarmPlatform) ||
+			(selfTag == ObjectTag::BossTrigger && otherTag == ObjectTag::BigJason))
 		{
 			if (bbSelf.Overlap(bbOther)) object->OnOverlapped(this, coO);
 			continue;

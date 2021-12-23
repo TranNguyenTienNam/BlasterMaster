@@ -20,6 +20,7 @@ enum class ObjectTag
 
 	Portal,
 	MiniPortal,
+	BossTrigger,
 };
 
 class TagUtils

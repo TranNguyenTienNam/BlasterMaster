@@ -161,6 +161,8 @@
     <ClCompile Include="BigExplosion.cpp" />
     <ClCompile Include="BigJason.cpp" />
     <ClCompile Include="BigJasonBullet.cpp" />
+    <ClCompile Include="BossTrigger.cpp" />
+    <ClCompile Include="BreakableBrick.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -232,6 +234,8 @@
     <ClInclude Include="BigExplosion.h" />
     <ClInclude Include="BigJason.h" />
     <ClInclude Include="BigJasonBullet.h" />
+    <ClInclude Include="BossTrigger.h" />
+    <ClInclude Include="BreakableBrick.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />

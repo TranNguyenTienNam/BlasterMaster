@@ -2,6 +2,7 @@
 #include "Enemy.h"
 #include "Brick.h"
 #include "RandomExplosion.h"
+#include "BreakableBrick.h"
 
 void CBigJasonBullet::InitSprites()
 {
@@ -87,5 +88,11 @@ void CBigJasonBullet::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent*
 		isDestroyed = true;
 
 		Instantiate<CRandomExplosion>(transform.position);
+
+		if (dynamic_cast<CBreakableBrick*>(other))
+		{
+			other->SetDestroyed();
+			other->SetEnable(false);
+		}
 	}
 }
