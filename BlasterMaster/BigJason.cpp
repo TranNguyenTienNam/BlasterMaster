@@ -4,6 +4,8 @@
 #include "BigJasonBullet.h"
 #include "Portal.h"
 #include "Thorn.h"
+#include "GunFlashX.h"
+#include "GunFlashY.h"
 
 void CBigJason::InitAnimations()
 {
@@ -112,11 +114,23 @@ void CBigJason::Shooting()
 		currentState == BigJasonState::IDLE_RIGHT || currentState == BigJasonState::WALK_RIGHT)
 	{
 		bullet->Initialize(Vector2(nx, 0.0f));
+
+		auto effect = Instantiate<CGunFlashX>(transform.position + Vector2(13.0f * nx, 0.0f));
+		effect->SetDirection(nx);
 	}
-	else if (currentState == BigJasonState::IDLE_FRONT || currentState == BigJasonState::WALK_FRONT ||
-		currentState == BigJasonState::IDLE_BACK || currentState == BigJasonState::WALK_BACK)
+	else if (currentState == BigJasonState::IDLE_FRONT || currentState == BigJasonState::WALK_FRONT)
 	{
 		bullet->Initialize(Vector2(0.0f, ny));
+
+		auto effect = Instantiate<CGunFlashY>(transform.position + Vector2(-5.0f, -13.0f));
+		effect->SetRotationZ(180);
+	}
+	else if (currentState == BigJasonState::IDLE_BACK || currentState == BigJasonState::WALK_BACK)
+	{
+		bullet->Initialize(Vector2(0.0f, ny));
+
+		auto effect = Instantiate<CGunFlashY>(transform.position + Vector2(7.0f, 7.0f));
+		effect->SetRotationZ(0);
 	}
 }
 

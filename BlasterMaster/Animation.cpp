@@ -20,7 +20,7 @@ void CAnimation::Add(std::string id, DWORD time)
 	/*DebugOut(L"[INFO] animation frame added: %s\t%d\n", ToWSTR(id).c_str(), frames.size());*/
 }
 
-void CAnimation::Render(Vector2 position, int nx, int layer_index, D3DCOLOR color)
+void CAnimation::Render(Vector2 position, int nx, int layer_index, float angle, D3DCOLOR color)
 {
 	if (isLooped == false && isFinished == true) return;
 
@@ -74,5 +74,5 @@ void CAnimation::Render(Vector2 position, int nx, int layer_index, D3DCOLOR colo
 	}
 
 	if (isFinished == false)
-		frames[currentFrame]->GetSprite()->Draw(position, nx, layer_index, color);
+		frames[currentFrame]->GetSprite()->Draw(position, nx, layer_index, angle, color);
 }

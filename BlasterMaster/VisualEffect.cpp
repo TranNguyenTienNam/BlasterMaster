@@ -3,6 +3,7 @@
 CVisualEffect::CVisualEffect()
 {
 	layer_index = 2;
+	nx = 1;
 }
 
 void CVisualEffect::Update(DWORD dt)
@@ -16,5 +17,5 @@ void CVisualEffect::Update(DWORD dt)
 
 void CVisualEffect::Render()
 {
-	animations.at(DEFAULT_ANI_NAME)->Render(transform.position, 1, layer_index);
+	animations.at(DEFAULT_ANI_NAME)->Render(transform.position, nx, layer_index);
 }

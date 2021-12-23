@@ -10,9 +10,9 @@ CSprite::CSprite(int l, int t, int w, int h, LPDIRECT3DTEXTURE9 tex)
 	this->texture = tex;
 }
 
-void CSprite::Draw(Vector2 position, int nx, int layer_index, D3DCOLOR color)
+void CSprite::Draw(Vector2 position, int nx, int layer_index, float angle, D3DCOLOR color)
 {
-	CGame::GetInstance()->Draw(position, nx, layer_index, texture, left, top, left + width, top + height, color);
+	CGame::GetInstance()->Draw(position, nx, layer_index, texture, left, top, left + width, top + height, angle, color);
 }
 
 void CSprites::Add(std::string id, int left, int top, int width, int height, LPDIRECT3DTEXTURE9 texture)
@@ -55,5 +55,5 @@ CMapSprite::CMapSprite(const CMapSprite& spr)
 
 void CMapSprite::Draw(int nx, int layer_index, D3DCOLOR color)
 {
-	CGame::GetInstance()->Draw(position, nx, layer_index, texture, 0, 0, width, height, color);
+	CGame::GetInstance()->Draw(position, nx, layer_index, texture, 0, 0, width, height, 0, color);
 }

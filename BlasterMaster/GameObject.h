@@ -29,6 +29,7 @@ protected:
 	int layer_index = 1;
 
 	Transform transform;
+	float angleZ;
 	Vector2 velocity;
 	Vector2 acceleration;
 	std::vector<CCollider2D*>  colliders;
@@ -63,6 +64,7 @@ public:
 	virtual void SetDirection(int value) { this->nx = value; }
 	void SetPosition(Vector2 pos) { this->transform.position = pos; }
 	Vector2 GetPosition() { return this->transform.position; }
+	void SetRotationZ(float angle){this->angleZ = angle;}
 	void SetVelocity(Vector2 v) { this->velocity = v; }
 	Vector2 GetVelocity() { return this->velocity; }
 	void SetAcceleration(Vector2 a) { this->acceleration = a; }

@@ -42,7 +42,7 @@ public:
 
 	void Draw(Vector2 position, int nx, int layer_index,
 		LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom,
-		D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
+		float angle = 0, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
 	LPDIRECT3DTEXTURE9 LoadTexture(LPCWSTR texturePath, D3DCOLOR transparentColor);
 
 	LPDIRECT3DDEVICE9 GetDirect3DDevice() { return this->d3ddv; }

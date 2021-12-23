@@ -321,6 +321,12 @@
     <ClCompile Include="BreakableBrick.cpp">
       <Filter>Game Source\Game Object\Platform</Filter>
     </ClCompile>
+    <ClCompile Include="GunFlashX.cpp">
+      <Filter>Game Source\Game Object\VFX</Filter>
+    </ClCompile>
+    <ClCompile Include="GunFlashY.cpp">
+      <Filter>Game Source\Game Object\VFX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -538,6 +544,12 @@
     </ClInclude>
     <ClInclude Include="BreakableBrick.h">
       <Filter>Game Source\Game Object\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="GunFlashX.h">
+      <Filter>Game Source\Game Object\VFX</Filter>
+    </ClInclude>
+    <ClInclude Include="GunFlashY.h">
+      <Filter>Game Source\Game Object\VFX</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

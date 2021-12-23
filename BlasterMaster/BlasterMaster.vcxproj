@@ -168,6 +168,8 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Firework.cpp" />
+    <ClCompile Include="GunFlashX.cpp" />
+    <ClCompile Include="GunFlashY.cpp" />
     <ClCompile Include="GX680Bullet.cpp" />
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="HoverItem.cpp" />
@@ -241,6 +243,8 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Firework.h" />
+    <ClInclude Include="GunFlashX.h" />
+    <ClInclude Include="GunFlashY.h" />
     <ClInclude Include="GX680Bullet.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="HoverItem.h" />

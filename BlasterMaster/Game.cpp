@@ -73,7 +73,7 @@ void CGame::InitDirectX(HWND hWnd)
 }
 
 void CGame::Draw(Vector2 position, int nx, int layer_index,
-	LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, D3DCOLOR color)
+	LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, float angle, D3DCOLOR color)
 {
 	Vector2 camPos = GetService<CCamera>()->GetPosition();
 	Vector3 p = Vector3(0, 0, 0);
@@ -89,6 +89,10 @@ void CGame::Draw(Vector2 position, int nx, int layer_index,
 	D3DXMATRIX mat;
 	D3DXMatrixIdentity(&mat);
 
+	// RotateZ
+	D3DXMATRIX rotateZ;
+	D3DXMatrixRotationZ(&rotateZ, angle * 3.14 / 180);
+
 	// FlipX
 	D3DXMATRIX flipX;
 	D3DXMatrixScaling(&flipX, nx, 1.0f, 1.0f);
@@ -97,6 +101,7 @@ void CGame::Draw(Vector2 position, int nx, int layer_index,
 	D3DXMATRIX translate;
 	D3DXMatrixTranslation(&translate, (position.x - camPos.x), (-position.y + camPos.y), layer_index);
 
+	mat *= rotateZ;
 	mat *= flipX;
 	mat *= translate;
 

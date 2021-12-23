@@ -48,6 +48,8 @@ spr-enemy-destroy-0	313	106	8	8	tex-player
 spr-enemy-destroy-1	322	102	16	16	tex-player
 spr-bullet-destroy-0	279	102	16	16	tex-player
 spr-bullet-destroy-1	298	103	11	13	tex-player
+spr-gun-flash-axisx	226	103	7	12	tex-player
+spr-gun-flash-axisy	211	106	12	7	tex-player
 
 # ===== HUD ==========
 # Health Bar
@@ -90,6 +92,8 @@ ani-bigjason-dead	spr-bigjason-idle-front	100	spr-bigjason-idle-left	100	spr-big
 ani-firework	spr-enemy-destroy-0	100	spr-enemy-destroy-1	100
 ani-big-bullet-explosion	spr-bullet-destroy-0	100
 ani-small-bullet-explosion	spr-bullet-destroy-1	100
+ani-gun-flash-axisx	spr-gun-flash-axisx	100
+ani-gun-flash-axisy	spr-gun-flash-axisy	100
 
 [MAP]
 maps\boss_room.json
