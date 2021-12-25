@@ -162,6 +162,7 @@
     <ClCompile Include="BigJason.cpp" />
     <ClCompile Include="BigJasonBullet.cpp" />
     <ClCompile Include="BossTrigger.cpp" />
+    <ClCompile Include="BossZ88.cpp" />
     <ClCompile Include="BreakableBrick.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Bullet.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="BigJason.h" />
     <ClInclude Include="BigJasonBullet.h" />
     <ClInclude Include="BossTrigger.h" />
+    <ClInclude Include="BossZ88.h" />
     <ClInclude Include="BreakableBrick.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Bullet.h" />

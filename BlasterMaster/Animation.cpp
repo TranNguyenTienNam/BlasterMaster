@@ -22,8 +22,6 @@ void CAnimation::Add(std::string id, DWORD time)
 
 void CAnimation::Render(Vector2 position, int nx, int layer_index, float angle, D3DCOLOR color)
 {
-	if (isLooped == false && isFinished == true) return;
-
 	DWORD now = GetTickCount();
 
 	if (isReversed == false)
@@ -44,7 +42,11 @@ void CAnimation::Render(Vector2 position, int nx, int layer_index, float angle, 
 				if (currentFrame == frames.size())
 				{
 					if (isLooped == true) currentFrame = 0;
-					else isFinished = true;
+					else
+					{
+						isFinished = true;
+						currentFrame--;
+					}
 				}
 			}
 		}
@@ -67,12 +69,15 @@ void CAnimation::Render(Vector2 position, int nx, int layer_index, float angle, 
 				if (currentFrame == -1)
 				{
 					if (isLooped == true) currentFrame = frames.size() - 1;
-					else isFinished = true;
+					else
+					{
+						isFinished = true;
+						currentFrame++;
+					}
 				}
 			}
 		}
 	}
 
-	if (isFinished == false)
-		frames[currentFrame]->GetSprite()->Draw(position, nx, layer_index, angle, color);
+	frames[currentFrame]->GetSprite()->Draw(position, nx, layer_index, angle, color);
 }

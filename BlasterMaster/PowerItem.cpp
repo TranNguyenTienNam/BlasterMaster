@@ -18,5 +18,5 @@ void CPowerItem::GetEffect(CPlayable* picker)
 
 void CPowerItem::Render()
 {
-	sprites.at("power-item")->Draw(transform.position, 1, layer_index, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+	sprites.at("power-item")->Draw(transform.position, 1, layer_index, 0, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 }

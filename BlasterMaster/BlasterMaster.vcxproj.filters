@@ -106,6 +106,9 @@
     <Filter Include="Game Source\Game Object\Platform">
       <UniqueIdentifier>{2f36ebcb-16a4-4cc3-96a7-919319cf5fe1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Source\Game Object\Boss">
+      <UniqueIdentifier>{3f3f1f68-dca9-4e16-80ee-452f04057ada}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -326,6 +329,9 @@
     </ClCompile>
     <ClCompile Include="GunFlashY.cpp">
       <Filter>Game Source\Game Object\VFX</Filter>
+    </ClCompile>
+    <ClCompile Include="BossZ88.cpp">
+      <Filter>Game Source\Game Object\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -550,6 +556,9 @@
     </ClInclude>
     <ClInclude Include="GunFlashY.h">
       <Filter>Game Source\Game Object\VFX</Filter>
+    </ClInclude>
+    <ClInclude Include="BossZ88.h">
+      <Filter>Game Source\Game Object\Boss</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

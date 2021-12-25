@@ -20,5 +20,5 @@ void CHoverItem::GetEffect(CPlayable* picker)
 
 void CHoverItem::Render()
 {
-	sprites.at("hover-item")->Draw(transform.position, 1, layer_index, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+	sprites.at("hover-item")->Draw(transform.position, 1, layer_index, 0, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 }

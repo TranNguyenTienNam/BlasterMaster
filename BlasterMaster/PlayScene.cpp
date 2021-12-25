@@ -33,6 +33,7 @@
 #include "GX680.h"
 #include "GX680S.h"
 #include "LaserGuard.h"
+#include "BossZ88.h"
 
 #include "HealthBar.h"
 #pragma endregion
@@ -318,6 +319,7 @@ void CPlayScene::_ParseSection_MAP(std::string line)
 				else if (strcmp(object_name, "gx680") == 0) obj = new CGX680;
 				else if (strcmp(object_name, "gx680s") == 0) obj = new CGX680S;
 				else if (strcmp(object_name, "laserguard") == 0) obj = new CLaserGuard;
+				else if (strcmp(object_name, "z88") == 0) obj = new CBossZ88;
 				else if (strcmp(object_name, "brick") == 0) obj = new CBrick;
 				else if (strcmp(object_name, "breakable-brick") == 0) obj = new CBreakableBrick;
 				else if (strcmp(object_name, "thorn") == 0) obj = new CThorn;

@@ -12,7 +12,7 @@ class CGX680 : public CEnemy
 protected:
 	const Vector2 DEFAULT_SIZE = Vector2(18.0f, 16.0f);
 	const float distanceTrigger = 70.0f;
-	const float MOVE_SPEED = 0.03f;
+	const float MOVE_SPEED = 0.016f;
 	const DWORD changeDirectionDelay = 2000;
 	const DWORD shootingDelay = 5000;
 

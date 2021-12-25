@@ -34,6 +34,11 @@ spr-z88-0	218	1183	34	34	tex-bosses
 spr-z88-1	256	1183	34	34	tex-bosses
 spr-z88-2	294	1183	34	34	tex-bosses
 spr-z88-3	331	1183	34	34	tex-bosses
+spr-red-z88	218	1220	34	34	tex-bosses
+
+# === PLAYER BULLET ===
+spr-bigjason-xbullet	234	107	8	6	tex-player
+spr-bigjason-ybullet	244	106	6	8	tex-player
 
 # === ENEMY BULLET ===
 spr-laser-bullet	0	0	8	16	tex-bbox
@@ -87,6 +92,10 @@ ani-bigjason-walk-back	spr-bigjason-idle-back	100	spr-bigjason-walk-back-0	100	s
 ani-bigjason-walk-left	spr-bigjason-idle-left	100	spr-bigjason-walk-left-0	100	spr-bigjason-idle-left	100	spr-bigjason-walk-left-1	100
 # dead
 ani-bigjason-dead	spr-bigjason-idle-front	100	spr-bigjason-idle-left	100	spr-bigjason-idle-back	100	spr-bigjason-idle-left	100	spr-bigjason-idle-front	100	spr-bigjason-idle-left	100	spr-bigjason-idle-back	100	spr-bigjason-idle-left	100	spr-bigjason-fall-0	100	spr-bigjason-fall-1	100	spr-bigjason-fall-2	100	spr-bigjason-fall-3	100	spr-bigjason-fall-4	500
+
+# ===== BOSS Z88 =====
+ani-z88	spr-z88-0	100	spr-z88-1	100	spr-z88-2	100	spr-z88-3	100
+ani-red-z88	spr-red-z88	100
 
 # ===== VFX ==========
 ani-firework	spr-enemy-destroy-0	100	spr-enemy-destroy-1	100
