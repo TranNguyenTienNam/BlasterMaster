@@ -150,9 +150,9 @@ void CCollider2D::CalcPotentialCollisions(
 
 		auto selfTag = object->GetTag();
 		auto otherTag = coObjects->at(i)->GetTag();
-		if ((selfTag == otherTag) || 
-			(selfTag == ObjectTag::Enemy && otherTag == ObjectTag::EnemyBullet) ||
-			(otherTag == ObjectTag::Enemy && selfTag == ObjectTag::EnemyBullet) ||
+		if ((selfTag == otherTag && selfTag != ObjectTag::BossZ88) || 
+			(TagUtils::EnemyTag(selfTag) && otherTag == ObjectTag::EnemyBullet) ||
+			(TagUtils::EnemyTag(otherTag) && selfTag == ObjectTag::EnemyBullet) ||
 			(TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::PlayerBullet) ||
 			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::PlayerBullet)) continue;
 
@@ -193,8 +193,8 @@ void CCollider2D::FilterCollision(
 
 		auto selfTag = object->GetTag();
 		auto otherTag = coEvents[i]->obj->GetTag();
-		if ((TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::Enemy) ||
-			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::Enemy))
+		if ((TagUtils::PlayerTag(selfTag) && TagUtils::EnemyTag(otherTag)) ||
+			(TagUtils::PlayerTag(otherTag) && TagUtils::EnemyTag(selfTag)))
 		{
 			continue;
 		}
@@ -383,12 +383,12 @@ void CCollider2D::PhysicsUpdate(std::vector<CGameObject*>* coObjects)
 		auto otherTag = coEvents[i]->obj->GetTag();
 
 		if ((coEvents[i]->co->IsTrigger() == true) ||
-			(TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::Enemy) ||
-			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::Enemy) ||
+			(TagUtils::PlayerTag(selfTag) && TagUtils::EnemyTag(otherTag)) ||
+			(TagUtils::PlayerTag(otherTag) && TagUtils::EnemyTag(selfTag)) ||
 			(TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::EnemyBullet) ||
 			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::EnemyBullet) ||
 			(selfTag == ObjectTag::BigJason && otherTag == ObjectTag::HarmPlatform) ||
-			(selfTag == ObjectTag::Enemy && otherTag == ObjectTag::HarmPlatform))
+			(TagUtils::EnemyTag(selfTag) && otherTag == ObjectTag::HarmPlatform))
 		{
 			if (isTrigger == false) object->OnCollisionEnter(this, coEvents[i]);
 			else object->OnTriggerEnter(this, coEvents[i]);
@@ -467,16 +467,16 @@ void CCollider2D::DealWithOverlappedCase(std::vector<CGameObject*>* coObjects)
 
 		auto selfTag = object->GetTag();
 		auto otherTag = coO->GetTag();
-		if ((TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::Enemy) ||
-			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::Enemy) ||
+		if ((TagUtils::PlayerTag(selfTag) && TagUtils::EnemyTag(otherTag)) ||
+			(TagUtils::PlayerTag(otherTag) && TagUtils::EnemyTag(selfTag)) ||
 			(TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::EnemyBullet) ||
 			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::EnemyBullet) ||
-			(selfTag == ObjectTag::Enemy && otherTag == ObjectTag::EnemyBullet) ||
-			(otherTag == ObjectTag::Enemy && selfTag == ObjectTag::EnemyBullet) ||
+			(TagUtils::EnemyTag(selfTag) && otherTag == ObjectTag::EnemyBullet) ||
+			(TagUtils::EnemyTag(otherTag) && selfTag == ObjectTag::EnemyBullet) ||
 			(selfTag == ObjectTag::MiniPortal && otherTag == ObjectTag::Jason) ||
 			(otherTag == ObjectTag::MiniPortal && selfTag == ObjectTag::Jason) ||
 			(selfTag == ObjectTag::BigJason && otherTag == ObjectTag::HarmPlatform) ||
-			(selfTag == ObjectTag::Enemy && otherTag == ObjectTag::HarmPlatform) ||
+			(TagUtils::EnemyTag(selfTag) && otherTag == ObjectTag::HarmPlatform) ||
 			(selfTag == ObjectTag::BossTrigger && otherTag == ObjectTag::BigJason))
 		{
 			if (bbSelf.Overlap(bbOther)) object->OnOverlapped(this, coO);

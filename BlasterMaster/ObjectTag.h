@@ -8,7 +8,7 @@ enum class ObjectTag
 	BigJason,
 
 	Enemy,
-	Eyelet,
+	BossZ88,
 
 	Item,
 
@@ -28,5 +28,6 @@ class TagUtils
 	// Get groups of object tag for purposes
 public:
 	static bool PlayerTag(ObjectTag tag);
+	static bool EnemyTag(ObjectTag tag);
 };
 

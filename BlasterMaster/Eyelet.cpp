@@ -22,8 +22,6 @@ CEyelet::CEyelet()
 {
 	InitAnimations();
 	InitColliders();
-
-	tag = ObjectTag::Eyelet;
 }
 
 CEyelet::~CEyelet()

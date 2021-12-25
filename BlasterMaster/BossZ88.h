@@ -3,23 +3,32 @@
 
 enum class Z88State
 {
-	Awaking,
-	Operating,
-	Sleeping,
+	Awaking,			//	Play open eye animation and choose one of three action
+						//	when this animation finished
+
+	OnlyMoving,			//
+	OnlyShooting,		//	Action
+	MovingAndShooting,	//
+
+	PreSleeping,		//	Play close eye animation. When this animation finished,
+						//	waking other clone up or generating a new clone
+
+	Sleeping,			//	Play sleeping animation
 };
 
 class CBossZ88 : public CEnemy
 {
 protected:
 	static const int maxCloneCount = 16;
-	static int existingCloneCount;
 	static int uncalledCloneCount;			// number of uncalled clone
 	static CBossZ88* operatingClone;
 	static std::unordered_map<int, CBossZ88*> existingClones;
 
 	static DWORD lastTimeGenerate; //temp
 
-	const Vector2 DEFAULT_SIZE = Vector2(32.0f, 32.0f);
+	const Vector2 DEFAULT_SIZE = Vector2(31.6f, 31.6f);
+	const float STICKY_DISTANCE = 3.0f;
+	const float MOVING_SPEED = 0.02f;
 
 	bool isSleeping;
 	Z88State state;

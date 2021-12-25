@@ -1,7 +1,7 @@
 #include "BossZ88.h"
 #include "Animations.h"
+#include "Brick.h"
 
-int CBossZ88::existingCloneCount = 0;
 int CBossZ88::uncalledCloneCount = maxCloneCount;
 CBossZ88* CBossZ88::operatingClone = nullptr;
 std::unordered_map<int, CBossZ88*> CBossZ88::existingClones = {};
@@ -33,12 +33,7 @@ void CBossZ88::Appear()
 
 void CBossZ88::Awaking()
 {
-	isSleeping = false;
 
-	existingCloneCount++;
-	uncalledCloneCount--;
-
-	existingClones.emplace(std::make_pair(existingCloneCount, this));
 }
 
 void CBossZ88::Sleeping()
@@ -58,28 +53,116 @@ void CBossZ88::OnDefeat()
 
 void CBossZ88::WakeAnotherUp()
 {
+	int randomCloneIndex = CMath::Random(1, existingClones.size());
+	existingClones.at(randomCloneIndex)->isSleeping = false;
 }
 
 void CBossZ88::GenerateNewClone()
 {
 	if (uncalledCloneCount > 0)
 	{
-		randomAgain:
+	randomAgain:
 
 		float randomPosX = CMath::Random(0, 5) * 32 + 48;
 		float randomPosY = CMath::Random(0, 5) * 32 + 32;
-		auto randomPos = Vector2(randomPosX, randomPosY);
+		Vector2 generatePos = Vector2(randomPosX, randomPosY);
+
+		bool blockLeft = false, blockRight = false;
+		bool blockTop = false, blockBot = false;
+
+		if (generatePos.x == 48)
+		{
+			blockLeft = true;
+		}
+
+		if (generatePos.x == 208)
+		{
+			blockRight = true;
+		}
+
+		if (generatePos.y == 32)
+		{
+			blockBot = true;
+		}
+
+		if (generatePos.y == 192)
+		{
+			blockTop = true;
+		}
 
 		for (auto map_clone : existingClones)
 		{
 			auto clone = (CBossZ88*)map_clone.second;
-			if (randomPos == clone->GetPosition())
+			auto clonePos = clone->GetPosition();
+			if (generatePos == clonePos)
 			{
 				goto randomAgain;
 			}
+
+			if (generatePos.x == clonePos.x)
+			{
+				if (clonePos.y - generatePos.y == 32)
+				{
+					blockTop = true;
+				}
+
+				if (generatePos.y - clonePos.y == 32)
+				{
+					blockBot = true;
+				}
+			}
+
+			if (generatePos.y == clonePos.y)
+			{
+				if (clonePos.x - generatePos.x == 32)
+				{
+					blockRight = true;
+				}
+
+				if (generatePos.x - clonePos.x == 32)
+				{
+					blockLeft = true;
+				}
+			}
 		}
 
-		Instantiate<CBossZ88>(randomPos);
+		auto newClone = Instantiate<CBossZ88>(generatePos);
+
+		if (blockTop == true && blockBot == true && 
+			blockLeft == true && blockRight == true)
+		{
+			newClone->state = Z88State::OnlyShooting;
+		}
+		else
+		{
+			if ((blockTop == false || blockBot == false) &&
+				(blockLeft == false || blockRight == false))
+			{
+				if (rand() % 2 == 0)
+				{
+					if (blockTop == false) newClone->velocity = Vector2(0.0f, MOVING_SPEED);
+					else if (blockBot == false) newClone->velocity = Vector2(0.0f, -MOVING_SPEED);
+				}
+				else
+				{
+					if (blockLeft == false) newClone->velocity = Vector2(-MOVING_SPEED, 0.0f);
+					else if (blockRight == false) newClone->velocity = Vector2(MOVING_SPEED, 0.0f);
+				}
+			}
+			else
+			{
+				if (blockTop == false || blockBot == false)
+				{
+					if (blockTop == false) newClone->velocity = Vector2(0.0f, MOVING_SPEED);
+					else if (blockBot == false) newClone->velocity = Vector2(0.0f, -MOVING_SPEED);
+				}
+				else if (blockLeft == false || blockRight == false)
+				{
+					if (blockLeft == false) newClone->velocity = Vector2(-MOVING_SPEED, 0.0f);
+					else if (blockRight == false) newClone->velocity = Vector2(MOVING_SPEED, 0.0f);
+				}
+			}
+		}
 	}
 }
 
@@ -100,20 +183,24 @@ CBossZ88::CBossZ88()
 	InitAnimations();
 	InitColliders();
 
+	// Enemy setting
 	scrollingMap = false;
 
-	Awaking();
+	// Static setting
+	uncalledCloneCount--;
+	existingClones.emplace(std::make_pair(existingClones.size() + 1, this));
+
+	// Self setting
+	isSleeping = false;
+	tag = ObjectTag::BossZ88;
+	velocity = Vector2(MOVING_SPEED, 0.0f);
 
 	lastTimeGenerate = GetTickCount();
 }
 
 void CBossZ88::Update(DWORD dt)
 {
-	DWORD now = GetTickCount();
-	if (now - lastTimeGenerate > 1000)
-	{
-		GenerateNewClone();
-	}
+	if (isSleeping == true) return;
 }
 
 void CBossZ88::Render()
@@ -130,4 +217,11 @@ void CBossZ88::Render()
 
 void CBossZ88::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
 {
+	auto other = collision->obj;
+	if (dynamic_cast<CBrick*>(other) || dynamic_cast<CBossZ88*>(other))
+	{
+		isSleeping = true;
+		colliders.at(0)->SetDynamic(false);
+		GenerateNewClone();
+	}
 }
