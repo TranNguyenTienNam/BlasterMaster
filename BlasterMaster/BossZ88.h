@@ -3,8 +3,8 @@
 
 enum class Z88State
 {
-	Awaking,			//	Play open eye animation and choose one of three action
-						//	when this animation finished
+	Awaking,			//	Play open eye animation
+	AfterAwaking,		//	Choose one of three action when this animation finished
 
 	OnlyMoving,			//
 	OnlyShooting,		//	Action
@@ -24,27 +24,39 @@ protected:
 	static CBossZ88* operatingClone;
 	static std::unordered_map<int, CBossZ88*> existingClones;
 
-	static DWORD lastTimeGenerate; //temp
-
 	const Vector2 DEFAULT_SIZE = Vector2(31.6f, 31.6f);
 	const float STICKY_DISTANCE = 3.0f;
-	const float MOVING_SPEED = 0.02f;
+	const float MOVING_SPEED = 0.05f;
 
+	int index;
 	bool isSleeping;
 	Z88State state;
+	bool blockLeft, blockRight, blockTop, blockBot;
+
+	// Only shooting state
+	const DWORD shootingDelay = 300;
+	const int maxShootTimes = 3;
+	DWORD lastTimeShooting;
+	int shootTimes;
 
 	void InitAnimations();
 	void InitColliders();
 
-	void Appear();				// Call only once when player enters into boss room
-	void Awaking();
-	void Sleeping();
-	//void OnDestroy();
+	void SetState(Z88State nextState);
+
+	void OnAppearing();				// Call only once when player enters into boss room
+	void OnAwaking();
+	void OnSleeping();
+	void OnDestroy();
 	void OnDefeat();
 
+	void OnPrepareToSleep();
+	void FixPosition();
 	void WakeAnotherUp();
 	void GenerateNewClone();
 
+	void FindingMovingDirection();
+	void OperatingBehavior();
 	void OnlyMoving();
 	void MovingAndShooting();
 	void OnlyShooting();

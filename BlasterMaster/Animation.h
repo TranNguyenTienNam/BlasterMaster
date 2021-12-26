@@ -28,6 +28,7 @@ public:
 	void SetIsPaused(bool value) { this->isPaused = value; }
 	void SetIsReversed(bool value) { this->isReversed = value; }
 	bool IsFinished() { return this->isFinished; }
+	void SetIsFinished(bool value) { this->isFinished = value; }
 };
 
 typedef CAnimation* LPANIMATION;
