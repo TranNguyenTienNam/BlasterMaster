@@ -18,6 +18,19 @@ float CMath::CalcLength(Vector2 v)
 	return sqrt(pow(v.x, 2) + pow(v.y, 2));
 }
 
+Vector2 CMath::Rotating(Vector2 v, float angle)
+{
+	float theta = angle * 3.14 / 180;
+
+	float cs = cos(theta);
+	float sn = sin(theta);
+
+	float px = v.x * cs - v.y * sn;
+	float py = v.x * sn + v.y * cs;
+
+	return Vector2(px, py);
+}
+
 
 Vector2 CMath::Normalize(Vector2 v)
 {

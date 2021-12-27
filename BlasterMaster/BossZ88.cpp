@@ -1,6 +1,8 @@
 #include "BossZ88.h"
 #include "Animations.h"
 #include "Brick.h"
+#include "Firework.h"
+#include "Z88Bullet.h"
 
 int CBossZ88::uncalledCloneCount = maxCloneCount;
 CBossZ88* CBossZ88::operatingClone = nullptr;
@@ -39,11 +41,20 @@ CBossZ88::CBossZ88()
 	existingClones.emplace(std::make_pair(index, this));
 
 	// Self setting
-	tag = ObjectTag::BossZ88;
 	SetState(Z88State::Awaking);
-	blockLeft = false, blockRight = false;
-	blockTop = false, blockBot = false;
-	lastTimeShooting = GetTickCount();
+}
+
+void CBossZ88::TakeDamage(int damage)
+{
+	if (isSleeping == false)
+	{
+		hp -= damage;
+		if (hp <= 0)
+		{
+			hp = 0;
+			OnDestroy();
+		}
+	}
 }
 
 void CBossZ88::SetState(Z88State nextState)
@@ -61,7 +72,7 @@ void CBossZ88::SetState(Z88State nextState)
 	case Z88State::OnlyMoving:
 		break;
 	case Z88State::OnlyShooting:
-		shootTimes = 0;
+		FindShootingDirection();
 		break;
 	case Z88State::MovingAndShooting:
 		break;
@@ -70,6 +81,11 @@ void CBossZ88::SetState(Z88State nextState)
 		break;
 	case Z88State::Sleeping:
 		OnSleeping();
+		break;
+	case Z88State::Defeated:
+		lastTimeExplosion = GetTickCount();
+		remainingExplosionCount = explosionCount;
+		tag = ObjectTag::Unknown;
 		break;
 	default:
 		break;
@@ -83,6 +99,10 @@ void CBossZ88::OnAppearing()
 void CBossZ88::OnAwaking()
 {
 	isSleeping = false;
+	tag = ObjectTag::BossZ88;
+	blockLeft = false, blockRight = false;
+	blockTop = false, blockBot = false;
+
 	colliders.at(0)->SetDynamic(true);
 	animations.at("Operating")->SetIsReversed(false);
 	animations.at("Operating")->SetIsFinished(false);
@@ -90,38 +110,58 @@ void CBossZ88::OnAwaking()
 
 void CBossZ88::OnSleeping()
 {
-	// TODO: Instantiating new clone or enable another
 	isSleeping = true;
+	tag = ObjectTag::Platform;
 	colliders.at(0)->SetDynamic(false);
 	velocity = VectorZero();
-	blockLeft = false, blockRight = false;
-	blockTop = false, blockBot = false;
 
 	FixPosition();
+	NextClone();
+}
 
-	if (uncalledCloneCount > 0)
+void CBossZ88::OnDestroy()
+{
+	existingClones.erase(index);
+
+	if (existingClones.size() == 0 && uncalledCloneCount == 0)
 	{
-		if (rand() % 2 == 0)
-		{
-			GenerateNewClone();
-		}
-		else
-		{
-			if (uncalledCloneCount < 15) WakeAnotherUp();
-		}
+		SetState(Z88State::Defeated);
 	}
 	else
 	{
-		WakeAnotherUp();
+		isEnabled = false;
+		isDestroyed = true;
+		NextClone();
 	}
 }
 
-//void CBossZ88::OnDestroy()
-//{
-//}
-
 void CBossZ88::OnDefeat()
 {
+	if (remainingExplosionCount < 0)
+	{
+		DebugOut(L"BOSS WAS DEFEATED!!!\n");
+		isEnabled = false;
+		isDestroyed = true;
+		return;
+	}
+
+	DWORD now = GetTickCount();
+	if (now - lastTimeExplosion > explosionDelay)
+	{
+		lastTimeExplosion = now;
+
+		int explosionCountAtTheSameTime = CMath::Random(1, maxExplosionAtTheSameTime);
+		remainingExplosionCount -= explosionCountAtTheSameTime;
+
+		for (int i = 0; i < explosionCountAtTheSameTime; i++)
+		{
+			int randomNX = (rand() % 2 == 0) ? 1 : -1;
+			int randomNY = (rand() % 2 == 0) ? 1 : -1;
+			int randomPosX = CMath::Random(5, explosionRadius) * randomNX;
+			int randomPosY = CMath::Random(5, explosionRadius) * randomNY;
+			Instantiate<CFirework>(transform.position + Vector2(randomPosX, randomPosY));
+		}
+	}
 }
 
 void CBossZ88::OnPrepareToSleep()
@@ -155,18 +195,57 @@ void CBossZ88::FixPosition()
 	}
 }
 
+void CBossZ88::NextClone()
+{
+	DebugOut(L"[CLONE %d] clones %d, uncalls %d\n", index, existingClones.size(), uncalledCloneCount);
+	if (uncalledCloneCount > 0)
+	{
+		if (existingClones.size() > 1)
+		{
+			if (rand() % 2 == 0)
+			{
+				GenerateNewClone();
+			}
+			else
+			{
+				WakeAnotherUp();
+			}
+		}
+		else
+		{
+			GenerateNewClone();
+		}
+	}
+	else 
+	{
+		if (existingClones.size() > 0)
+		{
+			WakeAnotherUp();
+		}
+	}
+}
+
 void CBossZ88::WakeAnotherUp()
 {
-	int randomCloneIndex = -1;
+	DebugOut(L"Wake another up\n");
+	int chosenIndex = -1;
 	do
 	{
-		randomCloneIndex = CMath::Random(1, existingClones.size());
-	} 
-	while (randomCloneIndex == index);
+		int randomIndex = CMath::Random(0, existingClones.size() - 1);
+		int i = 0;
+		for (auto map_clone : existingClones)
+		{
+			if (existingClones.size() > 1 && (CBossZ88*)map_clone.second == this) continue;
+			if (i == randomIndex)
+			{
+				chosenIndex = map_clone.first;
+				break;
+			}
 
-	existingClones.at(randomCloneIndex)->SetState(Z88State::Awaking);
-
-	DebugOut(L"Wake another up\n");
+			i++;
+		}
+	} while (chosenIndex == -1);
+	existingClones.at(chosenIndex)->SetState(Z88State::Awaking);
 }
 
 void CBossZ88::GenerateNewClone()
@@ -181,7 +260,9 @@ randomAgain:
 	{
 		auto clone = (CBossZ88*)map_clone.second;
 		auto clonePos = clone->GetPosition();
-		if (generatePos == clonePos)
+
+		float distance = CMath::CalcDistance(generatePos, target->GetPosition());
+		if (generatePos == clonePos || distance < 32)
 		{
 			goto randomAgain;
 		}
@@ -189,14 +270,6 @@ randomAgain:
 
 	Instantiate<CBossZ88>(generatePos);
 	DebugOut(L"New clone\n");
-}
-
-void CBossZ88::OnDestroy()
-{
-	isEnabled = false;
-	isDestroyed = true;
-
-	existingClones.erase(index);
 }
 
 void CBossZ88::FindingMovingDirection()
@@ -262,13 +335,19 @@ void CBossZ88::FindingMovingDirection()
 	else
 	{
 		// TODO: Increase rate to choose moving and shooting action when boss is in danger
-		if (CMath::Random(1, 100) > 65)
+		int actionRate = CMath::Random(1, 100);
+		if (actionRate <= 50)
 		{
 			SetState(Z88State::OnlyMoving);
 		}
-		else
+		else if (actionRate <= 80)
 		{
 			SetState(Z88State::MovingAndShooting);
+		}
+		else
+		{
+			SetState(Z88State::OnlyShooting);
+			return;
 		}
 
 		if ((blockTop == false || blockBot == false) &&
@@ -325,6 +404,18 @@ void CBossZ88::OnlyShooting()
 			DebugOut(L"[CLONE %d] Shoot time %d\n", index, shootTimes);
 			shootTimes++;
 			lastTimeShooting = now;
+
+			auto bullet1 = Instantiate<CZ88Bullet>(transform.position);
+			bullet1->SetRotationZ(angleBullet);
+			bullet1->SetVelocity(velocityBullet);
+
+			auto bullet2 = Instantiate<CZ88Bullet>(transform.position);
+			bullet2->SetRotationZ(angleBullet - 45);
+			bullet2->SetVelocity(CMath::Rotating(velocityBullet, 45));
+
+			auto bullet3 = Instantiate<CZ88Bullet>(transform.position);
+			bullet3->SetRotationZ(angleBullet + 45);
+			bullet3->SetVelocity(CMath::Rotating(velocityBullet, -45));
 		}
 	}
 	else
@@ -366,6 +457,9 @@ void CBossZ88::Update(DWORD dt)
 		break;
 	case Z88State::Sleeping:
 		break;
+	case Z88State::Defeated:
+		OnDefeat();
+		break;
 	default:
 		break;
 	}
@@ -373,6 +467,8 @@ void CBossZ88::Update(DWORD dt)
 
 void CBossZ88::Render()
 {
+	if (state == Z88State::Defeated) return;
+
 	if (isSleeping == false)
 	{
 		animations.at("Operating")->Render(transform.position, 1, layer_index);
@@ -383,11 +479,47 @@ void CBossZ88::Render()
 	}
 }
 
+void CBossZ88::FindShootingDirection()
+{
+	shootTimes = 0;
+	lastTimeShooting = GetTickCount();
+
+	auto targetPos = target->GetPosition();
+
+	if (abs(transform.position.y - targetPos.y) < 90.0f)
+	{
+		angleBullet = 90;
+		if (transform.position.x < targetPos.x)
+		{
+			velocityBullet = Vector2(0.2f, 0.0f);
+		}
+		else
+		{
+			velocityBullet = Vector2(-0.2f, 0.0f);
+		}
+	}
+	else
+	{
+		angleBullet = 0;
+		if (transform.position.y < targetPos.y)
+		{
+			velocityBullet = Vector2(0.0f, 0.2f);
+		}
+		else
+		{
+			velocityBullet = Vector2(0.0f, -0.2f);
+		}
+	}
+}
+
 void CBossZ88::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)
 {
 	auto other = collision->obj;
 	if (dynamic_cast<CBrick*>(other) || dynamic_cast<CBossZ88*>(other))
 	{
-		SetState(Z88State::PreSleeping);
+		if (state == Z88State::OnlyMoving ||
+			state == Z88State::OnlyShooting ||
+			state == Z88State::MovingAndShooting) 
+			SetState(Z88State::PreSleeping);
 	}
 }

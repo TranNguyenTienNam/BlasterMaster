@@ -10,16 +10,18 @@ enum class Z88State
 	OnlyShooting,		//	Action
 	MovingAndShooting,	//
 
-	PreSleeping,		//	Play close eye animation. When this animation finished,
-						//	waking other clone up or generating a new clone
+	PreSleeping,		//	Play close eye animation 
 
-	Sleeping,			//	Play sleeping animation
+	Sleeping,			//	Play sleeping animation. When close eye animation finished,
+						//	waking other clone up or generating a new clone immediately
+
+	Defeated,
 };
 
 class CBossZ88 : public CEnemy
 {
 protected:
-	static const int maxCloneCount = 16;
+	static const int maxCloneCount = 2;
 	static int uncalledCloneCount;			// number of uncalled clone
 	static CBossZ88* operatingClone;
 	static std::unordered_map<int, CBossZ88*> existingClones;
@@ -38,11 +40,19 @@ protected:
 	const int maxShootTimes = 3;
 	DWORD lastTimeShooting;
 	int shootTimes;
+	float angleBullet;
+	Vector2 velocityBullet;
+
+	// Defeated state
+	const int explosionCount = 25;
+	const int maxExplosionAtTheSameTime = 3;
+	const int explosionRadius = 40;
+	const DWORD explosionDelay = 300;
+	int remainingExplosionCount;
+	DWORD lastTimeExplosion;
 
 	void InitAnimations();
 	void InitColliders();
-
-	void SetState(Z88State nextState);
 
 	void OnAppearing();				// Call only once when player enters into boss room
 	void OnAwaking();
@@ -50,8 +60,11 @@ protected:
 	void OnDestroy();
 	void OnDefeat();
 
+	void FindShootingDirection();
 	void OnPrepareToSleep();
 	void FixPosition();
+
+	void NextClone();
 	void WakeAnotherUp();
 	void GenerateNewClone();
 
@@ -62,7 +75,10 @@ protected:
 	void OnlyShooting();
 public:
 	CBossZ88();
-	
+
+	void SetState(Z88State nextState);
+	void TakeDamage(int damage);
+
 	void Update(DWORD dt);
 	void Render();
 

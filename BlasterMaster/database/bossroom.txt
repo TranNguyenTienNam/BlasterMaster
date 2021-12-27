@@ -42,6 +42,7 @@ spr-bigjason-ybullet	244	106	6	8	tex-player
 
 # === ENEMY BULLET ===
 spr-laser-bullet	0	0	8	16	tex-bbox
+spr-z88-bullet	0	0	4	16	tex-bbox
 
 # ===== ITEMS ========
 spr-power-item	255	109	16	16	tex-items

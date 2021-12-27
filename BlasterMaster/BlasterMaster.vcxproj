@@ -225,6 +225,7 @@
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="SophiaIdleState.cpp" />
     <ClCompile Include="VisualEffect.cpp" />
+    <ClCompile Include="Z88Bullet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractItem.h" />
@@ -302,6 +303,7 @@
     <ClInclude Include="Utils.h" />
     <ClInclude Include="SophiaIdleState.h" />
     <ClInclude Include="VisualEffect.h" />
+    <ClInclude Include="Z88Bullet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
