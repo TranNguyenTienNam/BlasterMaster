@@ -336,6 +336,9 @@
     <ClCompile Include="Z88Bullet.cpp">
       <Filter>Game Source\Game Object\Bullet\Enemy Bullet</Filter>
     </ClCompile>
+    <ClCompile Include="SpinBullet.cpp">
+      <Filter>Game Source\Game Object\Bullet\Enemy Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -564,6 +567,9 @@
       <Filter>Game Source\Game Object\Boss</Filter>
     </ClInclude>
     <ClInclude Include="Z88Bullet.h">
+      <Filter>Game Source\Game Object\Bullet\Enemy Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="SpinBullet.h">
       <Filter>Game Source\Game Object\Bullet\Enemy Bullet</Filter>
     </ClInclude>
   </ItemGroup>

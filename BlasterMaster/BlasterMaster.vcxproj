@@ -216,6 +216,7 @@
     <ClCompile Include="SophiaState.cpp" />
     <ClCompile Include="SophiaUpward45State.cpp" />
     <ClCompile Include="SophiaLeftWheel.cpp" />
+    <ClCompile Include="SpinBullet.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Stuka.cpp" />
     <ClCompile Include="Textures.cpp" />
@@ -294,6 +295,7 @@
     <ClInclude Include="SophiaState.h" />
     <ClInclude Include="SophiaUpward45State.h" />
     <ClInclude Include="SophiaLeftWheel.h" />
+    <ClInclude Include="SpinBullet.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Stuka.h" />
     <ClInclude Include="Textures.h" />

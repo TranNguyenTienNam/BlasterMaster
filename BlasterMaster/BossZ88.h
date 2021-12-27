@@ -60,6 +60,7 @@ protected:
 	void OnDestroy();
 	void OnDefeat();
 
+	void ShootingSpinBullet();
 	void FindShootingDirection();
 	void OnPrepareToSleep();
 	void FixPosition();

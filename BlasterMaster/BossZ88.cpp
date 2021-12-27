@@ -3,6 +3,7 @@
 #include "Brick.h"
 #include "Firework.h"
 #include "Z88Bullet.h"
+#include "SpinBullet.h"
 
 int CBossZ88::uncalledCloneCount = maxCloneCount;
 CBossZ88* CBossZ88::operatingClone = nullptr;
@@ -75,6 +76,7 @@ void CBossZ88::SetState(Z88State nextState)
 		FindShootingDirection();
 		break;
 	case Z88State::MovingAndShooting:
+		ShootingSpinBullet();
 		break;
 	case Z88State::PreSleeping:
 		OnPrepareToSleep();
@@ -335,7 +337,7 @@ void CBossZ88::FindingMovingDirection()
 	else
 	{
 		// TODO: Increase rate to choose moving and shooting action when boss is in danger
-		int actionRate = CMath::Random(1, 100);
+		/*int actionRate = CMath::Random(1, 100);
 		if (actionRate <= 50)
 		{
 			SetState(Z88State::OnlyMoving);
@@ -348,7 +350,9 @@ void CBossZ88::FindingMovingDirection()
 		{
 			SetState(Z88State::OnlyShooting);
 			return;
-		}
+		}*/
+
+		SetState(Z88State::MovingAndShooting);
 
 		if ((blockTop == false || blockBot == false) &&
 			(blockLeft == false || blockRight == false))
@@ -522,4 +526,12 @@ void CBossZ88::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* coll
 			state == Z88State::MovingAndShooting) 
 			SetState(Z88State::PreSleeping);
 	}
+}
+
+void CBossZ88::ShootingSpinBullet()
+{
+	auto targetPos = target->GetPosition();
+	auto bullet = Instantiate<CSpinBullet>(transform.position);
+	auto velocityBullet = CMath::Normalize(targetPos - transform.position) * bullet->GetSpeed();
+	bullet->SetVelocity(velocityBullet);
 }
