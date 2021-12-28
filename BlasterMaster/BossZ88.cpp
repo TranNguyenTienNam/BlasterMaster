@@ -170,8 +170,6 @@ void CBossZ88::OnPrepareToSleep()
 {
 	animations.at("Operating")->SetIsReversed(true);
 	animations.at("Operating")->SetIsFinished(false);
-
-	DebugOut(L"Clones %d\n", existingClones.size());
 }
 
 void CBossZ88::FixPosition()
@@ -252,6 +250,8 @@ void CBossZ88::WakeAnotherUp()
 
 void CBossZ88::GenerateNewClone()
 {
+	if (target == nullptr) return;
+
 randomAgain:
 
 	float randomPosX = CMath::Random(0, 5) * 32 + 48;
@@ -337,7 +337,7 @@ void CBossZ88::FindingMovingDirection()
 	else
 	{
 		// TODO: Increase rate to choose moving and shooting action when boss is in danger
-		/*int actionRate = CMath::Random(1, 100);
+		int actionRate = CMath::Random(1, 100);
 		if (actionRate <= 50)
 		{
 			SetState(Z88State::OnlyMoving);
@@ -350,9 +350,7 @@ void CBossZ88::FindingMovingDirection()
 		{
 			SetState(Z88State::OnlyShooting);
 			return;
-		}*/
-
-		SetState(Z88State::MovingAndShooting);
+		}
 
 		if ((blockTop == false || blockBot == false) &&
 			(blockLeft == false || blockRight == false))
@@ -485,6 +483,8 @@ void CBossZ88::Render()
 
 void CBossZ88::FindShootingDirection()
 {
+	if (target == nullptr) return;
+
 	shootTimes = 0;
 	lastTimeShooting = GetTickCount();
 
@@ -530,6 +530,8 @@ void CBossZ88::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* coll
 
 void CBossZ88::ShootingSpinBullet()
 {
+	if (target == nullptr) return;
+
 	auto targetPos = target->GetPosition();
 	auto bullet = Instantiate<CSpinBullet>(transform.position);
 	auto velocityBullet = CMath::Normalize(targetPos - transform.position) * bullet->GetSpeed();

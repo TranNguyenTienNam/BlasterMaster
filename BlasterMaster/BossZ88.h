@@ -21,7 +21,7 @@ enum class Z88State
 class CBossZ88 : public CEnemy
 {
 protected:
-	static const int maxCloneCount = 2;
+	static const int maxCloneCount = 16;
 	static int uncalledCloneCount;			// number of uncalled clone
 	static CBossZ88* operatingClone;
 	static std::unordered_map<int, CBossZ88*> existingClones;

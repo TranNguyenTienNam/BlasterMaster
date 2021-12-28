@@ -109,6 +109,9 @@
     <Filter Include="Game Source\Game Object\Boss">
       <UniqueIdentifier>{3f3f1f68-dca9-4e16-80ee-452f04057ada}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Audio">
+      <UniqueIdentifier>{153ead95-b7cd-4208-8c9f-6eb9fd9f875c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -338,6 +341,9 @@
     </ClCompile>
     <ClCompile Include="SpinBullet.cpp">
       <Filter>Game Source\Game Object\Bullet\Enemy Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Framework\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -571,6 +577,9 @@
     </ClInclude>
     <ClInclude Include="SpinBullet.h">
       <Filter>Game Source\Game Object\Bullet\Enemy Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Framework\Audio</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

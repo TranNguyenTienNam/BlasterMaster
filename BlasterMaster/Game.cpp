@@ -6,6 +6,7 @@
 #include "InputHandler.h"
 #include "Scenes.h"
 #include "PlayScene.h"
+#include "Sound.h"
 
 CGame* CGame::instance = NULL;
 DWORD CGame::deltaTime = 0;
@@ -186,6 +187,9 @@ void CGame::GameInit(HWND hWnd)
 	game->AddService(new CCamera);
 	game->AddService(new CScenes);
 	game->GetService<CScenes>()->Load(L"database\\blaster-master.txt");
+
+	game->AddService(new CSound);
+	game->GetService<CSound>()->Initialize(hWnd);
 }
 
 void CGame::GameRun()
