@@ -55,26 +55,7 @@ bool CSound::InitializeDirectSound(HWND hWnd)
 	return true;
 }
 
-void CSound::ShutdownDirectSound()
-{
-	// Release the primary sound buffer pointer.
-	if (m_primaryBuffer)
-	{
-		m_primaryBuffer->Release();
-		m_primaryBuffer = 0;
-	}
-
-	// Release the direct sound interface pointer.
-	if (m_DirectSound)
-	{
-		m_DirectSound->Release();
-		m_DirectSound = 0;
-	}
-
-	return;
-}
-
-bool CSound::LoadWaveFile(char* filename, IDirectSoundBuffer8** secondaryBuffer)
+bool CSound::LoadWaveFile(char* filename, std::string soundname)
 {
 	int error;
 	FILE* filePtr;
@@ -171,6 +152,9 @@ bool CSound::LoadWaveFile(char* filename, IDirectSoundBuffer8** secondaryBuffer)
 	bufferDesc.lpwfxFormat = &waveFormat;
 	bufferDesc.guid3DAlgorithm = GUID_NULL;
 
+	IDirectSoundBuffer8* secondaryBuffer = 0;
+	IDirectSoundBuffer8** pSecondaryBuffer = &secondaryBuffer;
+
 	// Create a temporary sound buffer with the specific buffer settings.
 	result = m_DirectSound->CreateSoundBuffer(&bufferDesc, &tempBuffer, NULL);
 	if (FAILED(result))
@@ -179,9 +163,10 @@ bool CSound::LoadWaveFile(char* filename, IDirectSoundBuffer8** secondaryBuffer)
 	}
 
 	// Test the buffer format against the direct sound 8 interface and create the secondary buffer.
-	result = tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, (void**)&*secondaryBuffer);
+	result = tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, (void**)&*pSecondaryBuffer);
 	if (FAILED(result))
 	{
+		DebugOut(L"[ERROR] Can not create secondary buffer\n");
 		return false;
 	}
 
@@ -214,7 +199,7 @@ bool CSound::LoadWaveFile(char* filename, IDirectSoundBuffer8** secondaryBuffer)
 	}
 
 	// Lock the secondary buffer to write wave data into it.
-	result = (*secondaryBuffer)->Lock(0, waveFileHeader.dataSize, (void**)&bufferPtr, (DWORD*)&bufferSize, NULL, 0, 0);
+	result = (*pSecondaryBuffer)->Lock(0, waveFileHeader.dataSize, (void**)&bufferPtr, (DWORD*)&bufferSize, NULL, 0, 0);
 	if (FAILED(result))
 	{
 		return false;
@@ -224,7 +209,7 @@ bool CSound::LoadWaveFile(char* filename, IDirectSoundBuffer8** secondaryBuffer)
 	memcpy(bufferPtr, waveData, waveFileHeader.dataSize);
 
 	// Unlock the secondary buffer after the data has been written to it.
-	result = (*secondaryBuffer)->Unlock((void*)bufferPtr, bufferSize, NULL, 0);
+	result = (*pSecondaryBuffer)->Unlock((void*)bufferPtr, bufferSize, NULL, 0);
 	if (FAILED(result))
 	{
 		return false;
@@ -234,42 +219,36 @@ bool CSound::LoadWaveFile(char* filename, IDirectSoundBuffer8** secondaryBuffer)
 	delete[] waveData;
 	waveData = 0;
 
+	m_soundBufferList[soundname] = secondaryBuffer;
+
+	DebugOut(L"[INFO] Loading sound file: %s has been loaded successfully\n", ToWSTR(filename).c_str());
+
 	return true;
 }
 
-void CSound::ShutdownWaveFile(IDirectSoundBuffer8** secondaryBuffer)
-{
-	// Release the secondary sound buffer.
-	if (*secondaryBuffer)
-	{
-		(*secondaryBuffer)->Release();
-		*secondaryBuffer = 0;
-	}
-
-	return;
-}
-
-bool CSound::PlayWaveFile()
+bool CSound::PlayWaveFile(std::string soundname)
 {
 	HRESULT result;
 
+	std::unordered_map< std::string, IDirectSoundBuffer8*> ::iterator sound;
+	sound = m_soundBufferList.find(soundname);
 
 	// Set position at the beginning of the sound buffer.
-	result = m_secondaryBuffer->SetCurrentPosition(0);
+	result = sound->second->SetCurrentPosition(0);
 	if (FAILED(result))
 	{
 		return false;
 	}
 
 	// Set volume of the buffer to 100%.
-	result = m_secondaryBuffer->SetVolume(DSBVOLUME_MAX);
+	result = sound->second->SetVolume(DSBVOLUME_MAX);
 	if (FAILED(result))
 	{
 		return false;
 	}
 
 	// Play the contents of the secondary sound buffer.
-	result = m_secondaryBuffer->Play(0, 0, 0);
+	result = sound->second->Play(0, 0, 0);
 	if (FAILED(result))
 	{
 		return false;
@@ -278,11 +257,16 @@ bool CSound::PlayWaveFile()
 	return true;
 }
 
-CSound::CSound()
+CSound::CSound(HWND hWnd)
 {
 	m_DirectSound = 0;
 	m_primaryBuffer = 0;
-	m_secondaryBuffer = 0;
+
+	bool result = InitializeDirectSound(hWnd);
+	if (!result)
+	{
+		DebugOut(L"[ERROR] Can not initialize Direct Sound\n");
+	}
 }
 
 CSound::CSound(const CSound&)
@@ -291,42 +275,49 @@ CSound::CSound(const CSound&)
 
 CSound::~CSound()
 {
+	for (auto sound : m_soundBufferList)
+	{
+		if (sound.second)
+		{
+			sound.second->Release();
+			sound.second = nullptr;
+		}
+	}
+
+	if (m_primaryBuffer)
+		m_primaryBuffer->Release();
+
+	if (m_DirectSound)
+		m_DirectSound->Release();
+
+	m_primaryBuffer = nullptr;
+	m_DirectSound = nullptr;
 }
 
 bool CSound::Initialize(HWND hWnd)
 {
 	bool result;
-	// Initialize direct sound and the primary sound buffer.
-	result = InitializeDirectSound(hWnd);
-	if (!result)
-	{
-		return false;
-	}
 
 	// Load a wave audio file onto a secondary buffer.
-	result = LoadWaveFile((char*)"sounds/Blaster Master SFX (1).wav", &m_secondaryBuffer);
-	if (!result)
-	{
-		return false;
-	}
+	result = LoadWaveFile((char*)"sounds/BossDie.wav", "BossDie");
+	result = LoadWaveFile((char*)"sounds/EnemyDie.wav", "EnemyDie");
+	result = LoadWaveFile((char*)"sounds/EnemyOnDamaged.wav", "EnemyOnDamaged");
+	result = LoadWaveFile((char*)"sounds/EnterBossRoom.wav", "EnterBossRoom");
+	result = LoadWaveFile((char*)"sounds/JasonBullet.wav", "JasonBullet");
+	result = LoadWaveFile((char*)"sounds/JasonDie.wav", "JasonDie");
+	result = LoadWaveFile((char*)"sounds/JasonJump.wav", "JasonJump");
+	result = LoadWaveFile((char*)"sounds/JasonOnDamaged.wav", "JasonOnDamaged");
+	result = LoadWaveFile((char*)"sounds/PickItemUp.wav", "PickItemUp");
+	result = LoadWaveFile((char*)"sounds/ScrollingMapJump.wav", "ScrollingMapJump");
+	result = LoadWaveFile((char*)"sounds/SophiaBullet.wav", "SophiaBullet");
+	result = LoadWaveFile((char*)"sounds/SophiaDie.wav", "SophiaDie");
+	result = LoadWaveFile((char*)"sounds/BulletExplosion.wav", "BulletExplosion");
+	result = LoadWaveFile((char*)"sounds/SwitchCharacter.wav", "SwitchCharacter");
 
-	// Play the wave file now that it has been loaded.
-	result = PlayWaveFile();
 	if (!result)
 	{
 		return false;
 	}
 
 	return true;
-}
-
-void CSound::Shutdown()
-{
-	// Release the secondary buffer.
-	ShutdownWaveFile(&m_secondaryBuffer);
-
-	// Shutdown the Direct Sound API.
-	ShutdownDirectSound();
-
-	return;
 }

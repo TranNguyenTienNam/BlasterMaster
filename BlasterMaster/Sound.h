@@ -1,5 +1,7 @@
 #pragma once
 #include <dsound.h>
+#include <unordered_map>
+
 #include "Service.h"
 #include "Utils.h"
 
@@ -25,21 +27,16 @@ private:
 
 	IDirectSound8* m_DirectSound;
 	IDirectSoundBuffer* m_primaryBuffer;
-	IDirectSoundBuffer8* m_secondaryBuffer;
+	std::unordered_map<std::string, IDirectSoundBuffer8*> m_soundBufferList;
 
 	bool InitializeDirectSound(HWND hWnd);
-	void ShutdownDirectSound();
-
-	bool LoadWaveFile(char* filename, IDirectSoundBuffer8** secondaryBuffer);
-	void ShutdownWaveFile(IDirectSoundBuffer8** secondaryBuffer);
-
-	bool PlayWaveFile();
+	bool LoadWaveFile(char* filename, std::string soundname);
 public:
-	CSound();
+	CSound(HWND hWnd);
 	CSound(const CSound&);
 	~CSound();
 
 	bool Initialize(HWND);
-	void Shutdown();
+	bool PlayWaveFile(std::string soundname);
 };
 

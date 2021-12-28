@@ -10,6 +10,9 @@
 class CHyperBeam : public CBullet
 {
 protected:
+	const DWORD aliveDuration = 5000;
+	DWORD initTime;
+
 	void InitSprites();
 public:
 	CHyperBeam();
@@ -18,6 +21,7 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 
+	void OnOverlapped(CCollider2D* selfCollider, CGameObject* object);
 	void OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* collision);
 };
 

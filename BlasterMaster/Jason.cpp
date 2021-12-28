@@ -9,6 +9,7 @@
 #include "Scenes.h"
 #include "JasonBullet.h"
 #include "Enemy.h"
+#include "Sound.h"
 
 void CJason::InitAnimations()
 {
@@ -111,6 +112,8 @@ void CJason::Update(DWORD dt)
 	if (inputHandler->OnKeyDown(PlayerKeySet::JUMPING_KEY) && onGround == true)
 	{
 		SetState(JasonState::JUMPING);
+
+		CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("JasonJump");
 	}
 
 	if (inputHandler->OnKeyDown(PlayerKeySet::SWITCH_CHARACTER_KEY) &&
@@ -125,12 +128,16 @@ void CJason::Update(DWORD dt)
 		acceleration.x = 0;
 		nx = sophia->GetDirection();
 		SetState(JasonState::JUMPING);
+
+		CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("SwitchCharacter");
 	}
 
 	if (inputHandler->OnKeyDown(PlayerKeySet::SHOOTING_KEY))
 	{
 		auto bullet = Instantiate<CJasonBullet>(transform.position);
 		bullet->SetVelocity(Vector2(nx * bullet->GetSpeed(), 0.0f));
+
+		CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("JasonBullet");
 	}
 
 	DWORD now = GetTickCount();
@@ -158,6 +165,8 @@ void CJason::OnDead()
 {
 	DebugOut(L"[JASON] On Dead\n");
 	SetState(JasonState::DEAD);
+
+	CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("JasonDie");
 }
 
 void CJason::OnOverlapped(CCollider2D* selfCollider, CGameObject* object)
@@ -166,6 +175,8 @@ void CJason::OnOverlapped(CCollider2D* selfCollider, CGameObject* object)
 	{
 		// TODO: is pushed in the direction of the enemy's movement
 		AffectPowerAttribute(((CEnemy*)object)->GetDamageOnCollision());
+
+		CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("JasonOnDamaged");
 	}
 }
 
@@ -199,6 +210,8 @@ void CJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collis
 	{
 		// TODO: is pushed in the direction of the enemy's movement
 		AffectPowerAttribute(((CEnemy*)other)->GetDamageOnCollision());
+
+		CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("JasonOnDamaged");
 	}
 }
 

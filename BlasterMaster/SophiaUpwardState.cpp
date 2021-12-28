@@ -1,10 +1,13 @@
 #include "SophiaUpwardState.h"
 #include "HyperBeam.h"
+#include "Sound.h"
 
 void CSophiaUpwardState::Shooting()
 {
 	auto newBullet = Instantiate<CHyperBeam>(owner->GetPosition() + owner->gun->GetPosition());
 	newBullet->SetVelocity(Vector2(0.0f, newBullet->GetSpeed()));
+
+	CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("SophiaBullet");
 }
 
 void CSophiaUpwardState::UpdateColliders()

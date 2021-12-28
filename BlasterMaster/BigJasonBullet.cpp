@@ -3,6 +3,7 @@
 #include "Brick.h"
 #include "RandomExplosion.h"
 #include "BreakableBrick.h"
+#include "Sound.h"
 
 void CBigJasonBullet::InitSprites()
 {
@@ -86,6 +87,8 @@ void CBigJasonBullet::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent*
 	{
 		isEnabled = false;
 		isDestroyed = true;
+
+		CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("SwitchCharacter");
 
 		Instantiate<CRandomExplosion>(transform.position);
 

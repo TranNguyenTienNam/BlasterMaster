@@ -1,4 +1,5 @@
 #include "AbstractItem.h"
+#include "Sound.h"
 
 int CAbstractItem::dropRate = 100;
 
@@ -50,5 +51,7 @@ void CAbstractItem::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* c
 		GetEffect((CPlayable*)other);
 		SetDestroyed();
 		SetEnable(false);
+
+		CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("PickItemUp");
 	}
 }

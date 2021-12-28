@@ -16,6 +16,7 @@
 #include "PlayScene.h"
 #include "Portal.h"
 #include "SophiaExplosion.h"
+#include "Sound.h"
 
 void CSophia::InitColliders()
 {
@@ -119,6 +120,8 @@ void CSophia::Update(DWORD dt)
 
 		if (inputHandler->OnKeyDown(PlayerKeySet::JUMPING_KEY) && onGround == true)
 		{
+			CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("ScrollingMapJump");
+
 			onGround = false;
 			velocity.y = JUMP_SPEED;
 
@@ -157,6 +160,8 @@ void CSophia::Update(DWORD dt)
 			jason->SetControllable(true);
 			jason->SetDirection(nx);
 			jason->SetState(JasonState::JUMPING);
+
+			CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("SwitchCharacter");
 		}
 	}
 #pragma endregion
@@ -196,6 +201,8 @@ void CSophia::OnDead()
 	isDestroyed = true;
 	
 	Instantiate<CSophiaExplosion>(transform.position);
+
+	CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("SophiaDie");
 }
 
 void CSophia::OnOverlapped(CCollider2D* selfCollider, CGameObject* object)
@@ -219,6 +226,8 @@ void CSophia::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* colli
 	{
 		// TODO: is pushed in the direction of the enemy's movement
 		AffectPowerAttribute(((CEnemy*)other)->GetDamageOnCollision());
+
+		CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("JasonOnDamaged");
 	}
 }
 

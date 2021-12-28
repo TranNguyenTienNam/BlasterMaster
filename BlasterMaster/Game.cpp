@@ -188,7 +188,7 @@ void CGame::GameInit(HWND hWnd)
 	game->AddService(new CScenes);
 	game->GetService<CScenes>()->Load(L"database\\blaster-master.txt");
 
-	game->AddService(new CSound);
+	game->AddService(new CSound(hWnd));
 	game->GetService<CSound>()->Initialize(hWnd);
 }
 

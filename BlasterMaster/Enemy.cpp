@@ -4,6 +4,7 @@
 #include "Math.h"
 #include "BigExplosion.h"
 #include "Firework.h"
+#include "Sound.h"
 
 CPlayable* CEnemy::target = nullptr;
 
@@ -35,10 +36,14 @@ void CEnemy::OnDestroy()
 
 void CEnemy::TakeDamage(int damage)
 {
+	CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("EnemyOnDamaged");
+
 	hp -= damage;
 	if (hp <= 0)
 	{
 		hp = 0;
 		OnDestroy();
+
+		CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("EnemyDie");
 	}
 }

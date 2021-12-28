@@ -1,5 +1,6 @@
 #include "SophiaHorizontalState.h"
 #include "HyperBeam.h"
+#include "Sound.h"
 
 void CSophiaHorizontalState::Shooting()
 {
@@ -7,6 +8,8 @@ void CSophiaHorizontalState::Shooting()
 	int nx = owner->GetDirection();
 	newBullet->SetDirection(nx);
 	newBullet->SetVelocity(Vector2(nx * newBullet->GetSpeed(), 0.0f));
+
+	CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("SophiaBullet");
 }
 
 void CSophiaHorizontalState::UpdateColliders()
