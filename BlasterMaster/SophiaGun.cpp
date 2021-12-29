@@ -29,6 +29,8 @@ void CSophiaGun::Update(DWORD dt)
 void CSophiaGun::Render()
 {
 	auto directionState = parent->GetDirectionState();
+	if (dynamic_cast<CSophiaHorizontalState*>(directionState)->IsTurning() == true) return;
+
 	if (dynamic_cast<CSophiaHorizontalState*>(directionState))
 		sprites.at(SPR_GUN_00)->Draw(transform.position + parent->GetPosition(), -nx, layer_index);
 	else if (dynamic_cast<CSophiaUpward45State*>(directionState))

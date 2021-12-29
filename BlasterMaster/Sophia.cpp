@@ -72,15 +72,25 @@ void CSophia::Update(DWORD dt)
 
 		if (inputHandler->IsKeyDown(PlayerKeySet::MOVE_RIGHT_KEY))
 		{
+			if (nx == -1)
+			{
+				dynamic_cast<CSophiaHorizontalState*>(stateDirection)->Turning();
+			}
+
 			acceleration.x = MOVE_ACCELERATION;
 			nx = 1;
-			stateAction = new CSophiaMoveLeftState;
+			stateAction = new CSophiaMoveRightState;
 		}
 		else if (inputHandler->IsKeyDown(PlayerKeySet::MOVE_LEFT_KEY))
 		{
+			if (nx == 1)
+			{
+				dynamic_cast<CSophiaHorizontalState*>(stateDirection)->Turning();
+			}
+
 			acceleration.x = -MOVE_ACCELERATION;
 			nx = -1;
-			stateAction = new CSophiaMoveRightState;
+			stateAction = new CSophiaMoveLeftState;
 		}
 		else
 		{

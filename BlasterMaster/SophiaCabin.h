@@ -3,6 +3,7 @@
 
 #define SPR_CABIN_00 "Cabin-00"
 #define SPR_CABIN_UPWARD "Cabin-Upward"
+#define SPR_CABIN_TURN "Cabin-Turn"
 
 class CSophiaCabin : public CGameObject
 {
