@@ -33,11 +33,13 @@ void CNeoworm::Update(DWORD dt)
 	velocity.y += -0.00026f * dt;
 
 	if (target == nullptr) return;
+
+	OnDamagedUpdate();
 }
 
 void CNeoworm::Render()
 {
-	animations.at("Move")->Render(transform.position, nx, layer_index);
+	animations.at("Move")->Render(transform.position, nx, layer_index, 0, damagedColor[colorIndex]);
 }
 
 void CNeoworm::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)

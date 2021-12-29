@@ -104,11 +104,13 @@ void CGX680::Update(DWORD dt)
 	default:
 		break;
 	}
+
+	OnDamagedUpdate();
 }
 
 void CGX680::Render()
 {
-	animations.at("GX680")->Render(transform.position, 1, layer_index);
+	animations.at("GX680")->Render(transform.position, 1, layer_index, 0, damagedColor[colorIndex]);
 }
 
 void CGX680::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)

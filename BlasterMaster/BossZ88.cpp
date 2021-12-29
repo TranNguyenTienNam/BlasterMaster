@@ -465,6 +465,8 @@ void CBossZ88::Update(DWORD dt)
 	default:
 		break;
 	}
+
+	OnDamagedUpdate();
 }
 
 void CBossZ88::Render()
@@ -473,7 +475,7 @@ void CBossZ88::Render()
 
 	if (isSleeping == false)
 	{
-		animations.at("Operating")->Render(transform.position, 1, layer_index);
+		animations.at("Operating")->Render(transform.position, 1, layer_index, 0, damagedColor[colorIndex]);
 	}
 	else
 	{

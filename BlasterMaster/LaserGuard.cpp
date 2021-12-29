@@ -60,11 +60,13 @@ void CLaserGuard::Update(DWORD dt)
 			bullet->SetVelocity(direction * bullet->GetSpeed());
 		}
 	}	
+
+	OnDamagedUpdate();
 }
 
 void CLaserGuard::Render()
 {
-	animations.at("LaserGuard")->Render(transform.position, 1, layer_index);
+	animations.at("LaserGuard")->Render(transform.position, 1, layer_index, 0, damagedColor[colorIndex]);
 }
 
 void CLaserGuard::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)

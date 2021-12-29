@@ -45,28 +45,29 @@ void CSophiaCabin::Update(DWORD dt)
 
 void CSophiaCabin::Render()
 {
+	int colorIndex = parent->GetColorIndex();
 	auto directionState = parent->GetDirectionState();
 	if (dynamic_cast<CSophiaHorizontalState*>(directionState))
 	{
 		if (isSwitching == true)
 		{
-			sprites.at(SPR_CABIN_OPEN)->Draw(transform.position + parent->GetPosition() + Vector2(0.0f, 4.0f), -nx, layer_index);
+			sprites.at(SPR_CABIN_OPEN)->Draw(transform.position + parent->GetPosition() + Vector2(0.0f, 4.0f), -nx, layer_index, 0, damagedColor[colorIndex]);
 		}
 		else
 		{
 			if (dynamic_cast<CSophiaHorizontalState*>(directionState)->IsTurning() == false)
 			{
-				sprites.at(SPR_CABIN_00)->Draw(transform.position + parent->GetPosition(), -nx, layer_index);
+				sprites.at(SPR_CABIN_00)->Draw(transform.position + parent->GetPosition(), -nx, layer_index, 0, damagedColor[colorIndex]);
 			}
 			else
 			{
-				sprites.at(SPR_CABIN_TURN)->Draw(transform.position + parent->GetPosition(), -nx, layer_index);
+				sprites.at(SPR_CABIN_TURN)->Draw(transform.position + parent->GetPosition(), -nx, layer_index, 0, damagedColor[colorIndex]);
 			}
 		}
 	}
 	else
 	{
 		nx = parent->GetDirection();
-		sprites.at(SPR_CABIN_UPWARD)->Draw(transform.position + parent->GetPosition(), -nx, layer_index);
+		sprites.at(SPR_CABIN_UPWARD)->Draw(transform.position + parent->GetPosition(), -nx, layer_index, 0, damagedColor[colorIndex]);
 	}
 }

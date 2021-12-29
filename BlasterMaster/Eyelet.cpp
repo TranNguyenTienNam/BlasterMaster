@@ -33,9 +33,11 @@ void CEyelet::Update(DWORD dt)
 	velocity.x = nx * 0.05f;
 	angular += angularFrequency * dt;
 	transform.position.y = axisY + angularAmplitude * sin(angular * CMath::PI / 180);
+
+	OnDamagedUpdate();
 }
 
 void CEyelet::Render()
 {
-	animations.at("Eyelet")->Render(transform.position, nx, layer_index);
+	animations.at("Eyelet")->Render(transform.position, nx, layer_index, 0, damagedColor[colorIndex]);
 }

@@ -199,11 +199,7 @@ void CBigJason::Update(DWORD dt)
 		}
 	}
 
-	DWORD now = GetTickCount();
-	if (now - lastTimeTakeDamage > untouchalbeTime && untouchable == true)
-	{
-		untouchable = false;
-	}
+	UntouchableUpdate();
 }
 
 void CBigJason::Render()
@@ -229,9 +225,9 @@ void CBigJason::Render()
 
 	if (animation == animations.at("Idle-Front") || animation == animations.at("Idle-Back") ||
 		animation == animations.at("Walk-Front") || animation == animations.at("Walk-Back"))
-		animation->Render(transform.position, 1, layer_index);
+		animation->Render(transform.position, 1, layer_index, 0, damagedColor[colorIndex]);
 	else
-		animation->Render(transform.position, -nx, layer_index);
+		animation->Render(transform.position, -nx, layer_index, 0, damagedColor[colorIndex]);
 }
 
 void CBigJason::OnDead()

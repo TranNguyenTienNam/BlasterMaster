@@ -87,9 +87,11 @@ void CStuka::Update(DWORD dt)
 	default:
 		break;
 	}
+
+	OnDamagedUpdate();
 }
 
 void CStuka::Render()
 {
-	animations.at("Stuka")->Render(transform.position, 1, layer_index);
+	animations.at("Stuka")->Render(transform.position, 1, layer_index, 0, damagedColor[colorIndex]);
 }

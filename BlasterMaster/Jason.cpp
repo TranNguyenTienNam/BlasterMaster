@@ -147,11 +147,7 @@ void CJason::Update(DWORD dt)
 		CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("JasonBullet");
 	}
 
-	DWORD now = GetTickCount();
-	if (now - lastTimeTakeDamage > untouchalbeTime && untouchable == true)
-	{
-		untouchable = false;
-	}
+	UntouchableUpdate();
 }
 
 void CJason::Render()
@@ -165,7 +161,7 @@ void CJason::Render()
 		}
 	}
 
-	animation->Render(transform.position, -nx, layer_index + 1);
+	animation->Render(transform.position, -nx, layer_index + 1, 0, damagedColor[colorIndex]);
 }
 
 void CJason::OnDead()

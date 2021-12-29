@@ -12,6 +12,7 @@ CEnemy::CEnemy()
 {
 	tag = ObjectTag::Enemy;
 	hp = maxHP;
+	isTakingDamaged = false;
 }
 
 void CEnemy::DropItem()
@@ -34,10 +35,34 @@ void CEnemy::OnDestroy()
 	else Instantiate<CFirework>(transform.position);
 }
 
+void CEnemy::OnDamagedUpdate()
+{
+	if (isTakingDamaged == true)
+	{
+		DWORD now = GetTickCount();
+		if (now - lastTimeTakeDamage > damagedTime)
+		{
+			isTakingDamaged = false;
+			colorIndex = 0;
+		}
+		else
+		{
+			if (now - lastTimeChangeColor > changeColorTime)
+			{
+				lastTimeChangeColor = now;
+				colorIndex++;
+				if (colorIndex >= damagedColor.size()) colorIndex = 0;
+			}
+		}
+	}
+}
+
 void CEnemy::TakeDamage(int damage)
 {
 	CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("EnemyOnDamaged");
 
+	lastTimeTakeDamage = GetTickCount();
+	isTakingDamaged = true;
 	hp -= damage;
 	if (hp <= 0)
 	{

@@ -33,5 +33,5 @@ CGX680S::~CGX680S()
 
 void CGX680S::Render()
 {
-	animations.at("GX680S")->Render(transform.position, 1, layer_index);
+	animations.at("GX680S")->Render(transform.position, 1, layer_index, 0, damagedColor[colorIndex]);
 }

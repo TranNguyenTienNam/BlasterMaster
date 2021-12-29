@@ -42,12 +42,13 @@ void CDrap::Update(DWORD dt)
 	{
 		velocity.x = monitorSide * MOVE_SPEED;
 	}
+
+	OnDamagedUpdate();
 }
 
 void CDrap::Render()
 {
-	Vector2 pos = transform.position;
-	animations.at("Clockwise")->Render(pos, nx, layer_index);
+	animations.at("Clockwise")->Render(transform.position, nx, layer_index, 0, damagedColor[colorIndex]);
 }
 
 void CDrap::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)

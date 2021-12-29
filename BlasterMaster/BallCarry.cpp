@@ -105,6 +105,8 @@ void CBallCarry::Update(DWORD dt)
 	default:
 		break;
 	}
+
+	OnDamagedUpdate();
 }
 
 void CBallCarry::Render()
@@ -112,13 +114,13 @@ void CBallCarry::Render()
 	switch (state)
 	{
 	case BallCarryState::Sleeping:
-		sprites.at("Sleeping")->Draw(transform.position, nx, layer_index);
+		sprites.at("Sleeping")->Draw(transform.position, nx, layer_index, 0, damagedColor[colorIndex]);
 		break;
 	case BallCarryState::DropingBomb:
-		sprites.at("Open")->Draw(transform.position, nx, layer_index);
+		sprites.at("Open")->Draw(transform.position, nx, layer_index, 0, damagedColor[colorIndex]);
 		break;
 	case BallCarryState::RuningAway:
-		animations.at("BallCarry")->Render(transform.position, nx, layer_index);
+		animations.at("BallCarry")->Render(transform.position, nx, layer_index, 0, damagedColor[colorIndex]);
 		break;
 	default:
 		break;

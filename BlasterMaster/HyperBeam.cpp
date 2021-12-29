@@ -54,6 +54,8 @@ void CHyperBeam::Render()
 
 void CHyperBeam::OnOverlapped(CCollider2D* selfCollider, CGameObject* object)
 {
+	if (isEnabled == false) return;
+
 	if (dynamic_cast<CEnemy*>(object))
 	{
 		((CEnemy*)object)->TakeDamage(damage);

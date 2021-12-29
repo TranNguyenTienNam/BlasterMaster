@@ -72,9 +72,11 @@ void CInterrupt::Update(DWORD dt)
 	{
 		DetectedTarger();
 	}
+
+	OnDamagedUpdate();
 }
 
 void CInterrupt::Render()
 {
-	sprite->Draw(transform.position, nx, layer_index);
+	sprite->Draw(transform.position, nx, layer_index, 0, damagedColor[colorIndex]);
 }

@@ -28,5 +28,6 @@ void CSophiaLeftWheel::Update(DWORD dt)
 
 void CSophiaLeftWheel::Render()
 {
-	animations.at(ANIM_LEFT_WHEEL)->Render(transform.position + parent->GetPosition(), -1, layer_index);
+	int colorIndex = parent->GetColorIndex();
+	animations.at(ANIM_LEFT_WHEEL)->Render(transform.position + parent->GetPosition(), -1, layer_index, 0, damagedColor[colorIndex]);
 }

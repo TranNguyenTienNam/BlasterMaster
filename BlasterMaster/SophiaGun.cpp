@@ -28,15 +28,16 @@ void CSophiaGun::Update(DWORD dt)
 
 void CSophiaGun::Render()
 {
+	int colorIndex = parent->GetColorIndex();
 	auto directionState = parent->GetDirectionState();
 
 	if (dynamic_cast<CSophiaHorizontalState*>(directionState))
 	{
 		if (dynamic_cast<CSophiaHorizontalState*>(directionState)->IsTurning() == true) return;
-		sprites.at(SPR_GUN_00)->Draw(transform.position + parent->GetPosition(), -nx, layer_index);
+		sprites.at(SPR_GUN_00)->Draw(transform.position + parent->GetPosition(), -nx, layer_index, 0, damagedColor[colorIndex]);
 	}
 	else if (dynamic_cast<CSophiaUpward45State*>(directionState))
-		sprites.at(SPR_GUN_45)->Draw(transform.position + parent->GetPosition(), -nx, layer_index);
+		sprites.at(SPR_GUN_45)->Draw(transform.position + parent->GetPosition(), -nx, layer_index, 0, damagedColor[colorIndex]);
 	else if (dynamic_cast<CSophiaUpwardState*>(directionState))
-		sprites.at(SPR_GUN_90)->Draw(transform.position + parent->GetPosition(), -nx, layer_index);
+		sprites.at(SPR_GUN_90)->Draw(transform.position + parent->GetPosition(), -nx, layer_index, 0, damagedColor[colorIndex]);
 }

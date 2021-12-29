@@ -35,23 +35,6 @@ bool CSound::InitializeDirectSound(HWND hWnd)
 		return false;
 	}
 
-	// Setup the format of the primary sound bufffer.
-	// In this case it is a .WAV file recorded at 44,100 samples per second in 16-bit stereo (cd audio format).
-	waveFormat.wFormatTag = WAVE_FORMAT_PCM;
-	waveFormat.nSamplesPerSec = 44100;
-	waveFormat.wBitsPerSample = 16;
-	waveFormat.nChannels = 2;
-	waveFormat.nBlockAlign = (waveFormat.wBitsPerSample / 8) * waveFormat.nChannels;
-	waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
-	waveFormat.cbSize = 0;
-
-	// Set the primary buffer to be the wave format specified.
-	result = m_primaryBuffer->SetFormat(&waveFormat);
-	if (FAILED(result))
-	{
-		return false;
-	}
-
 	return true;
 }
 

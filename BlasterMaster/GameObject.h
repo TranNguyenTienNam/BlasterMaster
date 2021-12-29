@@ -42,13 +42,14 @@ protected:
 	std::unordered_map<std::string, LPSPRITE> sprites;
 	std::unordered_map<std::string, LPANIMATION> animations;
 
-	D3DCOLOR damagedColor[5] =
+	int colorIndex = 0;
+
+	std::vector<D3DCOLOR> damagedColor =
 	{
 		D3DCOLOR_ARGB(255, 255, 255, 255),
-		D3DCOLOR_ARGB(255, 148, 247, 207),
-		D3DCOLOR_ARGB(128, 124, 124, 124),
-		D3DCOLOR_ARGB(255, 247, 164, 143),
-		D3DCOLOR_ARGB(128, 124, 124, 124),
+		D3DCOLOR_ARGB(255, 255, 120, 120),
+		D3DCOLOR_ARGB(255, 120, 255, 120),
+		D3DCOLOR_ARGB(255, 120, 120, 255),
 	};
 public:
 	CGameObject();
@@ -77,6 +78,8 @@ public:
 	void SetQuadtree(CQuadtree* quadtree) { this->ownerQuadtree = quadtree; }
 	int GetInNodesIndex() { return this->inNodesIndex; }
 	void SetInNodesIndex(int index) { this->inNodesIndex = index; }
+
+	int GetColorIndex() { return this->colorIndex; }
 
 	void AddSprite(std::string stateName, LPSPRITE sprite);
 	void AddAnimation(std::string stateName, LPANIMATION animation);

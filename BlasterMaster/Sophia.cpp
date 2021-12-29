@@ -212,11 +212,7 @@ void CSophia::Update(DWORD dt)
 	cabin->Update(dt);
 	gun->Update(dt);
 
-	DWORD now = GetTickCount();
-	if (now - lastTimeTakeDamage > untouchalbeTime && untouchable == true)
-	{
-		untouchable = false;
-	}
+	UntouchableUpdate();
 }
 
 void CSophia::Render()

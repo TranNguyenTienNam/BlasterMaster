@@ -80,11 +80,13 @@ void CBallbot::Update(DWORD dt)
 
 	if (target == nullptr) return;
 	if (state == BallbotState::Sleeping) Sleeping();
+
+	OnDamagedUpdate();
 }
 
 void CBallbot::Render()
 {
-	animations.at("Ballbot")->Render(transform.position, nx, layer_index);
+	animations.at("Ballbot")->Render(transform.position, nx, layer_index, 0, damagedColor[colorIndex]);
 }
 
 void CBallbot::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* collision)

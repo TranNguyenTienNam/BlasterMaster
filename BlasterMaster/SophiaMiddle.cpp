@@ -23,5 +23,6 @@ void CSophiaMiddle::Update(DWORD dt)
 
 void CSophiaMiddle::Render()
 {
-	sprites.at(SPR_MIDDLE)->Draw(transform.position + parent->GetPosition(), -nx, layer_index);
+	int colorIndex = parent->GetColorIndex();
+	sprites.at(SPR_MIDDLE)->Draw(transform.position + parent->GetPosition(), -nx, layer_index, 0, damagedColor[colorIndex]);
 }

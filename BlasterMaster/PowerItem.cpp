@@ -9,6 +9,7 @@ void CPowerItem::InitSprites()
 CPowerItem::CPowerItem()
 {
 	InitSprites();
+	colliders.at(0)->SetBoxSize(DEFAULT_SIZE);
 }
 
 void CPowerItem::GetEffect(CPlayable* picker)

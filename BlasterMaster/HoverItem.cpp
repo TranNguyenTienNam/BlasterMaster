@@ -11,6 +11,7 @@ CHoverItem::CHoverItem()
 	InitSprites();
 
 	dropRate = 50;
+	colliders.at(0)->SetBoxSize(DEFAULT_SIZE);
 }
 
 void CHoverItem::GetEffect(CPlayable* picker)

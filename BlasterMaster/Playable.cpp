@@ -1,5 +1,4 @@
 #include "Playable.h"
-#include "GameObject.h"
 
 CJason* CPlayable::jason = nullptr;
 CSophia* CPlayable::sophia = nullptr;
@@ -14,6 +13,28 @@ CPlayable::CPlayable()
 void CPlayable::OnDead()
 {
 
+}
+
+void CPlayable::UntouchableUpdate()
+{
+	if (untouchable == true)
+	{
+		DWORD now = GetTickCount();
+		if (now - lastTimeTakeDamage > untouchableTime)
+		{
+			untouchable = false;
+			colorIndex = 0;
+		}
+		else
+		{
+			if (now - lastTimeChangeColor > changeColorTime)
+			{
+				lastTimeChangeColor = now;
+				colorIndex++;
+				if (colorIndex >= damagedColor.size()) colorIndex = 0;
+			}
+		}
+	}
 }
 
 void CPlayable::AffectPowerAttribute(int value)
