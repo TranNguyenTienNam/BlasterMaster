@@ -31,6 +31,22 @@ void CJason::InitColliders()
 	colliders.push_back(collider);
 }
 
+void CJason::SwitchingCharacter()
+{
+	lastTimeSwitch = GetTickCount();
+	controllable = false;
+
+	transform.position = sophia->GetPosition();
+	velocity.x = 0;
+	acceleration.x = 0;
+	nx = sophia->GetDirection();
+	SetState(JasonState::JUMPING);
+
+	CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("SwitchCharacter");
+
+	sophia->cabin->Switching();
+}
+
 CJason::CJason()
 {
 	InitAnimations();
@@ -120,16 +136,7 @@ void CJason::Update(DWORD dt)
 		GetTickCount() - lastTimeSwitch > switchDelay &&
 		sophia->GetColliders().at(0)->GetBoundingBox().Contain(colliders.at(0)->GetBoundingBox()))
 	{
-		lastTimeSwitch = GetTickCount();
-		controllable = false;
-
-		transform.position = sophia->GetPosition();
-		velocity.x = 0;
-		acceleration.x = 0;
-		nx = sophia->GetDirection();
-		SetState(JasonState::JUMPING);
-
-		CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("SwitchCharacter");
+		SwitchingCharacter();
 	}
 
 	if (inputHandler->OnKeyDown(PlayerKeySet::SHOOTING_KEY))

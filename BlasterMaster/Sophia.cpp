@@ -28,6 +28,33 @@ void CSophia::InitColliders()
 	colliders.push_back(collider);
 }
 
+void CSophia::SwitchingCharacter()
+{
+	lastTimeSwitch = GetTickCount();
+	// Sophia is not controllable, collider is trigger, animation is idle
+	controllable = false;
+	velocity = VectorZero();
+	for (auto co : colliders)
+	{
+		co->SetTrigger(true);
+		co->SetDynamic(false);
+	}
+
+	cabin->Switching();
+
+	// Enable Jason, set jason's position, state is jumping
+	auto game = CGame::GetInstance();
+	((CPlayScene*)game->GetService<CScenes>()->GetCurrentScene())->SetPlayer(jason);
+
+	jason->SetEnable(true);
+	jason->SetPosition(transform.position);
+	jason->SetControllable(true);
+	jason->SetDirection(nx);
+	jason->SetState(JasonState::JUMPING);
+
+	CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("SwitchCharacter");
+}
+
 CSophia::CSophia()
 {
 	InitColliders();
@@ -74,32 +101,47 @@ void CSophia::Update(DWORD dt)
 		{
 			if (nx == -1)
 			{
-				dynamic_cast<CSophiaHorizontalState*>(stateDirection)->Turning();
+				if (dynamic_cast<CSophiaHorizontalState*>(stateDirection))
+				{
+					((CSophiaHorizontalState*)stateDirection)->Turning();
+				}
 			}
 
 			acceleration.x = MOVE_ACCELERATION;
 			nx = 1;
 			stateAction = new CSophiaMoveRightState;
-			dynamic_cast<CSophiaHorizontalState*>(stateDirection)->SetIsMoving(true);
+			if (dynamic_cast<CSophiaHorizontalState*>(stateDirection))
+			{
+				((CSophiaHorizontalState*)stateDirection)->SetIsMoving(true);
+			}
 		}
 		else if (inputHandler->IsKeyDown(PlayerKeySet::MOVE_LEFT_KEY))
 		{
 			if (nx == 1)
 			{
-				dynamic_cast<CSophiaHorizontalState*>(stateDirection)->Turning();
+				if (dynamic_cast<CSophiaHorizontalState*>(stateDirection))
+				{
+					((CSophiaHorizontalState*)stateDirection)->Turning();
+				}
 			}
 
 			acceleration.x = -MOVE_ACCELERATION;
 			nx = -1;
 			stateAction = new CSophiaMoveLeftState;
-			dynamic_cast<CSophiaHorizontalState*>(stateDirection)->SetIsMoving(true);
+			if (dynamic_cast<CSophiaHorizontalState*>(stateDirection))
+			{
+				((CSophiaHorizontalState*)stateDirection)->SetIsMoving(true);
+			}
 		}
 		else
 		{
 			velocity.x = 0.0f;
 			acceleration.x = 0.0f;
 			stateAction = new CSophiaIdleState;
-			dynamic_cast<CSophiaHorizontalState*>(stateDirection)->SetIsMoving(false);
+			if (dynamic_cast<CSophiaHorizontalState*>(stateDirection))
+			{
+				((CSophiaHorizontalState*)stateDirection)->SetIsMoving(false);
+			}
 		}
 
 		// Update gun's direction
@@ -154,27 +196,7 @@ void CSophia::Update(DWORD dt)
 		if (inputHandler->OnKeyDown(PlayerKeySet::SWITCH_CHARACTER_KEY) &&
 			GetTickCount() - lastTimeSwitch > switchDelay)
 		{
-			lastTimeSwitch = GetTickCount();
-			// Sophia is not controllable, collider is trigger, animation is idle
-			controllable = false;
-			velocity = VectorZero();
-			for (auto co : colliders)
-			{
-				co->SetTrigger(true);
-				co->SetDynamic(false);
-			}
-
-			// Enable Jason, set jason's position, state is jumping
-			auto game = CGame::GetInstance();
-			((CPlayScene*)game->GetService<CScenes>()->GetCurrentScene())->SetPlayer(jason);
-
-			jason->SetEnable(true);
-			jason->SetPosition(transform.position);
-			jason->SetControllable(true);
-			jason->SetDirection(nx);
-			jason->SetState(JasonState::JUMPING);
-
-			CGame::GetInstance()->GetService<CSound>()->PlayWaveFile("SwitchCharacter");
+			SwitchingCharacter();
 		}
 	}
 #pragma endregion

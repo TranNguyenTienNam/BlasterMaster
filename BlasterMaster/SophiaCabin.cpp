@@ -9,6 +9,7 @@ void CSophiaCabin::InitSprites()
 	AddSprite(SPR_CABIN_00, sprite_manager->Get("spr-sophia-cabin"));
 	AddSprite(SPR_CABIN_UPWARD, sprite_manager->Get("spr-sophia-cabin-45"));
 	AddSprite(SPR_CABIN_TURN, sprite_manager->Get("spr-sophia-cabin-turn"));
+	AddSprite(SPR_CABIN_OPEN, sprite_manager->Get("spr-sophia-cabin-open"));
 }
 
 CSophiaCabin::CSophiaCabin(CSophia* sophia)
@@ -16,14 +17,30 @@ CSophiaCabin::CSophiaCabin(CSophia* sophia)
 	parent = sophia;
 	InitSprites();
 	nx = parent->GetDirection();
+	isSwitching = false;
 }
 
 CSophiaCabin::~CSophiaCabin()
 {
 }
 
+void CSophiaCabin::Switching()
+{
+	isSwitching = true;
+	lastTimeSwitching = GetTickCount();
+}
+
 void CSophiaCabin::Update(DWORD dt)
 {
+	if (isSwitching == true)
+	{
+		DWORD now = GetTickCount();
+		if (now - lastTimeSwitching > switchingDuration)
+		{
+			lastTimeSwitching = now;
+			isSwitching = false;
+		}
+	}
 }
 
 void CSophiaCabin::Render()
@@ -31,17 +48,25 @@ void CSophiaCabin::Render()
 	auto directionState = parent->GetDirectionState();
 	if (dynamic_cast<CSophiaHorizontalState*>(directionState))
 	{
-		if (dynamic_cast<CSophiaHorizontalState*>(directionState)->IsTurning() == false)
+		if (isSwitching == true)
 		{
-			sprites.at(SPR_CABIN_00)->Draw(transform.position + parent->GetPosition(), -nx, layer_index);
+			sprites.at(SPR_CABIN_OPEN)->Draw(transform.position + parent->GetPosition() + Vector2(0.0f, 4.0f), -nx, layer_index);
 		}
 		else
 		{
-			sprites.at(SPR_CABIN_TURN)->Draw(transform.position + parent->GetPosition(), -nx, layer_index);
+			if (dynamic_cast<CSophiaHorizontalState*>(directionState)->IsTurning() == false)
+			{
+				sprites.at(SPR_CABIN_00)->Draw(transform.position + parent->GetPosition(), -nx, layer_index);
+			}
+			else
+			{
+				sprites.at(SPR_CABIN_TURN)->Draw(transform.position + parent->GetPosition(), -nx, layer_index);
+			}
 		}
 	}
 	else
 	{
+		nx = parent->GetDirection();
 		sprites.at(SPR_CABIN_UPWARD)->Draw(transform.position + parent->GetPosition(), -nx, layer_index);
 	}
 }

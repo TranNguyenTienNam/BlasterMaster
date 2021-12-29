@@ -31,6 +31,7 @@ private:
 
 	// Power, Hover in class Player
 	virtual void InitColliders();
+	void SwitchingCharacter();
 public:
 	CSophia();
 

@@ -471,6 +471,8 @@ void CCollider2D::DealWithOverlappedCase(std::vector<CGameObject*>* coObjects)
 			(TagUtils::PlayerTag(otherTag) && TagUtils::EnemyTag(selfTag)) ||
 			(TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::EnemyBullet) ||
 			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::EnemyBullet) ||
+			(TagUtils::EnemyTag(selfTag) && otherTag == ObjectTag::PlayerBullet) ||
+			(TagUtils::EnemyTag(otherTag) && selfTag == ObjectTag::PlayerBullet) ||
 			(TagUtils::EnemyTag(selfTag) && otherTag == ObjectTag::EnemyBullet) ||
 			(TagUtils::EnemyTag(otherTag) && selfTag == ObjectTag::EnemyBullet) ||
 			(selfTag == ObjectTag::MiniPortal && otherTag == ObjectTag::Jason) ||

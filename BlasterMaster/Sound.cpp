@@ -219,6 +219,9 @@ bool CSound::LoadWaveFile(char* filename, std::string soundname)
 	delete[] waveData;
 	waveData = 0;
 
+	// Set volume of the buffer to 100%.
+	(*pSecondaryBuffer)->SetVolume(DSBVOLUME_MAX);
+
 	m_soundBufferList[soundname] = secondaryBuffer;
 
 	DebugOut(L"[INFO] Loading sound file: %s has been loaded successfully\n", ToWSTR(filename).c_str());
@@ -233,26 +236,9 @@ bool CSound::PlayWaveFile(std::string soundname)
 	std::unordered_map< std::string, IDirectSoundBuffer8*> ::iterator sound;
 	sound = m_soundBufferList.find(soundname);
 
-	// Set position at the beginning of the sound buffer.
-	result = sound->second->SetCurrentPosition(0);
-	if (FAILED(result))
-	{
-		return false;
-	}
-
-	// Set volume of the buffer to 100%.
-	result = sound->second->SetVolume(DSBVOLUME_MAX);
-	if (FAILED(result))
-	{
-		return false;
-	}
-
-	// Play the contents of the secondary sound buffer.
-	result = sound->second->Play(0, 0, 0);
-	if (FAILED(result))
-	{
-		return false;
-	}
+	sound->second->Stop();
+	sound->second->SetCurrentPosition(0);
+	sound->second->Play(0, 0, 0);
 
 	return true;
 }

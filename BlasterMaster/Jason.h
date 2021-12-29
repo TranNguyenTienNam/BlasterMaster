@@ -37,6 +37,8 @@ private:
 protected:
 	void InitAnimations();
 	void InitColliders();
+
+	void SwitchingCharacter();
 public:
 	CJason();
 
