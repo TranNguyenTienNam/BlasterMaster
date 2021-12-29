@@ -80,6 +80,7 @@ void CSophia::Update(DWORD dt)
 			acceleration.x = MOVE_ACCELERATION;
 			nx = 1;
 			stateAction = new CSophiaMoveRightState;
+			dynamic_cast<CSophiaHorizontalState*>(stateDirection)->SetIsMoving(true);
 		}
 		else if (inputHandler->IsKeyDown(PlayerKeySet::MOVE_LEFT_KEY))
 		{
@@ -91,12 +92,14 @@ void CSophia::Update(DWORD dt)
 			acceleration.x = -MOVE_ACCELERATION;
 			nx = -1;
 			stateAction = new CSophiaMoveLeftState;
+			dynamic_cast<CSophiaHorizontalState*>(stateDirection)->SetIsMoving(true);
 		}
 		else
 		{
 			velocity.x = 0.0f;
 			acceleration.x = 0.0f;
 			stateAction = new CSophiaIdleState;
+			dynamic_cast<CSophiaHorizontalState*>(stateDirection)->SetIsMoving(false);
 		}
 
 		// Update gun's direction

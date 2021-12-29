@@ -8,11 +8,17 @@ class CSophiaHorizontalState : public ISophiaState
 {
 protected:
 	const DWORD turningDelay = 100;
+	const DWORD bouncingDelay = 100;
+	const float BOUNCE = 0.5;
 	DWORD lastTimeTurning;
+	DWORD lastTimeBouncing;
 	bool isTurning;
+	bool isMoving;
+	float bounce;
 public:
 	CSophiaHorizontalState();
 	void Turning();
+	void SetIsMoving(bool value) { this->isMoving = value; }
 	bool IsTurning() { return this->isTurning; }
 
 	virtual void Shooting();

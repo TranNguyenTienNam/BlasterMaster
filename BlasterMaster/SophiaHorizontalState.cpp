@@ -5,6 +5,8 @@
 CSophiaHorizontalState::CSophiaHorizontalState()
 {
 	isTurning = false;
+	isMoving = false;
+	lastTimeBouncing = GetTickCount();
 }
 
 void CSophiaHorizontalState::Turning()
@@ -55,18 +57,34 @@ void CSophiaHorizontalState::Update(DWORD dt)
 		}
 	}
 
-	owner->leftWheel->SetPosition(Vector2(-8.0f, 0.0f));
-	owner->rightWheel->SetPosition(Vector2(8.0f, 0.0f));
-	owner->middle->SetPosition(Vector2(0.0f, 1.0f));
-	owner->gun->SetPosition(Vector2(8.0f * parentDirection, 9.0f));
-
-	if (isTurning == false)
+	if (isMoving == true)
 	{
-		owner->cabin->SetPosition(Vector2(-3.5f * parentDirection, 9.0f));
+		DWORD now = GetTickCount();
+		if (now - lastTimeBouncing > bouncingDelay)
+		{
+			if (bounce < 0) bounce = BOUNCE;
+			else bounce = -BOUNCE;
+
+			lastTimeBouncing = now;
+		}
 	}
 	else
 	{
-		owner->cabin->SetPosition(Vector2(-1.0f * parentDirection, 9.0f));
+		bounce = 0;
+	}
+
+	owner->leftWheel->SetPosition(Vector2(-8.0f, 0.0f));
+	owner->rightWheel->SetPosition(Vector2(8.0f, 0.0f));
+	owner->middle->SetPosition(Vector2(0.0f, 1.0f + bounce));
+	owner->gun->SetPosition(Vector2(8.0f * parentDirection, 9.0f + bounce));
+
+	if (isTurning == false)
+	{
+		owner->cabin->SetPosition(Vector2(-3.5f * parentDirection, 9.0f + bounce));
+	}
+	else
+	{
+		owner->cabin->SetPosition(Vector2(-1.0f * parentDirection, 9.0f + bounce));
 	}
 }
 
