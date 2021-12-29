@@ -12,7 +12,7 @@ protected:
 	std::vector<int> alphaArray = { 100,255,160,255 };
 	DWORD timeSpawn;
 	DWORD flickeringDuration;
-	static int dropRate = 50;
+	static int dropRate;
 public:
 	CAbstractItem();
 	static int GetDropRate() { return dropRate; }

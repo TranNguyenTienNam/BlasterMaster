@@ -3,7 +3,8 @@
 class CJasonBullet : public CBullet
 {
 private:
-	const DWORD aliveDuration = 4000;
+	const DWORD aliveDuration = 600;
+	const float DEFAULT_SPEED = 0.15f;
 
 	DWORD initTime;
 protected:

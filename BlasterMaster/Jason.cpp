@@ -61,13 +61,14 @@ CJason::CJason()
 	SetState(JasonState::IDLE);
 }
 
-void CJason::SetState(JasonState state)
+void CJason::SetState(JasonState _state)
 {
+	state = _state;
 	switch (state)
 	{
 	case JasonState::IDLE:
 		velocity.x = 0.0f;
-		/*acceleration.x = 0.0f;*/
+		acceleration.x = 0.0f;
 		if (onGround == true) animation = animations.at("Idle");
 		break;
 	case JasonState::MOVING_LEFT:
@@ -104,9 +105,8 @@ void CJason::Update(DWORD dt)
 	velocity.y += GRAVITY * dt;
 	velocity.x += acceleration.x * dt;
 
-	// TODO: Limit velocity
-	/*if (velocity.x > WALKING_SPEED) velocity.x = WALKING_SPEED;
-	else if (velocity.x < -WALKING_SPEED) velocity.x = -WALKING_SPEED;*/
+	if (velocity.x > WALK_SPEED) velocity.x = WALK_SPEED;
+	else if (velocity.x < -WALK_SPEED) velocity.x = -WALK_SPEED;
 
 	if (controllable == false) return;
 

@@ -82,7 +82,9 @@ void CSophia::Update(DWORD dt)
 	velocity.x += acceleration.x * dt;
 	if (colliders.at(0)->IsDynamic() == true)
 		velocity.y += GRAVITY * dt;
-	/*if (abs(velocity.y) > 0.02) velocity.y = -0.02;*/
+	
+	if (velocity.x > MOVE_SPEED) velocity.x = MOVE_SPEED;
+	else if (velocity.x < -MOVE_SPEED) velocity.x = -MOVE_SPEED;
 
 #pragma region State Transition
 	if (controllable == false)
@@ -94,7 +96,6 @@ void CSophia::Update(DWORD dt)
 	}
 	else
 	{
-		// TODO: Move all changes of states into UpdateState() and the others into Update() of class State
 		auto inputHandler = CGame::GetInstance()->GetService<CInputHandler>();
 
 		if (inputHandler->IsKeyDown(PlayerKeySet::MOVE_RIGHT_KEY))

@@ -1,7 +1,7 @@
 #include "AbstractItem.h"
 #include "Sound.h"
 
-int CAbstractItem::dropRate = 100;
+int CAbstractItem::dropRate = 50;
 
 CAbstractItem::CAbstractItem()
 {

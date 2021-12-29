@@ -1,6 +1,7 @@
 #include "JasonBullet.h"
 #include "Enemy.h"
 #include "Brick.h"
+#include "SmallExplosion.h"
 
 void CJasonBullet::InitSprites()
 {
@@ -21,7 +22,7 @@ CJasonBullet::CJasonBullet()
 	colliders.push_back(collider);
 
 	tag = ObjectTag::PlayerBullet;
-
+	speed = DEFAULT_SPEED;
 	initTime = GetTickCount();
 }
 
@@ -36,6 +37,8 @@ void CJasonBullet::Update(DWORD dt)
 	{
 		isEnabled = false;
 		isDestroyed = true;
+
+		Instantiate<CSmallExplosion>(transform.position);
 	}
 }
 
@@ -58,5 +61,7 @@ void CJasonBullet::OnTriggerEnter(CCollider2D* selfCollider, CCollisionEvent* co
 	{
 		isEnabled = false;
 		isDestroyed = true;
+
+		Instantiate<CSmallExplosion>(transform.position);
 	}
 }
