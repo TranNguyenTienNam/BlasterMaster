@@ -253,6 +253,8 @@ void CBigJason::OnCollisionEnter(CCollider2D* selfCollider, CCollisionEvent* col
 	if (dynamic_cast<CEnemy*>(other))
 	{
 		DebugOut(L"Collide with enemy, power %d\n", power);
+		if (other->GetTag() == ObjectTag::Platform) return;
+
 		AffectPowerAttribute(((CEnemy*)other)->GetDamageOnCollision());
 	}
 	else if (dynamic_cast<CThorn*>(other))

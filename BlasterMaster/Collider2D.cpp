@@ -154,7 +154,9 @@ void CCollider2D::CalcPotentialCollisions(
 			(TagUtils::EnemyTag(selfTag) && otherTag == ObjectTag::EnemyBullet) ||
 			(TagUtils::EnemyTag(otherTag) && selfTag == ObjectTag::EnemyBullet) ||
 			(TagUtils::PlayerTag(selfTag) && otherTag == ObjectTag::PlayerBullet) ||
-			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::PlayerBullet)) continue;
+			(TagUtils::PlayerTag(otherTag) && selfTag == ObjectTag::PlayerBullet) ||
+			(selfTag == ObjectTag::EnemyBullet && otherTag == ObjectTag::PlayerBullet) ||
+			(otherTag == ObjectTag::EnemyBullet && selfTag == ObjectTag::PlayerBullet)) continue;
 
 		for (auto co : coObjects->at(i)->GetColliders())
 		{
