@@ -40,12 +40,15 @@ protected:
 	DWORD lastTimeChangeColor;
 public:
 	CPlayable();
+
 	bool IsInvincible() { return this->untouchable; }
 	void SetControllable(bool value) { this->controllable = value; }
+	
+	int GetPower() { return this->power; }
+	void SetPower(int value) { this->power = value; }
 
 	void UntouchableUpdate();
 	virtual void OnDead();
 
-	int GetPower() { return this->power; }
 	void AffectPowerAttribute(int value);
 };

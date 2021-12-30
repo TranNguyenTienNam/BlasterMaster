@@ -456,6 +456,7 @@ void CPlayScene::PreSwitchingSection(CPlayScene* lastScene, Vector2 translation)
 	auto mainCam = CGame::GetInstance()->GetService<CCamera>();
 
 	int lastSceneID = CGame::GetInstance()->GetService<CScenes>()->GetLastSceneID();
+
 	for (auto portal : portals)
 	{
 		if (portal.first == lastSceneID)

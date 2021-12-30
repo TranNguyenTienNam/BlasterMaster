@@ -36,6 +36,9 @@ void CJason::SwitchingCharacter()
 	lastTimeSwitch = GetTickCount();
 	controllable = false;
 
+	// Recovery full power
+	power = maxPower;
+
 	transform.position = sophia->GetPosition();
 	velocity.x = 0;
 	acceleration.x = 0;

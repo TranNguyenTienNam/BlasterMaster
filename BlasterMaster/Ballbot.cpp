@@ -64,7 +64,7 @@ void CBallbot::Sleeping()
 {
 	auto targetPos = target->GetPosition();
 	auto distance = CMath::CalcDistance(transform.position, targetPos);
-	if (distance < distanceTrigger)
+	if (distance < distanceTrigger && targetPos.y < transform.position.y)
 	{
 		SetState(BallbotState::DetectedTarget);
 	}
